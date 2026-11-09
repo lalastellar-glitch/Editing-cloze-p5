@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PSLE English AL1 Master Portal (Pro Edition - Fixed)</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 12px; }
+    .container { max-width: 480px; margin: 0 auto; min-height: 94vh; display: flex; flex-direction: column; justify-content: space-between; }
+    
+    /* Portal App Switcher */
+    .app-switcher { display: flex; background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 10px; gap: 4px; }
+    .app-btn { flex: 1; padding: 9px 4px; font-size: 12.5px; font-weight: 800; border-radius: 10px; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .app-btn.active.spelling { background: #7e22ce; color: #ffffff; box-shadow: 0 2px 4px rgba(126,34,206,0.25); }
+    .app-btn.active.cloze { background: #0284c7; color: #ffffff; box-shadow: 0 2px 4px rgba(2,132,199,0.25); }
+    .app-btn.active.speed { background: #dc2626; color: #ffffff; box-shadow: 0 2px 4px rgba(220,38,38,0.25); }
+
+    /* Top Tools Bar */
+    .tool-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+    /* Cards */
+    .card { background: #ffffff; border-radius: 18px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; margin-bottom: 12px; }
+    .badge-cat { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+    .badge-cat.spelling { background: #f3e8ff; color: #7e22ce; }
+    .badge-cat.cloze { background: #e0f2fe; color: #0369a1; }
+    .badge-cat.speed { background: #fee2e2; color: #dc2626; }
+    
+    .sentence-box { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px; font-size: 15px; line-height: 1.65; margin: 12px 0; color: #0f172a; position: relative; }
+    .error-target { color: #e11d48; background: #ffe4e6; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-decoration: underline wavy #f43f5e; }
+    .blank-target { color: #0284c7; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; font-weight: 700; border-bottom: 2px solid #0284c7; }
+
+    /* Audio Speaker Button */
+    .audio-btn { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .audio-btn:active { background: #e2e8f0; }
+
+    /* Inputs & Options */
+    input[type="text"] { width: 100%; font-size: 16px; font-weight: 600; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; margin-bottom: 6px; }
+    input[type="text"]:focus { outline: none; border-color: #7e22ce; box-shadow: 0 0 0 3px #f3e8ff; }
+    
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .opt-btn { width: 100%; text-align: center; padding: 11px 8px; font-size: 14px; font-weight: 700; border-radius: 12px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; }
+    .opt-btn.selected { border-color: #0284c7; background: #f0f9ff; color: #0369a1; }
+    .opt-btn.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 800; }
+    .opt-btn.wrong { border-color: #f43f5e; background: #fff1f2; color: #9f1239; }
+
+    /* Action Buttons */
+    .btn { width: 100%; color: #ffffff; font-weight: 700; font-size: 15px; padding: 14px; border: none; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
+    .btn.spelling { background: #7e22ce; }
+    .btn.cloze { background: #0284c7; }
+    .btn.speed { background: #dc2626; }
+    .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    /* Mode Pill Switches */
+    .sub-tabs { display: flex; gap: 4px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
+    .tab-pill { flex: 1; min-width: 65px; padding: 6px 2px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; color: #64748b; cursor: pointer; text-align: center; white-space: nowrap; }
+    .tab-pill.active.spelling { background: #7e22ce; color: #fff; border-color: #7e22ce; }
+    .tab-pill.active.cloze { background: #0284c7; color: #fff; border-color: #0284c7; }
+    .tab-pill.active.speed { background: #dc2626; color: #fff; border-color: #dc2626; }
+
+    /* Stats Grid */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; text-align: center; }
+    .stat-item { background: #ffffff; padding: 8px 4px; border-radius: 14px; border: 1px solid #f1f5f9; }
+    .stat-val { font-size: 16px; font-weight: 800; }
+    .stat-lbl { font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+
+    /* Results */
+    .result-box { padding: 13px; border-radius: 12px; font-size: 13px; line-height: 1.55; margin-top: 10px; }
+    .result-correct { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .result-retry { background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; }
+    .result-wrong { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; }
+    .tip-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(0,0,0,0.1); font-size: 12px; }
+
+    /* Timer Pill */
+    .timer-pill { display: inline-flex; align-items: center; gap: 4px; background: #fee2e2; color: #dc2626; font-weight: 800; font-size: 12px; padding: 3px 8px; border-radius: 10px; }
+
+    /* Print View Styles */
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      .container { max-width: 100%; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      .worksheet-item { page-break-inside: avoid; border-bottom: 1px solid #ccc; padding: 10px 0; font-size: 14pt; }
+    }
+    .print-only { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="no-print">
+      <!-- 1. Top Portal Switcher -->
+      <div class="app-switcher">
+        <button id="swSpelling" class="app-btn active spelling" onclick="switchApp('spelling')">✍️ Editing & Spelling</button>
+        <button id="swCloze" class="app-btn" onclick="switchApp('cloze')">📖 Cloze Top 300</button>
+        <button id="swSpeed" class="app-btn" onclick="switchApp('speed')">⚡ Speed Trial</button>
+      </div>
+
+      <!-- 2. Header Status & Tools -->
+      <div class="tool-bar">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span id="dateDisplay" style="font-size:11px; font-weight:700; background:#f1f5f9; color:#475569; padding:3px 8px; border-radius:10px;"></span>
+          <span id="timerContainer" style="display:none;" class="timer-pill">⏱️ <span id="timerSec">45</span>s</span>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button onclick="openPrintModal()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">🖨️ Export Worksheet</button>
+        </div>
+      </div>
+
+      <!-- 3. Dashboard Stats -->
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">0</div></div>
+        <div class="stat-item"><div class="stat-lbl">Mastered</div><div id="statMastered" class="stat-val" style="color:#059669;">0</div></div>
+        <div class="stat-item"><div class="stat-lbl">In Review</div><div id="statReview" class="stat-val" style="color:#d97706;">0</div></div>
+        <div class="stat-item"><div class="stat-lbl">Today's Qs</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
+      </div>
+
+      <!-- 4. Sub Navigation Tabs -->
+      <div class="sub-tabs">
+        <button id="tabDaily" class="tab-pill active spelling" onclick="changeMode('daily')">Daily 20 Qs</button>
+        <button id="tabReview" class="tab-pill" onclick="changeMode('review')">Review (<span id="revCount">0</span>)</button>
+        <button id="tabFormat" class="tab-pill" onclick="toggleClozeFormat()" style="display:none;">Mode: <span id="formatLabel">MCQ</span></button>
+        <button id="tabAll" class="tab-pill" onclick="changeMode('all')">All Library</button>
+        <button id="tabHistory" class="tab-pill" onclick="changeMode('history')">History Log</button>
+      </div>
+
+      <!-- 5. Question Card -->
+      <div id="quizView" class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div>
+            <span id="qCategory" class="badge-cat spelling"></span>
+            <span id="attemptDisplay" style="display:inline-block; font-size:10px; font-weight:800; padding:2px 7px; border-radius:10px; margin-left:6px; background:#e2e8f0; color:#475569;">Attempt 1/2</span>
+          </div>
+          <span id="qIndex" style="font-size:12px; color:#94a3b8; font-weight:700;"></span>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div id="qSource" style="font-size:11px; color:#64748b; font-weight:600;"></div>
+          <button class="audio-btn" onclick="speakTargetSentence()">🔊 Read British</button>
+        </div>
+
+        <div style="font-size:11px; color:#64748b; font-weight:600;" id="qInstruction"></div>
+        <div id="sentenceContainer" class="sentence-box"></div>
+
+        <!-- Spelling Input Area -->
+        <div id="spellingInputArea" style="position:relative;">
+          <input type="text" id="answerInput" placeholder="Type correct spelling..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+
+        <!-- Cloze MCQ Area -->
+        <div id="clozeOptionsArea" class="options-grid" style="display:none;"></div>
+
+        <!-- Cloze Open-ended Pro Input Area -->
+        <div id="clozeProInputArea" style="display:none;">
+          <div style="font-size:12px; color:#0369a1; font-weight:700; margin-bottom:4px;">Pro Open-ended Mode (Type exact word):</div>
+          <input type="text" id="clozeProInput" placeholder="e.g. out, at, down..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+
+        <!-- Hint Section -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin: 4px 0 8px 0;">
+          <span id="attemptTip" style="font-size:11px; color:#94a3b8; font-weight:600;">🔒 Hint unlocks on 2nd attempt</span>
+          <button id="hintBtn" disabled onclick="toggleHint()" style="background:#f1f5f9; border:none; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:700; color:#94a3b8; cursor:not-allowed;">🔒 Hint (Locked)</button>
+        </div>
+
+        <div id="hintBox" style="display:none; background:#fffbeb; border:1.5px solid #fef08a; color:#92400e; padding:10px; border-radius:10px; font-size:12px; margin-bottom:8px;"></div>
+        <div id="resultContainer" style="display:none;" class="result-box"></div>
+      </div>
+
+      <!-- 6. History Log View -->
+      <div id="historyView" style="display:none;">
+        <div class="card">
+          <h3 style="margin-top:0; font-size:14px; font-weight:800; color:#0f172a; margin-bottom:10px;">📅 Real 1st-Attempt Accuracy Log</h3>
+          <div id="historyListContainer"></div>
+        </div>
+      </div>
+
+      <!-- 7. Action Button -->
+      <div id="btnContainer" style="margin-top:10px;">
+        <button id="actionBtn" class="btn spelling" onclick="handleAction()">Check Answer (Attempt 1)</button>
+      </div>
+    </div>
+
+    <!-- Printable Worksheet Area -->
+    <div id="printSheet" class="print-only">
+      <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;">
+        <h2 style="margin:0; font-size:18pt;">PSLE English Weak Words Revision Worksheet</h2>
+        <p style="margin:4px 0 0 0; font-size:11pt;">Name: ____________________ Date: ________________ Score: ______ / ______</p>
+      </div>
+      <div id="printListContainer"></div>
+      <div style="margin-top:30px; font-size:10pt; color:#666; text-align:center;">
+        * Tip: Write neatly with pencil. Check capital letters and past-tense suffixes!
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. SPELLING & EDITING DATABASE (80 Words - Fully Verified)
+    const SPELLING_DB = [
+      {"word": "accommodation", "cat": "Double Consonants", "sub": "Double 'c' & Double 'm'", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
+      {"word": "admitted", "cat": "Double Consonants", "sub": "Double 't' in past tense", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window.", "feat": "Double 't': ad + mit + ted (CVC doubling rule before '-ed').", "tip": "Short vowel /ɪ/ before 't' means double the 't' before adding '-ed'."},
+      {"word": "applause", "cat": "Double Consonants", "sub": "Double 'p'", "src": "2025 Tao Nan P5 EOY *", "sent": "Thunderous [apllause] erupted throughout the concert hall when the choir bowed.", "feat": "Double 'p', diphthong 'au', ends in '-se': ap + plause.", "tip": "Remember 'ap-' prefix doubles the 'p' before 'plause'."},
+      {"word": "attack", "cat": "Double Consonants", "sub": "Double 't'", "src": "P5 Editing Core", "sent": "The guards were trained to defend the castle against any sudden [atack].", "feat": "Double 't' and ends in 'ck': at + tack.", "tip": "Prefix 'at-' attaches to 'tack' -> always double 't'."},
+      {"word": "bellowed", "cat": "Double Consonants", "sub": "Double 'l'", "src": "P5 Narrative Vocabulary", "sent": "\"Silence in the hall!\" the angry captain [belowed] at the top of his voice.", "feat": "Double 'l': bel + low + ed.", "tip": "Rhymes with 'yellow' and 'fellow' — both have double 'l'."},
+      {"word": "beginning", "cat": "Double Consonants", "sub": "Double 'n'", "src": "P5 Editing Trap", "sent": "At the very [begining] of the ceremony, the national anthem was played.", "feat": "Single 'g', but double 'n': be + gin + ning.", "tip": "Stress on second syllable (be-GIN) -> double the final 'n'."},
+      {"word": "brilliant", "cat": "Double Consonants", "sub": "Double 'l'", "src": "P5 Descriptive Core", "sent": "The young scientist devised a [briliant] solution to filter contaminated river water.", "feat": "Double 'l' and '-iant' ending: bril + liant.", "tip": "Watch out for single 'l' error; like 'million', it has double 'l'."},
+      {"word": "committee", "cat": "Double Consonants", "sub": "Double 'm', 't', and 'e'", "src": "Top Primary Schools", "sent": "The organising [comitee] held an emergency meeting to finalise the timetable.", "feat": "Three doubles: com + mit + tee (double 'm', 't', and 'e').", "tip": "A committee needs 2 Members (mm), 2 Teas (tt), and 2 Eggs (ee)!"},
+      {"word": "commitment", "cat": "Double Consonants", "sub": "Double 'm' & Single 't'", "src": "2024 Tao Nan P5 EOY *", "sent": "The athletes showed unwavering [comitment] to their daily training routines.", "feat": "Double 'm', but SINGLE 't': com + mit + ment.", "tip": "Do not confuse with 'committee'! 'Commitment' has only ONE 't'."},
+      {"word": "colleagues", "cat": "Double Consonants", "sub": "Double 'l' & '-gues'", "src": "2024 Pei Chun P5 EOY *", "sent": "Mr. Tan joined his [colleages] at the cafeteria for a quick lunch.", "feat": "Double 'l', diphthong 'ea', silent ending '-gues': col + leagues.", "tip": "Prefix 'col-' + 'league'. Keep '-ue' before 's'."},
+      {"word": "consistently", "cat": "Double Consonants", "sub": "'-ently' Adverb", "src": "2025 Tao Nan P5 EOY *", "sent": "The sprinter has [consistantley] broken school records throughout this season.", "feat": "Spelt con + sis + tent + ly (ends in '-ently', NOT '-antly').", "tip": "Derived from 'consistent'. Append '-ly'."},
+      {"word": "disappointed", "cat": "Double Consonants", "sub": "Single 's' & Double 'p'", "src": "2026 EYE Q37b *", "sent": "Mother was visibly [dissapointed] when she discovered the broken heirloom vase.", "feat": "Single 's', double 'p': dis + ap + point + ed.", "tip": "Prefix 'dis-' (1 's') + 'appoint' (2 'p's). Never double the 's'!"},
+      {"word": "disapproval", "cat": "Double Consonants", "sub": "Single 's' & Double 'p'", "src": "P5 Word Form Core *", "sent": "Father shook his head in strong [dissaproval] at my careless attitude.", "feat": "Single 's', double 'p': dis + ap + prov + al.", "tip": "Prefix 'dis-' + 'approval'. One 's' and two 'p's."},
+      {"word": "dropped", "cat": "Double Consonants", "sub": "Double 'p'", "src": "2026 EYE Q20 *", "sent": "The clumsy boy accidentally [droped] his pencil case down the stairwell.", "feat": "Double 'p': drop + p + ed (1-1-1 doubling rule).", "tip": "Short vowel /ɒ/ followed by 'p' -> double the 'p' before '-ed'."},
+      {"word": "effort", "cat": "Double Consonants", "sub": "Double 'f'", "src": "P5 Editing Core", "sent": "With collective [efort], the students managed to build the camp bonfire in an hour.", "feat": "Double 'f': ef + fort.", "tip": "From Latin 'ex-' + 'fortis' -> changes to double 'f' ('ef-fort')."},
+      {"word": "embarrassment", "cat": "Double Consonants", "sub": "Double 'r' & Double 's'", "src": "P5 Top School Editing *", "sent": "To avoid further [embarasment], Jeremy lowered his gaze and hurried away.", "feat": "Double 'r' AND double 's': em + bar + rass + ment.", "tip": "You turn Red (2 'r's) and Shy (2 's's) in embarrassment!"},
+      {"word": "exaggerate", "cat": "Double Consonants", "sub": "Single 'x' & Double 'g'", "src": "PSLE High-Frequency Trap", "sent": "Do not [exagerate] the seriousness of your scrape; it is only a minor scratch.", "feat": "Single 'x', double 'g': ex + ag + ger + ate.", "tip": "Letter 'x' sounds like /ks/, 'g' must be doubled: 'ex-ag-ger-ate'."},
+      {"word": "equipped", "cat": "Double Consonants", "sub": "Double 'p'", "src": "P5 Editing Core", "sent": "The new science lab is fully [equiped] with microscopes and safety goggles.", "feat": "Double 'p': e + quipped (short vowel /ɪ/ before 'p').", "tip": "Single final consonant 'p' doubles before '-ed'."},
+      {"word": "immediately", "cat": "Double Consonants", "sub": "Double 'm'", "src": "P5 High-Frequency Spelling", "sent": "The paramedics rushed to the scene [imediately] after receiving the emergency call.", "feat": "Double 'm', ends in '-ely': im + me + di + ate + ly.", "tip": "Prefix 'im-' + root 'mediate' + '-ly'. Don't drop the 'e'!"},
+      {"word": "interrupted", "cat": "Double Consonants", "sub": "Double 'r'", "src": "P5 Grammar & Editing *", "sent": "The loud fire siren [interupted] the teacher in the middle of her explanation.", "feat": "Double 'r': inter + rupt + ed.", "tip": "Root 'rupt' (to break) + prefix 'inter-' -> double 'r'."},
+      {"word": "occurrence", "cat": "Double Consonants", "sub": "Double 'c' & Double 'r'", "src": "PSLE & Top Schools Editing *", "sent": "The unexpected [occurance] of flash floods caused traffic delays islandwide.", "feat": "Double 'c' AND double 'r', ending in '-ence': oc + cur + rence.", "tip": "Double 'c', double 'r', and ends in '-ENCE' (never '-ance')!"},
+      {"word": "opponent", "cat": "Double Consonants", "sub": "Double 'p'", "src": "P5 Vocabulary Core", "sent": "Marcus bowed respectfully to his [oponent] before the judo match began.", "feat": "Double 'p', single 'n's: op + po + nent.", "tip": "Prefix 'op-' + 'ponent' -> 2 'p's. Ends with '-ent'."},
+      {"word": "parallel", "cat": "Double Consonants", "sub": "Double 'l' in the middle", "src": "P5 Tricky Spelling", "sent": "The railway tracks ran [paralel] to the scenic coastal highway for miles.", "feat": "Single 'r', double 'l' in the middle: par + al + lel.", "tip": "The two parallel 'l's stand side-by-side in the middle!"},
+      {"word": "planned", "cat": "Double Consonants", "sub": "Double 'n'", "src": "P5 Editing Core", "sent": "They [planed] a surprise birthday celebration for their class form teacher.", "feat": "Double 'n': plan + n + ed.", "tip": "'Planed' means shaved wood! Double 'n' for 'planned'."},
+      {"word": "possession", "cat": "Double Consonants", "sub": "Double 's' & Double 's'", "src": "PSLE High-Frequency Spelling", "sent": "The antique pocket watch was the old grandfather's most treasured [posession].", "feat": "Double 's' TWICE: pos + ses + sion (4 's's total).", "tip": "Two 's's in the middle, and two 's's before '-ion'."},
+      {"word": "recommended", "cat": "Double Consonants", "sub": "Single 'c' & Double 'm'", "src": "P5 Editing Trap", "sent": "The librarian [recomended] an exciting mystery novel to the avid reader.", "feat": "Single 'c', double 'm': re + com + mend + ed.", "tip": "Commend has double 'm', but 're-' has only one 'c'!"},
+      {"word": "rummage", "cat": "Double Consonants", "sub": "Double 'm'", "src": "PSLE 2019, 2021", "sent": "The detective began to [rumage] through the messy drawers for vital clues.", "feat": "Double 'm': rum + mage.", "tip": "Short /ʌ/ vowel requires doubling the 'm' before '-age'."},
+      {"word": "spotted", "cat": "Double Consonants", "sub": "Double 't'", "src": "P5 Narrative Core", "sent": "The keen-eyed eagle [spoted] a field mouse scurrying among the tall grass.", "feat": "Double 't': spot + t + ed.", "tip": "Short vowel 'o' followed by 't' -> double 't' before '-ed'."},
+      {"word": "staggered", "cat": "Double Consonants", "sub": "Double 'g'", "src": "P5 Narrative Vocabulary", "sent": "Exhausted from the marathon, the runner [stagered] across the finish line.", "feat": "Double 'g': stag + ger + ed.", "tip": "Double 'g' keeps the vowel sound short: /æ/ as in 'stag'."},
+      {"word": "stammered", "cat": "Double Consonants", "sub": "Double 'm'", "src": "P5 Narrative Vocabulary", "sent": "\"I... I didn't mean to break it,\" the nervous boy [stamered] guiltily.", "feat": "Double 'm': stam + mer + ed.", "tip": "Like 'hammer', 'stammer' uses double 'm'."},
+      {"word": "successful", "cat": "Double Consonants", "sub": "Double 'c', Double 's', Single 'l'", "src": "P5 Editing Core", "sent": "After months of rigorous preparation, the team launched a [succesful] charity drive.", "feat": "Double 'c', double 's', single 'l': suc + cess + ful.", "tip": "Suc-cess has 2 'c's and 2 's's. Suffix '-ful' has only ONE 'l'!"},
+      {"word": "supporter", "cat": "Double Consonants", "sub": "Double 'p'", "src": "2026 EYE Q44 *", "sent": "Every loyal [suportter] waved flags and cheered passionately from the stadium stands.", "feat": "Double 'p', single 't': sup + port + er.", "tip": "Prefix 'sup-' + 'port' + 'er'. Double 'p', but only one 't'!"},
+      {"word": "absence", "cat": "Vowel & Silent Traps", "sub": "'-ence' ending", "src": "P5 Editing Core", "sent": "During the monitor's [absense], Keith was appointed to maintain classroom discipline.", "feat": "Spelt with 'c', ending in '-ence': ab + sence.", "tip": "Remember 'absence' ends with 'ce', NOT 'se'!"},
+      {"word": "achieve", "cat": "Vowel & Silent Traps", "sub": "'-ie-' rule", "src": "P5 Vocabulary Core", "sent": "With perseverance and determination, you will surely [acheive] your goals.", "feat": "'i' before 'e': a + chieve.", "tip": "Classic rule: 'i' before 'e' except after 'c'."},
+      {"word": "acquaintance", "cat": "Vowel & Silent Traps", "sub": "'cqu' & '-ance'", "src": "P5 High-Frequency Trap", "sent": "He is not an intimate friend, but merely a casual [aquaintance] from my art class.", "feat": "'c' before 'q', '-ain-', ending in '-ance': ac + quaint + ance.", "tip": "Don't omit the 'c' before 'q': 'ac-quaint-ance'."},
+      {"word": "acquire", "cat": "Vowel & Silent Traps", "sub": "'cqu' combination", "src": "PSLE High-Frequency", "sent": "Reading widely is an effective method to [aquire] new vocabulary.", "feat": "'c' followed by 'qu': ac + quire.", "tip": "Remember the silent 'c' before 'qu' ('ac-acquire')."},
+      {"word": "answer", "cat": "Vowel & Silent Traps", "sub": "Silent 'w'", "src": "P5 Spelling Core", "sent": "The pupil raised his hand eagerly to [anser] the challenging riddle.", "feat": "Silent 'w': an + swer.", "tip": "Pronounced /'ɑ:n.sə/, but the silent 'w' must be written."},
+      {"word": "column", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "P5 Editing Core", "sent": "Please write the names of the participants in the first [colum] of the table.", "feat": "Silent 'n' at the end: col + umn.", "tip": "Final 'n' is silent, but you can hear it in 'columnist'!"},
+      {"word": "conscious", "cat": "Vowel & Silent Traps", "sub": "'sc' & '-ious'", "src": "Top Primary Schools Editing *", "sent": "He was barely [conshus] of the noisy crowd as he focused on the chessboard.", "feat": "Contains 'sc' and '-ious': con + sci + ous.", "tip": "Break into: con + sci (like science) + ous."},
+      {"word": "curiosity", "cat": "Vowel & Silent Traps", "sub": "Vowel shift from 'curious'", "src": "P5 Word Form & Spelling", "sent": "Driven by intense [curiousity], the child peeked through the keyhole.", "feat": "Loses the 'u' from 'curious': cu + ri + os + i + ty.", "tip": "Notice: 'curiOUS' has an 'o-u', but 'curiOSity' drops the 'u'!"},
+      {"word": "definitely", "cat": "Vowel & Silent Traps", "sub": "'-ite-' not '-ate-'", "src": "PSLE High-Frequency Trap", "sent": "Our team will [definately] give our utmost effort during tomorrow's finals.", "feat": "Contains 'finite' inside: de + fin + ite + ly.", "tip": "Look at root 'finite' (no 'a' in definitely)!"},
+      {"word": "discipline", "cat": "Vowel & Silent Traps", "sub": "Silent 'c'", "src": "P5 Editing Core", "sent": "Strict self-[disipline] is required if you wish to master a musical instrument.", "feat": "'sc' combination: dis + ci + pline.", "tip": "Related to 'disciple' — don't omit silent 'c' after 'dis-'."},
+      {"word": "environment", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "P5 Editing Core", "sent": "We must all do our part to keep our living [enviroment] clean and green.", "feat": "Silent 'n' before 'ment': en + vi + ron + ment.", "tip": "Remember 'iron': en-vi-RON-ment!"},
+      {"word": "fascinated", "cat": "Vowel & Silent Traps", "sub": "Silent 'c'", "src": "2024 Rosyth / ACSJ *", "sent": "The children were deeply [fasinated] by the luminous deep-sea jellyfish.", "feat": "'sc' combination: fas + ci + nated.", "tip": "Silent 'c' after 's': fas-ci-nated (think of 'fascinating')."},
+      {"word": "foreign", "cat": "Vowel & Silent Traps", "sub": "'-eign' silent 'g'", "src": "P5 Editing Core", "sent": "Learning a [foriegn] language broadens your horizons and cultural understanding.", "feat": "'e' before 'i', silent 'g': for + eign.", "tip": "Exception to 'i before e'! Rhymes with 'reign'."},
+      {"word": "government", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "P5 High-Frequency Spelling", "sent": "The [goverment] implemented new subsidies to help low-income households.", "feat": "Silent 'n': gov + ern + ment.", "tip": "Root is 'govern' + suffix '-ment' -> never drop the 'n'!"},
+      {"word": "grateful", "cat": "Vowel & Silent Traps", "sub": "'grate-' not 'great-'", "src": "PSLE Confusable Trap", "sent": "The rescued hikers were immensely [greatful] to the courageous search team.", "feat": "Spelt 'grate', NOT 'great': grate + ful.", "tip": "From Latin 'gratus' (gratitude). Never write 'greatful'!"},
+      {"word": "guarantee", "cat": "Vowel & Silent Traps", "sub": "'gua-' & double 'e'", "src": "P5 Top School Core *", "sent": "The shopkeeper provided a written [garantee] that the watch was water-resistant.", "feat": "Starts with 'guar-', ends in double 'e': guar + an + tee.", "tip": "Guard your GUAR-antee with both eyes (ee)!"},
+      {"word": "honest", "cat": "Vowel & Silent Traps", "sub": "Silent 'h'", "src": "P5 Editing Core", "sent": "It takes courage to be completely [onest] and admit your own blunders.", "feat": "Silent initial 'h': ho + nest.", "tip": "Initial 'h' is silent, which is why we say 'an honest boy'."},
+      {"word": "maintenance", "cat": "Vowel & Silent Traps", "sub": "'-ten-' not '-tain-'", "src": "Top Schools Editing Core", "sent": "Routine servicing is essential for the proper [maintainance] of the lifts.", "feat": "Vowel shifts to 'ten' and ends in '-ance': main + ten + ance.", "tip": "Warning: 'maintain' changes to 'main-TEN-ance'!"},
+      {"word": "mischievous", "cat": "Vowel & Silent Traps", "sub": "'-ie-' & 3 syllables", "src": "PSLE High-Frequency Trap", "sent": "The [mischevious] puppy snatched father's slipper and dashed into the garden.", "feat": "'i' before 'e', ends in '-ous': mis + chie + vous.", "tip": "Only 3 syllables (mis-chie-vous), never write 'mischievious'."},
+      {"word": "pierced", "cat": "Vowel & Silent Traps", "sub": "'-ie-' order", "src": "2026 EYE Q34 *", "sent": "The sharp nail [peirced] right through the rubber sole of his sneaker.", "feat": "'i' before 'e': p + ierce + d.", "tip": "Standard rule: 'i' before 'e' except after 'c'."},
+      {"word": "queue", "cat": "Vowel & Silent Traps", "sub": "'-ueue' vowels", "src": "P5 Common Trap", "sent": "Hungry patrons stood patiently in a long [que] outside the popular bakery.", "feat": "'q' followed by 'u-e-u-e': queue.", "tip": "'Q' followed by four vowels waiting in line: u-e-u-e!"},
+      {"word": "received", "cat": "Vowel & Silent Traps", "sub": "'-ei-' after 'c'", "src": "P5 Editing Core", "sent": "She [recieved] a certificate of commendation for her exemplary conduct.", "feat": "'e' before 'i' AFTER 'c': re + ceive + d.", "tip": "Rule: 'i' before 'e', EXCEPT AFTER 'C'."},
+      {"word": "restaurant", "cat": "Vowel & Silent Traps", "sub": "'-au-' in the middle", "src": "PSLE Common Trap", "sent": "Our family celebrated Mother's Day at an authentic Peranakan [restarant].", "feat": "Contains 'au' in second syllable: res + tau + rant.", "tip": "Notice 'tau' in the middle (res-TAU-rant)!"},
+      {"word": "rhythm", "cat": "Vowel & Silent Traps", "sub": "'rh' and 'y' as vowel", "src": "P5 Top School Core", "sent": "The dancers swayed gracefully to the pulsating [rythm] of the ethnic drums.", "feat": "'rh' and vowel 'y': rhy + thm.", "tip": "Rhythm Helps Your Two Hips Move (R-H-Y-T-H-M)!"},
+      {"word": "schedule", "cat": "Vowel & Silent Traps", "sub": "'sch' combination", "src": "P5 Editing Core", "sent": "The teacher handed out the revised examination [scedule] before dismissal.", "feat": "Starts with 'sch-': sche + dule.", "tip": "Notice 'sch' (like 'school'). Don't omit the 'h'!"},
+      {"word": "separate", "cat": "Vowel & Silent Traps", "sub": "'-par-' not '-per-'", "src": "PSLE High-Frequency Trap", "sent": "The teacher asked the two chatty students to sit at [seperate] desks.", "feat": "Contains 'par' in the middle: se + pa + rate.", "tip": "There is 'A RAT' (sep-A-RAT-e) in separate!"},
+      {"word": "tongue", "cat": "Vowel & Silent Traps", "sub": "'-gue' silent ending", "src": "P5 Spelling Core", "sent": "Be careful when sipping the boiling soup, or you might burn your [tounge].", "feat": "'o-n-g-u-e': tongue.", "tip": "Notice vowel 'o', followed by 'ng', ending in 'ue'."},
+      {"word": "unbelievable", "cat": "Vowel & Silent Traps", "sub": "'-ie-' in 'believe'", "src": "2024 PSLE / Tao Nan *", "sent": "The illusionist performed an [unbeliveable] trick that stunned everyone in the room.", "feat": "'i' before 'e', drop 'e' before '-able': un + be + liev + able.", "tip": "'Believe' has 'i' before 'e'. Drop final 'e' before '-able'."},
+      {"word": "valuable", "cat": "Vowel & Silent Traps", "sub": "Drop 'e' before '-able'", "src": "P5 Editing Core", "sent": "Volunteering at the shelter taught him [valueable] lessons about empathy.", "feat": "Drop the 'e' from 'value': val + u + able.", "tip": "Rule: Drop the silent 'e' at end of 'value' before adding '-able'."},
+      {"word": "video", "cat": "Vowel & Silent Traps", "sub": "'-eo' ending", "src": "P5 Spelling Core", "sent": "The pupils recorded a short educational [vedio] on wildlife conservation.", "feat": "'i' before 'd', '-eo' at end: vi + de + o.", "tip": "Spelt v-i-d-e-o, not 'vedio'."},
+      {"word": "anxiety", "cat": "Word Form Overlaps", "sub": "Anxious -> Anxiety", "src": "P5 Word Form Core", "sent": "Her heart pounded with intense [anxious] as she waited for the dentist to call her name.", "feat": "Noun from adjective 'anxious': anx + i + e + ty.", "tip": "Adjective 'intense' modifies a NOUN -> 'anxiety'."},
+      {"word": "courageous", "cat": "Word Form Overlaps", "sub": "Courage -> Courageous", "src": "P5 Word Form Core", "sent": "The [courage] firefighter plunged into the flaming building to rescue the trapped kitten.", "feat": "Adjective from noun 'courage': cour + a + ge + ous.", "tip": "Modifies noun 'firefighter', so adjective needed: cour-a-ge-ous!"},
+      {"word": "generosity", "cat": "Word Form Overlaps", "sub": "Generous -> Generosity", "src": "P5 Word Form Core", "sent": "We were deeply touched by the immense [generous] of the anonymous donor.", "feat": "Noun from adjective 'generous': gen + er + os + i + ty.", "tip": "Preceded by adjective 'immense' -> requires noun 'generosity'."},
+      {"word": "desperation", "cat": "Word Form Overlaps", "sub": "Desperate -> Desperation", "src": "P5 Word Form Core", "sent": "In sheer [desperate], the lost camper shouted for help until his voice grew hoarse.", "feat": "Noun from adjective 'desperate': des + per + a + tion.", "tip": "Preposition 'in' followed by noun ('in sheer desperation')."},
+      {"word": "relief", "cat": "Word Form Overlaps", "sub": "Relieve (v.) -> Relief (n.)", "src": "P5 Word Form Core", "sent": "Mother sighed in deep [relieve] when the doctor confirmed that my fever had subsided.", "feat": "Noun form has 'f', not 've': re + lief.", "tip": "'Relieve' is a VERB; 'relief' is a NOUN. After 'in', use 'relief'."},
+      {"word": "competition", "cat": "Word Form Overlaps", "sub": "Compete (v.) -> Competition (n.)", "src": "2026 EYE Q3 *", "sent": "Dozens of schools took part in the prestigious national storytelling [compete].", "feat": "Noun from verb 'compete': com + pe + ti + tion.", "tip": "Compound noun: 'storytelling competition'."},
+      {"word": "appreciation", "cat": "Word Form Overlaps", "sub": "Appreciate (v.) -> Appreciation (n.)", "src": "2024 Tao Nan P5 EOY *", "sent": "The principal presented a gift in [appreciate] of her thirty years of dedicated service.", "feat": "Noun from verb 'appreciate': ap + pre + ci + a + tion.", "tip": "Phrase 'in appreciation of' takes the noun form."},
+      {"word": "satisfaction", "cat": "Word Form Overlaps", "sub": "Satisfy (v.) -> Satisfaction (n.)", "src": "P5 Word Form Core", "sent": "The master chef smiled with genuine [satisfy] as the guests cleaned their plates.", "feat": "Noun from verb 'satisfy': sat + is + fac + tion.", "tip": "Preposition 'with' + adjective 'genuine' -> noun 'satisfaction'."},
+      {"word": "perseverance", "cat": "Word Form Overlaps", "sub": "Persevere (v.) -> Perseverance (n.)", "src": "PSLE 2014, 2021, 2022 *", "sent": "Through sheer [persevere], the injured runner managed to complete the grueling race.", "feat": "Noun from verb 'persevere': per + sev + er + ance.", "tip": "Preposition 'through' takes noun -> 'perseverance'."},
+      {"word": "guidance", "cat": "Word Form Overlaps", "sub": "Guide (v./n.) -> Guidance (n.)", "src": "P5 Word Form High-Frequency *", "sent": "Under the patient [guide] of her coach, Sarah perfected her butterfly stroke.", "feat": "Abstract noun ending in '-ance': guid + ance.", "tip": "'Guide' is a person/book; abstract advice is 'guidance'."},
+      {"word": "encouragement", "cat": "Word Form Overlaps", "sub": "Encourage (v.) -> Encouragement (n.)", "src": "2025 Raffles Girls' P5 *", "sent": "Her warm words of [encourage] gave the nervous debater immense confidence.", "feat": "Noun suffix '-ment': en + cour + age + ment.", "tip": "Preposition 'of' takes a noun -> 'encouragement'."},
+      {"word": "qualification", "cat": "Word Form Overlaps", "sub": "Qualify (v.) -> Qualification (n.)", "src": "2025 Raffles Girls' P5 *", "sent": "Candidates must possess the relevant academic [qualify] to be considered for the role.", "feat": "Noun from verb 'qualify': qual + i + fi + ca + tion.", "tip": "Adjective 'academic' modifies noun -> 'qualification'."},
+      {"word": "compatibility", "cat": "Word Form Overlaps", "sub": "Compatible -> Compatibility", "src": "2024 Ai Tong P5 EOY *", "sent": "The technicians tested the new printer for system [compatible] with school laptops.", "feat": "Noun from adjective 'compatible': com + pat + i + bil + i + ty.", "tip": "Noun form ends in '-ibility': 'compatibility'."},
+      {"word": "responsibility", "cat": "Word Form Overlaps", "sub": "Responsible -> Responsibility", "src": "P5 Word Form Core", "sent": "As class chairperson, Kenneth took full [responsible] for organizing the clean-up.", "feat": "Noun from adjective 'responsible': re + spon + si + bil + i + ty.", "tip": "Verb 'took' + adjective 'full' modifies NOUN -> 'responsibility'."},
+      {"word": "announcement", "cat": "Word Form Overlaps", "sub": "Announce (v.) -> Announcement (n.)", "src": "P5 Word Form Core", "sent": "The vice-principal made an important [announce] regarding the upcoming sports meet.", "feat": "Noun suffix '-ment': an + nounce + ment.", "tip": "Articles 'an' + adjective 'important' modify noun -> 'announcement'."},
+      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> Hesitation (n.)", "src": "P5 Word Form Core", "sent": "Without a moment's [hesitate], the brave bystander jumped into the canal to help.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "\"A moment's\" must be followed by a noun -> 'hesitation'."},
+      {"word": "convenience", "cat": "Word Form Overlaps", "sub": "Convenient -> Convenience", "src": "P5 Word Form Core", "sent": "For the [convenient] of elderly residents, ramps were installed at every block.", "feat": "Noun form ends in '-ce': con + ven + i + ence.", "tip": "'For the convenience of someone' uses the noun."},
+      {"word": "permission", "cat": "Word Form Overlaps", "sub": "Permit (v.) -> Permission (n.)", "src": "P4/P5 WA2 Cloze & Word Form *", "sent": "Pupils must seek written [permit] from their parents before joining the excursion.", "feat": "Double 's' in noun: per + mis + sion.", "tip": "Adjective 'written' modifies abstract noun -> 'permission'."}
+    ];
+
+    // 2. CLOZE DATABASE
+    const CLOZE_DB = [
+      { id: "c01", phrase: "aim at", cat: "Preposition", sent: "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", correct: "at", options: ["at", "to", "for", "with"], meaning: "To intend to achieve something.", clue: "Verb 'aim' followed by gerund (-ing): 'aim at + V-ing'.", exp: "'Aim at' means intending to achieve something when followed by a gerund." },
+      { id: "c02", phrase: "arrive at", cat: "Collocation", sent: "After a heated debate, the panel finally arrived [ ______ ] a unanimous decision.", correct: "at", options: ["at", "to", "in", "on"], meaning: "To reach a conclusion or decision.", clue: "Collocation: 'arrive ___ a decision'.", exp: "In PSLE Cloze, we say 'arrive at a decision' or 'arrive at a conclusion'." },
+      { id: "c03", phrase: "back down", cat: "Phrasal Verb", sent: "Confronted with undeniable proof, the bully finally backed [ ______ ] and apologised.", correct: "down", options: ["down", "away", "off", "up"], meaning: "To stop arguing or admit defeat.", clue: "Surrendering his position in an argument.", exp: "'Back down' means to yield or admit defeat. 'Back up' means to support." },
+      { id: "c04", phrase: "blow out", cat: "Phrasal Verb", sent: "The birthday girl made a wish before leaning forward to blow [ ______ ] the candles.", correct: "out", options: ["out", "off", "up", "away"], meaning: "To extinguish with a puff of air.", clue: "Extinguishing candles with breath.", exp: "'Blow out' means to extinguish flame with air. 'Blow up' means to explode." },
+      { id: "c05", phrase: "break down", cat: "Phrasal Verb", sent: "Upon hearing the tragic news of her pet, Evelyn broke [ ______ ] and wept.", correct: "down", options: ["down", "out", "up", "off"], meaning: "To lose emotional control and start crying.", clue: "Intense emotional grief and tears.", exp: "'Break down' means losing emotional control. 'Break out' means sudden start of war/fire." },
+      { id: "c06", phrase: "bring about", cat: "Cause & Effect", sent: "The recycling campaign brought [ ______ ] significant changes in their habits.", correct: "about", options: ["about", "up", "down", "out"], meaning: "To cause something to happen.", clue: "Pairs with 'change': 'bring ______ change'.", exp: "'Bring about' means to cause. 'Bring up' means to mention or raise a child." },
+      { id: "c07", phrase: "call off", cat: "Phrasal Verb", sent: "The sports secretary had to call [ ______ ] the soccer match due to heavy rain.", correct: "off", options: ["off", "out", "for", "away"], meaning: "To cancel an event.", clue: "The match is cancelled.", exp: "'Call off' means to cancel. 'Call for' means to demand or require." },
+      { id: "c08", phrase: "carry out", cat: "Task & Action", sent: "Under supervision, the pupils carried [ ______ ] a science experiment.", correct: "out", options: ["out", "on", "away", "over"], meaning: "To perform or complete a task.", clue: "Pairs with 'experiment', 'survey', or 'investigation'.", exp: "'Carry out' means to execute an experiment or plan. 'Carry on' means continue." },
+      { id: "c09", phrase: "catch on", cat: "Phrasal Verb", sent: "It took the elderly man time to catch [ ______ ] to how the smartphone app worked.", correct: "on", options: ["on", "up", "in", "off"], meaning: "To understand or become popular.", clue: "Understanding a new method: 'catch ______ to'.", exp: "'Catch on to' means to understand. 'Catch up' means to reach the same level." },
+      { id: "c10", phrase: "come across", cat: "Phrasal Verb", sent: "While cleaning the attic, Timothy came [ ______ ] an album of vintage photographs.", correct: "across", options: ["across", "into", "along", "by"], meaning: "To find or meet something by chance.", clue: "Accidentally finding an item.", exp: "'Come across' means to find unexpectedly. 'Come into' means inherit money." },
+      { id: "c11", phrase: "come to terms with", cat: "Idiomatic Phrase", sent: "It took Kenneth months to come to [ ______ ] with the painful loss of his pet.", correct: "terms", options: ["terms", "mind", "life", "end"], meaning: "To accept a difficult situation.", clue: "Three-word fixed idiom: 'come to ______ with'.", exp: "'Come to terms with' is a PSLE fixed phrase meaning to accept a painful reality." },
+      { id: "c12", phrase: "count on", cat: "Phrasal Verb", sent: "Whenever we face hurdles, we can always count [ ______ ] Mrs. Lee for guidance.", correct: "on", options: ["on", "with", "to", "at"], meaning: "To rely on or trust someone.", clue: "Synonym of 'rely on' and 'depend on'.", exp: "'Count on someone' means to depend on them for support." },
+      { id: "c13", phrase: "cut down on", cat: "Three-part Phrasal", sent: "The doctor advised him to cut [ ______ ] on sugary drinks and fried food.", correct: "down", options: ["down", "back", "off", "out"], meaning: "To reduce consumption.", clue: "Reducing amount of food: 'cut ______ on'.", exp: "'Cut down on' specifically means reducing intake. 'Cut off' means disconnect." },
+      { id: "c14", phrase: "drop out", cat: "Phrasal Verb", sent: "Due to a sprained ankle, the sprinter had to drop [ ______ ] of the race.", correct: "out", options: ["out", "in", "by", "off"], meaning: "To leave an activity before finishing.", clue: "Leaving a race before the finish line.", exp: "'Drop out of' means withdrawing before finishing. 'Drop in' means casual visit." },
+      { id: "c15", phrase: "fall for", cat: "Phrasal Verb", sent: "Senior citizens are reminded not to fall [ ______ ] deceptive online scams.", correct: "for", options: ["for", "out", "into", "through"], meaning: "To be tricked by a scam or lie.", clue: "Being deceived by fraudsters.", exp: "'Fall for' means being tricked. 'Fall out' means quarrel; 'fall through' means plan fails." },
+      { id: "c16", phrase: "get along", cat: "Phrasal Verb", sent: "Despite different personalities, the two brothers get [ ______ ] very well.", correct: "along", options: ["along", "by", "over", "away"], meaning: "To have a friendly relationship.", clue: "Having good relations: 'get ______ with'.", exp: "'Get along with' means friendly relations. 'Get by' means manage on little money." },
+      { id: "c17", phrase: "give in", cat: "Phrasal Verb", sent: "After hours of argument, the management finally gave [ ______ ] to their demands.", correct: "in", options: ["in", "up", "away", "out"], meaning: "To surrender or yield.", clue: "Yielding to pressure.", exp: "'Give in' means to yield. 'Give up' means quit; 'give away' means donate." },
+      { id: "c18", phrase: "keep track of", cat: "Fixed Phrase", sent: "Prefects are required to keep [ ______ ] of all students who arrive late.", correct: "track", options: ["track", "record", "touch", "sight"], meaning: "To monitor regularly.", clue: "Fixed collocation: 'keep ______ of'.", exp: "'Keep track of' means monitoring status. 'Keep in touch' means staying in contact." },
+      { id: "c19", phrase: "look forward to", cat: "Grammar & Phrasal", sent: "We are eagerly looking forward [ ______ ] visiting the bird park next week.", correct: "to", options: ["to", "for", "at", "on"], meaning: "To anticipate something pleasant.", clue: "Followed by gerund: 'looking forward ____'.", exp: "'Look forward to' is a fixed structure where 'to' is a preposition (+ V-ing)." },
+      { id: "c20", phrase: "put out", cat: "Phrasal Verb", sent: "Brave firefighters battled the blaze for hours before putting [ ______ ] the fire.", correct: "out", options: ["out", "off", "down", "up"], meaning: "To extinguish fire.", clue: "Extinguishing a flame or fire.", exp: "'Put out' means to extinguish. 'Put off' means postpone; 'put up with' means tolerate." }
+    ];
+
+    // State Variables
+    let activeApp = 'spelling'; 
+    let currentMode = 'daily';
+    let currentIdx = 0;
+    let selectedClozeOpt = null;
+    let clozeFormat = 'mcq';
+    
+    let attemptNum = 1;
+    let hasFinalSubmitted = false;
+
+    let timerInterval = null;
+    let timeLeft = 45;
+
+    // Stable Session List & Current Question Pointer (Fixes Hint Jump Bug)
+    let sessionList = [];
+    let currentQuestion = null;
+
+    function getStoreKey() { 
+      if (activeApp === 'speed') return 'portal_speed_v4';
+      return activeApp === 'spelling' ? 'portal_spelling_v4' : 'portal_cloze_v4'; 
+    }
+
+    function loadStore() {
+      const key = getStoreKey();
+      let s = JSON.parse(localStorage.getItem(key) || '{}');
+      
+      // Auto-migrate from previous versions (v2/v3) so child never loses stars or progress
+      if (!s.stars) {
+        ['portal_spelling_v3', 'portal_cloze_v3', 'portal_spelling_v2'].forEach(oldKey => {
+          try {
+            const oldData = JSON.parse(localStorage.getItem(oldKey) || '{}');
+            if (oldData.stars && oldData.stars > (s.stars || 0)) {
+              s.stars = oldData.stars;
+              if (oldData.mastered) s.mastered = [...new Set([...(s.mastered||[]), ...oldData.mastered])];
+              if (oldData.inReview) s.inReview = [...new Set([...(s.inReview||[]), ...oldData.inReview])];
+              if (oldData.progress) s.progress = Object.assign({}, oldData.progress, s.progress||{});
+            }
+          } catch(e) {}
+        });
+      }
+
+      if (!s.mastered) s.mastered = [];
+      if (!s.inReview) s.inReview = [];
+      if (!s.progress) s.progress = {};
+      if (!s.dailyLogs) s.dailyLogs = {};
+      if (s.stars === undefined) s.stars = 0;
+      if (!s.lastDate) s.lastDate = new Date().toISOString().split('T')[0];
+      return s;
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    let store = loadStore();
+
+    function saveStore() {
+      localStorage.setItem(getStoreKey(), JSON.stringify(store));
+    }
+
+    function getDB() { 
+      if (activeApp === 'speed') return [...SPELLING_DB, ...CLOZE_DB];
+      return activeApp === 'spelling' ? SPELLING_DB : CLOZE_DB; 
+    }
+
+    // Build static list for current session - prevents re-indexing during active questions
+    function buildSessionList() {
+      const db = getDB();
+      const idKey = (activeApp === 'spelling') ? 'word' : 'id';
+
+      if (activeApp === 'speed') {
+        sessionList = db.slice(0, 15);
+        return;
+      }
+      if (currentMode === 'review') {
+        const rev = db.filter(item => store.inReview.includes(item[idKey] || item.word));
+        sessionList = rev.length > 0 ? rev : db.slice(0, 20);
+        return;
+      }
+      if (currentMode === 'daily') {
+        const reviewDue = db.filter(item => {
+          const key = item[idKey] || item.word;
+          const p = store.progress[key];
+          return p && (!p.nextDue || p.nextDue <= todayStr) && p.streak < 3;
+        });
+        const unseen = db.filter(item => {
+          const key = item[idKey] || item.word;
+          return !store.progress[key] && !store.mastered.includes(key);
+        });
+        let pool = [...reviewDue, ...unseen];
+        if (pool.length < 20) {
+          const nonMastered = db.filter(item => !store.mastered.includes(item[idKey] || item.word));
+          pool = nonMastered.length >= 20 ? nonMastered : db;
+        }
+        sessionList = pool.slice(0, 20);
+        return;
+      }
+      sessionList = db;
+    }
+
+    function getActiveList() {
+      if (!sessionList || sessionList.length === 0) {
+        buildSessionList();
+      }
+      return sessionList;
+    }
+
+    function switchApp(app) {
+      clearInterval(timerInterval);
+      activeApp = app;
+      currentMode = 'daily';
+      currentIdx = 0;
+      store = loadStore();
+
+      ['swSpelling', 'swCloze', 'swSpeed'].forEach(id => {
+        document.getElementById(id).className = 'app-btn';
+      });
+      document.getElementById('sw' + capitalize(app)).className = 'app-btn active ' + app;
+      
+      const actionBtn = document.getElementById('actionBtn');
+      actionBtn.className = 'btn ' + app;
+
+      document.getElementById('tabFormat').style.display = (app === 'cloze') ? 'block' : 'none';
+      document.getElementById('timerContainer').style.display = (app === 'speed') ? 'inline-flex' : 'none';
+
+      buildSessionList();
+      updateTabStyles();
+      changeMode('daily');
+    }
+
+    function updateTabStyles() {
+      ['tabDaily', 'tabReview', 'tabFormat', 'tabAll', 'tabHistory'].forEach(t => {
+        const el = document.getElementById(t);
+        const isActive = el.classList.contains('active');
+        el.className = 'tab-pill' + (isActive ? ' active ' + activeApp : '');
+      });
+    }
+
+    function toggleClozeFormat() {
+      clozeFormat = (clozeFormat === 'mcq') ? 'open' : 'mcq';
+      document.getElementById('formatLabel').innerText = (clozeFormat === 'mcq') ? 'MCQ' : 'Pro Open';
+      renderQuestion();
+    }
+
+    function changeMode(mode) {
+      currentMode = mode;
+      currentIdx = 0;
+      buildSessionList();
+
+      ['tabDaily', 'tabReview', 'tabAll', 'tabHistory'].forEach(t => {
+        const el = document.getElementById(t);
+        const isTarget = (t === ('tab' + capitalize(mode)));
+        el.className = 'tab-pill' + (isTarget ? ' active ' + activeApp : '');
+      });
+
+      if (mode === 'history') {
+        document.getElementById('quizView').style.display = 'none';
+        document.getElementById('btnContainer').style.display = 'none';
+        document.getElementById('historyView').style.display = 'block';
+        renderHistory();
+      } else {
+        document.getElementById('quizView').style.display = 'block';
+        document.getElementById('btnContainer').style.display = 'block';
+        document.getElementById('historyView').style.display = 'none';
+        renderQuestion();
+      }
+    }
+
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function renderQuestion() {
+      clearInterval(timerInterval);
+      const list = getActiveList();
+      if (currentIdx >= list.length) currentIdx = 0;
+      currentQuestion = list[currentIdx] || list[0];
+      const q = currentQuestion;
+      const isSpellingItem = !!q.word;
+
+      attemptNum = 1;
+      hasFinalSubmitted = false;
+      selectedClozeOpt = null;
+
+      document.getElementById('qCategory').className = 'badge-cat ' + activeApp;
+      document.getElementById('qCategory').innerText = q.cat;
+      document.getElementById('qSource').innerText = isSpellingItem ? q.src : ("Target: " + q.phrase);
+      document.getElementById('qIndex').innerText = (currentIdx + 1) + " / " + list.length;
+      document.getElementById('dateDisplay').innerText = todayStr;
+
+      document.getElementById('qInstruction').innerText = isSpellingItem 
+        ? "Identify and correct the bracketed error (Watch Capital letters & Tense!):" 
+        : (clozeFormat === 'mcq' ? "Select the correct option to fill the Cloze blank:" : "Pro Mode: Type the exact word for the blank:");
+
+      const formatted = isSpellingItem 
+        ? q.sent.replace(/\[(.*?)\]/, '<span class="error-target">$1</span>')
+        : (clozeFormat === 'mcq' 
+            ? q.sent.replace(/\[\s*______\s*\]/, '<span class="blank-target">[ ______ ]</span>')
+            : q.sent.replace(/\[\s*______\s*\]/, `<span class="blank-target">[ ${q.correct.charAt(0)}______ ]</span>`));
+      
+      document.getElementById('sentenceContainer').innerHTML = formatted;
+
+      updateAttemptUI();
+
+      const hintBtn = document.getElementById('hintBtn');
+      hintBtn.disabled = true;
+      hintBtn.style.color = '#94a3b8';
+      hintBtn.style.cursor = 'not-allowed';
+      hintBtn.innerText = '🔒 Hint (Locked)';
+      document.getElementById('attemptTip').innerText = '🔒 Hint unlocks on 2nd attempt';
+      document.getElementById('hintBox').style.display = 'none';
+      document.getElementById('resultContainer').style.display = 'none';
+
+      const spArea = document.getElementById('spellingInputArea');
+      const mcqArea = document.getElementById('clozeOptionsArea');
+      const proArea = document.getElementById('clozeProInputArea');
+      const actionBtn = document.getElementById('actionBtn');
+
+      if (isSpellingItem) {
+        spArea.style.display = 'block';
+        mcqArea.style.display = 'none';
+        proArea.style.display = 'none';
+        const input = document.getElementById('answerInput');
+        input.value = '';
+        input.disabled = false;
+        input.focus();
+        actionBtn.disabled = false;
+        actionBtn.innerText = 'Check Answer (Attempt 1)';
+      } else {
+        spArea.style.display = 'none';
+        if (clozeFormat === 'mcq') {
+          mcqArea.style.display = 'grid';
+          proArea.style.display = 'none';
+          mcqArea.innerHTML = '';
+          q.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => selectClozeOpt(opt);
+            btn.id = 'opt_' + idx;
+            mcqArea.appendChild(btn);
+          });
+          actionBtn.disabled = true;
+          actionBtn.innerText = 'Confirm Answer (Attempt 1)';
+        } else {
+          mcqArea.style.display = 'none';
+          proArea.style.display = 'block';
+          const pInput = document.getElementById('clozeProInput');
+          pInput.value = '';
+          pInput.disabled = false;
+          pInput.focus();
+          actionBtn.disabled = false;
+          actionBtn.innerText = 'Submit Pro Answer';
+        }
+      }
+
+      if (activeApp === 'speed') {
+        startSpeedTimer();
+      }
+
+      updateStats();
+    }
+
+    function startSpeedTimer() {
+      timeLeft = 45;
+      document.getElementById('timerSec').innerText = timeLeft;
+      timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        document.getElementById('timerSec').innerText = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          handleTimeOut();
+        }
+      }, 1000);
+    }
+
+    function handleTimeOut() {
+      if (hasFinalSubmitted) return;
+      const resBox = document.getElementById('resultContainer');
+      resBox.className = 'result-box result-wrong';
+      resBox.style.display = 'block';
+      resBox.innerHTML = `<strong>⏰ Time is up!</strong> Over 45s elapsed. Moving to next question.`;
+      hasFinalSubmitted = true;
+      document.getElementById('actionBtn').innerText = 'Next Question →';
+    }
+
+    function updateAttemptUI() {
+      const tag = document.getElementById('attemptDisplay');
+      if (attemptNum === 1) {
+        tag.className = 'attempt-tag attempt-1';
+        tag.innerText = 'Attempt 1/2';
+      } else {
+        tag.className = 'attempt-tag attempt-2';
+        tag.innerText = 'Attempt 2/2 (Hint Unlocked)';
+      }
+    }
+
+    function selectClozeOpt(opt) {
+      if (hasFinalSubmitted) return;
+      selectedClozeOpt = opt;
+      const q = currentQuestion;
+      q.options.forEach((o, i) => {
+        const el = document.getElementById('opt_' + i);
+        if (el) el.className = 'opt-btn' + (o === opt ? ' selected' : '');
+      });
+      document.getElementById('actionBtn').disabled = false;
+    }
+
+    function unlockHint() {
+      const hintBtn = document.getElementById('hintBtn');
+      hintBtn.disabled = false;
+      hintBtn.style.color = '#7e22ce';
+      hintBtn.style.cursor = 'pointer';
+      hintBtn.innerText = '💡 Read Hint Now';
+      document.getElementById('attemptTip').innerText = '💡 Hint unlocked for 2nd attempt!';
+    }
+
+    function toggleHint() {
+      const q = currentQuestion || getActiveList()[currentIdx];
+      const hBox = document.getElementById('hintBox');
+      if (hBox.style.display === 'none') {
+        hBox.style.display = 'block';
+        if (q.word) {
+          hBox.innerHTML = '<strong>💡 Hint & Clue:</strong> ' + q.sub + '.<br>' + q.tip;
+        } else {
+          hBox.innerHTML = '<strong>💡 Context Clue:</strong> ' + q.clue + '<br><span style="color:#0369a1; font-weight:600;">Meaning:</span> ' + q.meaning;
+        }
+      } else {
+        hBox.style.display = 'none';
+      }
+    }
+
+    function speakTargetSentence() {
+      if (!window.speechSynthesis) return;
+      const q = currentQuestion || getActiveList()[currentIdx];
+      const textToSpeak = q.sent.replace(/\[.*?\]/, (q.word || q.correct));
+      
+      const utter = new SpeechSynthesisUtterance(textToSpeak);
+      utter.lang = 'en-GB';
+      utter.rate = 0.9;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+    }
+
+    function updateStats() {
+      document.getElementById('statStars').innerText = store.stars || 0;
+      document.getElementById('statMastered').innerText = store.mastered.length;
+      document.getElementById('statReview').innerText = store.inReview.length;
+      document.getElementById('revCount').innerText = store.inReview.length;
+      
+      const todayLog = store.dailyLogs[todayStr] || { done: 0, firstTryCorrect: 0 };
+      document.getElementById('statDone').innerText = todayLog.done + "/20";
+      saveStore();
+    }
+
+    function checkCapitalisationTrap(q, rawInput) {
+      if (!q.sent.startsWith('[')) return null;
+      if (rawInput.length > 0 && rawInput.charAt(0) !== rawInput.charAt(0).toUpperCase()) {
+        return "⚠️ Capital Letter Alert: In PSLE, words at the beginning of a sentence MUST start with a Capital Letter!";
+      }
+      return null;
+    }
+
+    function handleAction() {
+      const list = getActiveList();
+      const q = currentQuestion || list[currentIdx];
+      const isSpellingItem = !!q.word;
+      const targetAnswer = isSpellingItem ? q.word : q.correct;
+      const idKey = isSpellingItem ? q.word : q.id;
+      const actionBtn = document.getElementById('actionBtn');
+      const resBox = document.getElementById('resultContainer');
+
+      if (hasFinalSubmitted) {
+        if (currentIdx < list.length - 1) currentIdx += 1;
+        else currentIdx = 0;
+        renderQuestion();
+        return;
+      }
+
+      let rawAns = '';
+      if (isSpellingItem) {
+        rawAns = document.getElementById('answerInput').value.trim();
+        if (!rawAns) return;
+      } else {
+        if (clozeFormat === 'mcq') {
+          if (!selectedClozeOpt) return;
+          rawAns = selectedClozeOpt;
+        } else {
+          rawAns = document.getElementById('clozeProInput').value.trim();
+          if (!rawAns) return;
+        }
+      }
+
+      const userAns = rawAns.toLowerCase();
+      const targetLower = targetAnswer.toLowerCase();
+      const isTargetCorrect = (userAns === targetLower);
+      const capWarning = checkCapitalisationTrap(q, rawAns);
+
+      if (!store.dailyLogs[todayStr]) {
+        store.dailyLogs[todayStr] = { done: 0, firstTryCorrect: 0 };
+      }
+      if (!store.progress[idKey]) {
+        store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
+      }
+      let prog = store.progress[idKey];
+
+      // Attempt 1
+      if (attemptNum === 1) {
+        if (isTargetCorrect) {
+          clearInterval(timerInterval);
+          hasFinalSubmitted = true;
+          store.stars = (store.stars || 0) + 3;
+          store.dailyLogs[todayStr].done += 1;
+          store.dailyLogs[todayStr].firstTryCorrect += 1;
+          
+          prog.streak += 1;
+          let interval = prog.streak === 1 ? 1 : (prog.streak === 2 ? 3 : 14);
+          prog.nextDue = new Date(Date.now() + interval * 86400000).toISOString().split('T')[0];
+
+          if (prog.streak >= 3) {
+            if (!store.mastered.includes(idKey)) store.mastered.push(idKey);
+            store.inReview = store.inReview.filter(x => x !== idKey);
+          }
+
+          revealCorrectUI(isSpellingItem, q);
+          resBox.className = 'result-box result-correct';
+          resBox.style.display = 'block';
+          resBox.innerHTML = `<strong>🌟 Brilliant! 1st Attempt Correct! (+3 ⭐)</strong><br>
+            ${capWarning ? `<div style="color:#c2410c; font-weight:700; margin:4px 0;">${capWarning}</div>` : ''}
+            <span style="font-size:11px; color:#065f46;">Mastery Progress: ${prog.streak}/3 consecutive</span>
+            <div class="tip-section">
+              ${isSpellingItem ? `<strong>🔤 Structure:</strong> ${q.feat}<br><strong>💡 Rule:</strong> ${q.tip}` : `<strong>📖 Meaning:</strong> ${q.meaning}<br><strong>🔍 Analysis:</strong> ${q.exp}`}
+            </div>`;
+          actionBtn.innerText = 'Next Question →';
+        } else {
+          attemptNum = 2;
+          updateAttemptUI();
+          unlockHint();
+          toggleHint();
+
+          resBox.className = 'result-box result-retry';
+          resBox.style.display = 'block';
+          resBox.innerHTML = `<strong>⚠️ Not quite right! Hint Unlocked 💡</strong><br>
+            Read the rule/clue above and make your <strong>Attempt 2</strong>!`;
+
+          if (isSpellingItem) {
+            document.getElementById('answerInput').value = '';
+            document.getElementById('answerInput').focus();
+          } else if (clozeFormat === 'open') {
+            document.getElementById('clozeProInput').value = '';
+            document.getElementById('clozeProInput').focus();
+          }
+          actionBtn.innerText = 'Check Answer (Attempt 2)';
+        }
+        updateStats();
+        return;
+      }
+
+      // Attempt 2
+      if (attemptNum === 2) {
+        clearInterval(timerInterval);
+        hasFinalSubmitted = true;
+        store.dailyLogs[todayStr].done += 1;
+
+        if (isTargetCorrect) {
+          store.stars = (store.stars || 0) + 1;
+          prog.nextDue = todayStr;
+
+          revealCorrectUI(isSpellingItem, q);
+          resBox.className = 'result-box result-correct';
+          resBox.style.display = 'block';
+          resBox.innerHTML = `<strong>✅ Good recovery on Attempt 2! (+1 ⭐)</strong><br>
+            ${capWarning ? `<div style="color:#c2410c; font-weight:700; margin:4px 0;">${capWarning}</div>` : ''}
+            <span style="font-size:11px; color:#065f46;">Target to get it on 1st attempt next time!</span>
+            <div class="tip-section">
+              ${isSpellingItem ? `<strong>🔤 Structure:</strong> ${q.feat}<br><strong>💡 Tip:</strong> ${q.tip}` : `<strong>📖 Meaning:</strong> ${q.meaning}<br><strong>🔍 Analysis:</strong> ${q.exp}`}
+            </div>`;
+        } else {
+          prog.streak = 0;
+          prog.mistakes += 1;
+          prog.nextDue = todayStr;
+
+          if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
+          store.mastered = store.mastered.filter(x => x !== idKey);
+
+          revealWrongUI(isSpellingItem, q, userAns);
+          resBox.className = 'result-box result-wrong';
+          resBox.style.display = 'block';
+          resBox.innerHTML = `<strong>❌ Missed both attempts. Added to Review!</strong><br>
+            Correct Answer: <strong style="font-size:15px; text-decoration:underline;">${targetAnswer}</strong>
+            <div class="tip-section">
+              ${isSpellingItem ? `<strong>⚠️ Pitfall:</strong> ${q.feat}<br><strong>🎯 Key Rule:</strong> ${q.tip}` : `<strong>📖 Target Phrase:</strong> ${q.phrase} (${q.meaning})<br><strong>⚠️ Why:</strong> ${q.exp}`}
+            </div>`;
+        }
+
+        updateStats();
+        actionBtn.innerText = 'Next Question →';
+      }
+    }
+
+    function revealCorrectUI(isSpellingItem, q) {
+      if (isSpellingItem) {
+        document.getElementById('answerInput').disabled = true;
+      } else if (clozeFormat === 'mcq') {
+        q.options.forEach((o, i) => {
+          const el = document.getElementById('opt_' + i);
+          if (el && o.toLowerCase() === q.correct.toLowerCase()) el.className = 'opt-btn correct';
+        });
+      } else {
+        document.getElementById('clozeProInput').disabled = true;
+      }
+    }
+
+    function revealWrongUI(isSpellingItem, q, userAns) {
+      if (isSpellingItem) {
+        document.getElementById('answerInput').disabled = true;
+      } else if (clozeFormat === 'mcq') {
+        q.options.forEach((o, i) => {
+          const el = document.getElementById('opt_' + i);
+          if (el) {
+            el.disabled = true;
+            if (o.toLowerCase() === q.correct.toLowerCase()) el.className = 'opt-btn correct';
+            else if (o.toLowerCase() === userAns.toLowerCase()) el.className = 'opt-btn wrong';
+          }
+        });
+      } else {
+        document.getElementById('clozeProInput').disabled = true;
+      }
+    }
+
+    function openPrintModal() {
+      const container = document.getElementById('printListContainer');
+      const allDB = getDB();
+      const weakList = allDB.filter(item => store.inReview.includes(item.word || item.id));
+      const printPool = (weakList.length >= 5 ? weakList : allDB).slice(0, 15);
+
+      let html = '';
+      printPool.forEach((item, idx) => {
+        const sentenceWithLine = item.sent 
+          ? item.sent.replace(/\[.*?\]/, '____________________')
+          : `Fill in the blank: ${item.phrase} ____________________`;
+        
+        html += `<div class="worksheet-item">
+          <strong>${idx + 1}.</strong> ${sentenceWithLine}
+          <div style="font-size:10pt; color:#666; margin-top:4px;">(Category: ${item.cat} | Clue: ${item.sub || item.meaning})</div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      window.print();
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('historyListContainer');
+      const dates = Object.keys(store.dailyLogs).sort().reverse();
+      if (dates.length === 0) {
+        container.innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center;">No practice records yet. Start today!</p>';
+        return;
+      }
+      let html = '';
+      dates.forEach(d => {
+        const log = store.dailyLogs[d];
+        const acc = log.done > 0 ? Math.round((log.firstTryCorrect / log.done) * 100) : 0;
+        html += `<div class="history-card" style="display:flex; justify-content:space-between; align-items:center; background:#fff; border-radius:12px; padding:10px 12px; border:1px solid #f1f5f9; margin-bottom:6px;">
+          <div>
+            <strong style="color:#0f172a; font-size:13px;">${d}</strong>
+            <div style="color:#64748b; font-size:11px; margin-top:2px;">
+              Finished: <strong>${log.done}</strong> Qs | 1st-Try Correct: <strong>${log.firstTryCorrect}</strong>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:15px; font-weight:800; color:${acc >= 80 ? '#059669' : '#d97706'};">${acc}%</span>
+            <div style="font-size:10px; color:#94a3b8;">1st-Try Acc</div>
+          </div>
+        </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    document.getElementById('answerInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleAction();
+    });
+    document.getElementById('clozeProInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleAction();
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>
