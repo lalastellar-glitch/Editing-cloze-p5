@@ -92,7 +92,7 @@
 
       <div class="tool-bar">
         <div style="display:flex; align-items:center; gap:6px;">
-          <span id="cloudStatus" class="cloud-status cloud-local">🔒 连接中...</span>
+          <span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步</span>
           <span id="timerContainer" style="display:none;" class="timer-pill">⏱️ <span id="timerSec">45</span>s</span>
         </div>
         <div style="display:flex; gap:6px;">
@@ -105,7 +105,7 @@
         <div class="stat-item"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">0</div></div>
         <div class="stat-item"><div class="stat-lbl">Mastered</div><div id="statMastered" class="stat-val" style="color:#059669;">0</div></div>
         <div class="stat-item"><div class="stat-lbl">In Review</div><div id="statReview" class="stat-val" style="color:#d97706;">0</div></div>
-        <div class="stat-item"><div class="stat-lbl">Today's Qs</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
+        <div class="stat-item"><div id="statDoneLabel" class="stat-lbl">Editing Today</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
       </div>
 
       <div class="sub-tabs">
@@ -175,7 +175,6 @@
   </div>
 
   <script>
-    // 你的专属 Firebase 配置已注入
     const firebaseConfig = {
       apiKey: "AIzaSyC069kigwWahvR7nCzLbwRMTVpwr1qF30k",
       authDomain: "psle-tracker-51fac.firebaseapp.com",
@@ -220,7 +219,7 @@
       {"word": "immediately", "cat": "Double Consonants", "sub": "Double 'm'", "src": "P5 High-Frequency Spelling", "sent": "The paramedics rushed to the scene [imediately] after receiving the emergency call.", "feat": "Double 'm', ends in '-ely': im + me + di + ate + ly.", "tip": "Prefix 'im-' + root 'mediate' + '-ly'. Don't drop the 'e'!"},
       {"word": "interrupted", "cat": "Double Consonants", "sub": "Double 'r'", "src": "P5 Grammar & Editing *", "sent": "The loud fire siren [interupted] the teacher in the middle of her explanation.", "feat": "Double 'r': inter + rupt + ed.", "tip": "Root 'rupt' (to break) + prefix 'inter-' -> double 'r'."},
       {"word": "occurrence", "cat": "Double Consonants", "sub": "Double 'c' & Double 'r'", "src": "PSLE & Top Schools Editing *", "sent": "The unexpected [occurance] of flash floods caused traffic delays islandwide.", "feat": "Double 'c' AND double 'r', ending in '-ence': oc + cur + rence.", "tip": "Double 'c', double 'r', and ends in '-ENCE' (never '-ance')!"},
-      {"word": "opponent", "cat": "Double Consonants", "sub": "Double 'p'", "src": "P5 Vocabulary Core", "sent": "Marcus bowed respectfully to his [oponent] before the judo match began.", "feat": "Double 'p', single 'n's: op + po + nent.", "tip": "Prefix 'op-' + 'ponent' -> 2 'p's. Ends with '-ent'."},
+      {"word": "opponent", "cat": "Double Consonants", "sub": "Double 'p'", "src": "P5 Vocabulary Core", "sent": "Marcus bowed respectfully to his [oponent] before the judo match began.", "feat": "Double 'p', single 'n's: op + po + nent.", "tip": "Prefix 'op-' + 'opponent' -> 2 'p's. Ends with '-ent'."},
       {"word": "parallel", "cat": "Double Consonants", "sub": "Double 'l' in the middle", "src": "P5 Tricky Spelling", "sent": "The railway tracks ran [paralel] to the scenic coastal highway for miles.", "feat": "Single 'r', double 'l' in the middle: par + al + lel.", "tip": "The two parallel 'l's stand side-by-side in the middle!"},
       {"word": "planned", "cat": "Double Consonants", "sub": "Double 'n'", "src": "P5 Editing Core", "sent": "They [planed] a surprise birthday celebration for their class form teacher.", "feat": "Double 'n': plan + n + ed.", "tip": "'Planed' means shaved wood! Double 'n' for 'planned'."},
       {"word": "possession", "cat": "Double Consonants", "sub": "Double 's' & Double 's'", "src": "PSLE High-Frequency Spelling", "sent": "The antique pocket watch was the old grandfather's most treasured [posession].", "feat": "Double 's' TWICE: pos + ses + sion (4 's's total).", "tip": "Two 's's in the middle, and two 's's before '-ion'."},
@@ -276,7 +275,7 @@
       {"word": "compatibility", "cat": "Word Form Overlaps", "sub": "Compatible -> Compatibility", "src": "2024 Ai Tong P5 EOY *", "sent": "The technicians tested the new printer for system [compatible] with school laptops.", "feat": "Noun from adjective 'compatible': com + pat + i + bil + i + ty.", "tip": "Noun form ends in '-ibility': 'compatibility'."},
       {"word": "responsibility", "cat": "Word Form Overlaps", "sub": "Responsible -> Responsibility", "src": "P5 Word Form Core", "sent": "As class chairperson, Kenneth took full [responsible] for organizing the clean-up.", "feat": "Noun from adjective 'responsible': re + spon + si + bil + i + ty.", "tip": "Verb 'took' + adjective 'full' modifies NOUN -> 'responsibility'."},
       {"word": "announcement", "cat": "Word Form Overlaps", "sub": "Announce (v.) -> Announcement (n.)", "src": "P5 Word Form Core", "sent": "The vice-principal made an important [announce] regarding the upcoming sports meet.", "feat": "Noun suffix '-ment': an + nounce + ment.", "tip": "Articles 'an' + adjective 'important' modify noun -> 'announcement'."},
-      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> " + "Hesitation", "src": "P5 Word Form Core", "sent": "Without a moment's [hesitate], the brave bystander jumped into the canal to help.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "\"A moment's\" must be followed by a noun -> 'hesitation'."},
+      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> Hesitation", "src": "P5 Word Form Core", "sent": "Without a moment's [hesitate], the brave bystander jumped into the canal to help.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "\"A moment's\" must be followed by a noun -> 'hesitation'."},
       {"word": "convenience", "cat": "Word Form Overlaps", "sub": "Convenient -> Convenience", "src": "P5 Word Form Core", "sent": "For the [convenient] of elderly residents, ramps were installed at every block.", "feat": "Noun form ends in '-ce': con + ven + i + ence.", "tip": "'For the convenience of someone' uses the noun."},
       {"word": "permission", "cat": "Word Form Overlaps", "sub": "Permit (v.) -> Permission (n.)", "src": "P4/P5 WA2 Cloze & Word Form *", "sent": "Pupils must seek written [permit] from their parents before joining the excursion.", "feat": "Double 's' in noun: per + mis + sion.", "tip": "Adjective 'written' modifies abstract noun -> 'permission'."}
     ];
@@ -662,13 +661,50 @@
       window.speechSynthesis.speak(utter);
     }
 
+    // 精准区分科目统计
     function updateStats() {
       document.getElementById('statStars').innerText = store.stars || 0;
-      document.getElementById('statMastered').innerText = store.mastered.length;
-      document.getElementById('statReview').innerText = store.inReview.length;
-      document.getElementById('revCount').innerText = store.inReview.length;
-      const todayLog = store.dailyLogs[todayStr] || { done: 0, firstTryCorrect: 0 };
-      document.getElementById('statDone').innerText = todayLog.done + "/20";
+      
+      const isSp = (activeApp === 'spelling');
+      const isCl = (activeApp === 'cloze');
+      
+      // 当前科目的已掌握数量与错题池数量
+      const currentMasteredCount = store.mastered.filter(id => {
+        const isWord = SPELLING_DB.some(item => item.word === id);
+        return isSp ? isWord : (isCl ? !isWord : true);
+      }).length;
+      
+      const currentReviewCount = store.inReview.filter(id => {
+        const isWord = SPELLING_DB.some(item => item.word === id);
+        return isSp ? isWord : (isCl ? !isWord : true);
+      }).length;
+
+      document.getElementById('statMastered').innerText = currentMasteredCount;
+      document.getElementById('statReview').innerText = currentReviewCount;
+      document.getElementById('revCount').innerText = currentReviewCount;
+
+      // 动态切换标签和计数
+      const statLabelEl = document.getElementById('statDoneLabel');
+      const statDoneEl = document.getElementById('statDone');
+      const todayLog = store.dailyLogs[todayStr] || { done: 0, firstTryCorrect: 0, byApp: {} };
+      const byApp = todayLog.byApp || {};
+      
+      if (activeApp === 'spelling') {
+        statLabelEl.innerText = 'Editing Today';
+        statDoneEl.style.color = '#7e22ce';
+        const spDone = byApp.spelling || 0;
+        statDoneEl.innerText = `${spDone}/20`;
+      } else if (activeApp === 'cloze') {
+        statLabelEl.innerText = 'Cloze Today';
+        statDoneEl.style.color = '#0284c7';
+        const clDone = byApp.cloze || 0;
+        statDoneEl.innerText = `${clDone}/20`;
+      } else {
+        statLabelEl.innerText = 'Speed Today';
+        statDoneEl.style.color = '#dc2626';
+        const spdDone = byApp.speed || 0;
+        statDoneEl.innerText = `${spdDone}/15`;
+      }
     }
 
     function checkCapitalisationTrap(q, rawInput) {
@@ -715,7 +751,10 @@
       const capWarning = checkCapitalisationTrap(q, rawAns);
 
       if (!store.dailyLogs[todayStr]) {
-        store.dailyLogs[todayStr] = { done: 0, firstTryCorrect: 0 };
+        store.dailyLogs[todayStr] = { done: 0, firstTryCorrect: 0, byApp: { spelling: 0, cloze: 0, speed: 0 } };
+      }
+      if (!store.dailyLogs[todayStr].byApp) {
+        store.dailyLogs[todayStr].byApp = { spelling: 0, cloze: 0, speed: 0 };
       }
       if (!store.progress[idKey]) {
         store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
@@ -730,6 +769,7 @@
           store.stars = (store.stars || 0) + 3;
           store.dailyLogs[todayStr].done += 1;
           store.dailyLogs[todayStr].firstTryCorrect += 1;
+          store.dailyLogs[todayStr].byApp[activeApp] = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + 1;
           
           prog.streak += 1;
           let interval = prog.streak === 1 ? 1 : (prog.streak === 2 ? 3 : 14);
@@ -779,6 +819,7 @@
         clearInterval(timerInterval);
         hasFinalSubmitted = true;
         store.dailyLogs[todayStr].done += 1;
+        store.dailyLogs[todayStr].byApp[activeApp] = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + 1;
 
         if (isTargetCorrect) {
           store.stars = (store.stars || 0) + 1;
@@ -843,7 +884,8 @@
     function openPrintModal() {
       const container = document.getElementById('printListContainer');
       const allDB = getDB();
-      const weakList = allDB.filter(item => store.inReview.includes(item.word || item.id));
+      const idKey = (activeApp === 'spelling') ? 'word' : 'id';
+      const weakList = allDB.filter(item => store.inReview.includes(item[idKey] || item.word));
       const printPool = (weakList.length >= 5 ? weakList : allDB).slice(0, 15);
 
       let html = '';
@@ -871,11 +913,14 @@
       let html = '';
       dates.forEach(d => {
         const log = store.dailyLogs[d];
+        const byApp = log.byApp || {};
         const acc = log.done > 0 ? Math.round((log.firstTryCorrect / log.done) * 100) : 0;
         html += `<div class="history-card" style="display:flex; justify-content:space-between; align-items:center; background:#fff; border-radius:12px; padding:10px 12px; border:1px solid #f1f5f9; margin-bottom:6px;">
           <div>
             <strong style="color:#0f172a; font-size:13px;">${d}</strong>
-            <div style="color:#64748b; font-size:11px; margin-top:2px;">Finished: <strong>${log.done}</strong> Qs | 1st-Try: <strong>${log.firstTryCorrect}</strong></div>
+            <div style="color:#64748b; font-size:11px; margin-top:2px;">
+              Editing: <strong>${byApp.spelling || 0}</strong> | Cloze: <strong>${byApp.cloze || 0}</strong> | Total 1st-Try: <strong>${log.firstTryCorrect || 0}</strong>
+            </div>
           </div>
           <div style="text-align:right;">
             <span style="font-size:15px; font-weight:800; color:${acc >= 80 ? '#059669' : '#d97706'};">${acc}%</span>
