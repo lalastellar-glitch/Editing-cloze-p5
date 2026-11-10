@@ -3,23 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PSLE English AL1 Master Portal (Pro Edition - Fixed)</title>
+  <title>PSLE English AL1 Master Portal (Cloud Sync Edition)</title>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 12px; }
     .container { max-width: 480px; margin: 0 auto; min-height: 94vh; display: flex; flex-direction: column; justify-content: space-between; }
     
-    /* Portal App Switcher */
     .app-switcher { display: flex; background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 10px; gap: 4px; }
     .app-btn { flex: 1; padding: 9px 4px; font-size: 12.5px; font-weight: 800; border-radius: 10px; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; text-align: center; }
     .app-btn.active.spelling { background: #7e22ce; color: #ffffff; box-shadow: 0 2px 4px rgba(126,34,206,0.25); }
     .app-btn.active.cloze { background: #0284c7; color: #ffffff; box-shadow: 0 2px 4px rgba(2,132,199,0.25); }
     .app-btn.active.speed { background: #dc2626; color: #ffffff; box-shadow: 0 2px 4px rgba(220,38,38,0.25); }
 
-    /* Top Tools Bar */
     .tool-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .cloud-status { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; }
+    .cloud-live { background: #dcfce7; color: #15803d; }
+    .cloud-local { background: #f1f5f9; color: #475569; }
 
-    /* Cards */
     .card { background: #ffffff; border-radius: 18px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; margin-bottom: 12px; }
     .badge-cat { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
     .badge-cat.spelling { background: #f3e8ff; color: #7e22ce; }
@@ -30,11 +35,9 @@
     .error-target { color: #e11d48; background: #ffe4e6; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-decoration: underline wavy #f43f5e; }
     .blank-target { color: #0284c7; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; font-weight: 700; border-bottom: 2px solid #0284c7; }
 
-    /* Audio Speaker Button */
     .audio-btn { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
     .audio-btn:active { background: #e2e8f0; }
 
-    /* Inputs & Options */
     input[type="text"] { width: 100%; font-size: 16px; font-weight: 600; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; margin-bottom: 6px; }
     input[type="text"]:focus { outline: none; border-color: #7e22ce; box-shadow: 0 0 0 3px #f3e8ff; }
     
@@ -44,37 +47,30 @@
     .opt-btn.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 800; }
     .opt-btn.wrong { border-color: #f43f5e; background: #fff1f2; color: #9f1239; }
 
-    /* Action Buttons */
     .btn { width: 100%; color: #ffffff; font-weight: 700; font-size: 15px; padding: 14px; border: none; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
     .btn.spelling { background: #7e22ce; }
     .btn.cloze { background: #0284c7; }
     .btn.speed { background: #dc2626; }
     .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-    /* Mode Pill Switches */
     .sub-tabs { display: flex; gap: 4px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
     .tab-pill { flex: 1; min-width: 65px; padding: 6px 2px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; color: #64748b; cursor: pointer; text-align: center; white-space: nowrap; }
     .tab-pill.active.spelling { background: #7e22ce; color: #fff; border-color: #7e22ce; }
     .tab-pill.active.cloze { background: #0284c7; color: #fff; border-color: #0284c7; }
     .tab-pill.active.speed { background: #dc2626; color: #fff; border-color: #dc2626; }
 
-    /* Stats Grid */
     .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; text-align: center; }
     .stat-item { background: #ffffff; padding: 8px 4px; border-radius: 14px; border: 1px solid #f1f5f9; }
     .stat-val { font-size: 16px; font-weight: 800; }
     .stat-lbl { font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
 
-    /* Results */
     .result-box { padding: 13px; border-radius: 12px; font-size: 13px; line-height: 1.55; margin-top: 10px; }
     .result-correct { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
     .result-retry { background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; }
     .result-wrong { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; }
     .tip-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(0,0,0,0.1); font-size: 12px; }
-
-    /* Timer Pill */
     .timer-pill { display: inline-flex; align-items: center; gap: 4px; background: #fee2e2; color: #dc2626; font-weight: 800; font-size: 12px; padding: 3px 8px; border-radius: 10px; }
 
-    /* Print View Styles */
     @media print {
       body { background: #fff; color: #000; padding: 0; }
       .container { max-width: 100%; }
@@ -88,25 +84,23 @@
 <body>
   <div class="container">
     <div class="no-print">
-      <!-- 1. Top Portal Switcher -->
       <div class="app-switcher">
         <button id="swSpelling" class="app-btn active spelling" onclick="switchApp('spelling')">✍️ Editing & Spelling</button>
         <button id="swCloze" class="app-btn" onclick="switchApp('cloze')">📖 Cloze Top 300</button>
         <button id="swSpeed" class="app-btn" onclick="switchApp('speed')">⚡ Speed Trial</button>
       </div>
 
-      <!-- 2. Header Status & Tools -->
       <div class="tool-bar">
         <div style="display:flex; align-items:center; gap:6px;">
-          <span id="dateDisplay" style="font-size:11px; font-weight:700; background:#f1f5f9; color:#475569; padding:3px 8px; border-radius:10px;"></span>
+          <span id="cloudStatus" class="cloud-status cloud-local">🔒 连接中...</span>
           <span id="timerContainer" style="display:none;" class="timer-pill">⏱️ <span id="timerSec">45</span>s</span>
         </div>
         <div style="display:flex; gap:6px;">
-          <button onclick="openPrintModal()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">🖨️ Export Worksheet</button>
+          <button onclick="promptParentEdit()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">⚙️ 家长调分</button>
+          <button onclick="openPrintModal()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">🖨️ 导出</button>
         </div>
       </div>
 
-      <!-- 3. Dashboard Stats -->
       <div class="stats-row">
         <div class="stat-item"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">0</div></div>
         <div class="stat-item"><div class="stat-lbl">Mastered</div><div id="statMastered" class="stat-val" style="color:#059669;">0</div></div>
@@ -114,7 +108,6 @@
         <div class="stat-item"><div class="stat-lbl">Today's Qs</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
       </div>
 
-      <!-- 4. Sub Navigation Tabs -->
       <div class="sub-tabs">
         <button id="tabDaily" class="tab-pill active spelling" onclick="changeMode('daily')">Daily 20 Qs</button>
         <button id="tabReview" class="tab-pill" onclick="changeMode('review')">Review (<span id="revCount">0</span>)</button>
@@ -123,7 +116,6 @@
         <button id="tabHistory" class="tab-pill" onclick="changeMode('history')">History Log</button>
       </div>
 
-      <!-- 5. Question Card -->
       <div id="quizView" class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <div>
@@ -141,21 +133,17 @@
         <div style="font-size:11px; color:#64748b; font-weight:600;" id="qInstruction"></div>
         <div id="sentenceContainer" class="sentence-box"></div>
 
-        <!-- Spelling Input Area -->
         <div id="spellingInputArea" style="position:relative;">
           <input type="text" id="answerInput" placeholder="Type correct spelling..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         </div>
 
-        <!-- Cloze MCQ Area -->
         <div id="clozeOptionsArea" class="options-grid" style="display:none;"></div>
 
-        <!-- Cloze Open-ended Pro Input Area -->
         <div id="clozeProInputArea" style="display:none;">
           <div style="font-size:12px; color:#0369a1; font-weight:700; margin-bottom:4px;">Pro Open-ended Mode (Type exact word):</div>
           <input type="text" id="clozeProInput" placeholder="e.g. out, at, down..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         </div>
 
-        <!-- Hint Section -->
         <div style="display:flex; justify-content:space-between; align-items:center; margin: 4px 0 8px 0;">
           <span id="attemptTip" style="font-size:11px; color:#94a3b8; font-weight:600;">🔒 Hint unlocks on 2nd attempt</span>
           <button id="hintBtn" disabled onclick="toggleHint()" style="background:#f1f5f9; border:none; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:700; color:#94a3b8; cursor:not-allowed;">🔒 Hint (Locked)</button>
@@ -165,7 +153,6 @@
         <div id="resultContainer" style="display:none;" class="result-box"></div>
       </div>
 
-      <!-- 6. History Log View -->
       <div id="historyView" style="display:none;">
         <div class="card">
           <h3 style="margin-top:0; font-size:14px; font-weight:800; color:#0f172a; margin-bottom:10px;">📅 Real 1st-Attempt Accuracy Log</h3>
@@ -173,27 +160,44 @@
         </div>
       </div>
 
-      <!-- 7. Action Button -->
       <div id="btnContainer" style="margin-top:10px;">
         <button id="actionBtn" class="btn spelling" onclick="handleAction()">Check Answer (Attempt 1)</button>
       </div>
     </div>
 
-    <!-- Printable Worksheet Area -->
     <div id="printSheet" class="print-only">
       <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;">
         <h2 style="margin:0; font-size:18pt;">PSLE English Weak Words Revision Worksheet</h2>
         <p style="margin:4px 0 0 0; font-size:11pt;">Name: ____________________ Date: ________________ Score: ______ / ______</p>
       </div>
       <div id="printListContainer"></div>
-      <div style="margin-top:30px; font-size:10pt; color:#666; text-align:center;">
-        * Tip: Write neatly with pencil. Check capital letters and past-tense suffixes!
-      </div>
     </div>
   </div>
 
   <script>
-    // 1. SPELLING & EDITING DATABASE (80 Words - Fully Verified)
+    // 你的专属 Firebase 配置已注入
+    const firebaseConfig = {
+      apiKey: "AIzaSyC069kigwWahvR7nCzLbwRMTVpwr1qF30k",
+      authDomain: "psle-tracker-51fac.firebaseapp.com",
+      databaseURL: "https://psle-tracker-51fac-default-rtdb.firebaseio.com",
+      projectId: "psle-tracker-51fac",
+      storageBucket: "psle-tracker-51fac.firebasestorage.app",
+      messagingSenderId: "948024980257",
+      appId: "1:948024980257:web:401fa9eb51dce06d0a4460",
+      measurementId: "G-YRLW4PHNS4"
+    };
+
+    let dbRef = null;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      dbRef = firebase.database().ref('shared_student_data');
+      document.getElementById('cloudStatus').className = 'cloud-status cloud-live';
+      document.getElementById('cloudStatus').innerText = '☁️ 云端已同步';
+    } catch(e) {
+      document.getElementById('cloudStatus').className = 'cloud-status cloud-local';
+      document.getElementById('cloudStatus').innerText = '🔒 本地安全存储';
+    }
+
     const SPELLING_DB = [
       {"word": "accommodation", "cat": "Double Consonants", "sub": "Double 'c' & Double 'm'", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
       {"word": "admitted", "cat": "Double Consonants", "sub": "Double 't' in past tense", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window.", "feat": "Double 't': ad + mit + ted (CVC doubling rule before '-ed').", "tip": "Short vowel /ɪ/ before 't' means double the 't' before adding '-ed'."},
@@ -230,7 +234,7 @@
       {"word": "absence", "cat": "Vowel & Silent Traps", "sub": "'-ence' ending", "src": "P5 Editing Core", "sent": "During the monitor's [absense], Keith was appointed to maintain classroom discipline.", "feat": "Spelt with 'c', ending in '-ence': ab + sence.", "tip": "Remember 'absence' ends with 'ce', NOT 'se'!"},
       {"word": "achieve", "cat": "Vowel & Silent Traps", "sub": "'-ie-' rule", "src": "P5 Vocabulary Core", "sent": "With perseverance and determination, you will surely [acheive] your goals.", "feat": "'i' before 'e': a + chieve.", "tip": "Classic rule: 'i' before 'e' except after 'c'."},
       {"word": "acquaintance", "cat": "Vowel & Silent Traps", "sub": "'cqu' & '-ance'", "src": "P5 High-Frequency Trap", "sent": "He is not an intimate friend, but merely a casual [aquaintance] from my art class.", "feat": "'c' before 'q', '-ain-', ending in '-ance': ac + quaint + ance.", "tip": "Don't omit the 'c' before 'q': 'ac-quaint-ance'."},
-      {"word": "acquire", "cat": "Vowel & Silent Traps", "sub": "'cqu' combination", "src": "PSLE High-Frequency", "sent": "Reading widely is an effective method to [aquire] new vocabulary.", "feat": "'c' followed by 'qu': ac + quire.", "tip": "Remember the silent 'c' before 'qu' ('ac-acquire')."},
+      {"word": "acquire", "cat": "Vowel & Silent Traps", "sub": "'cqu' combination", "src": "PSLE High-Frequency", "sent": "Reading widely is an effective method to [aquire] new vocabulary.", "feat": "'c' followed by 'qu': ac + quire.", "tip": "Remember the silent 'c' before 'qu' ('ac-quire')."},
       {"word": "answer", "cat": "Vowel & Silent Traps", "sub": "Silent 'w'", "src": "P5 Spelling Core", "sent": "The pupil raised his hand eagerly to [anser] the challenging riddle.", "feat": "Silent 'w': an + swer.", "tip": "Pronounced /'ɑ:n.sə/, but the silent 'w' must be written."},
       {"word": "column", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "P5 Editing Core", "sent": "Please write the names of the participants in the first [colum] of the table.", "feat": "Silent 'n' at the end: col + umn.", "tip": "Final 'n' is silent, but you can hear it in 'columnist'!"},
       {"word": "conscious", "cat": "Vowel & Silent Traps", "sub": "'sc' & '-ious'", "src": "Top Primary Schools Editing *", "sent": "He was barely [conshus] of the noisy crowd as he focused on the chessboard.", "feat": "Contains 'sc' and '-ious': con + sci + ous.", "tip": "Break into: con + sci (like science) + ous."},
@@ -272,12 +276,11 @@
       {"word": "compatibility", "cat": "Word Form Overlaps", "sub": "Compatible -> Compatibility", "src": "2024 Ai Tong P5 EOY *", "sent": "The technicians tested the new printer for system [compatible] with school laptops.", "feat": "Noun from adjective 'compatible': com + pat + i + bil + i + ty.", "tip": "Noun form ends in '-ibility': 'compatibility'."},
       {"word": "responsibility", "cat": "Word Form Overlaps", "sub": "Responsible -> Responsibility", "src": "P5 Word Form Core", "sent": "As class chairperson, Kenneth took full [responsible] for organizing the clean-up.", "feat": "Noun from adjective 'responsible': re + spon + si + bil + i + ty.", "tip": "Verb 'took' + adjective 'full' modifies NOUN -> 'responsibility'."},
       {"word": "announcement", "cat": "Word Form Overlaps", "sub": "Announce (v.) -> Announcement (n.)", "src": "P5 Word Form Core", "sent": "The vice-principal made an important [announce] regarding the upcoming sports meet.", "feat": "Noun suffix '-ment': an + nounce + ment.", "tip": "Articles 'an' + adjective 'important' modify noun -> 'announcement'."},
-      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> Hesitation (n.)", "src": "P5 Word Form Core", "sent": "Without a moment's [hesitate], the brave bystander jumped into the canal to help.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "\"A moment's\" must be followed by a noun -> 'hesitation'."},
+      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> " + "Hesitation", "src": "P5 Word Form Core", "sent": "Without a moment's [hesitate], the brave bystander jumped into the canal to help.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "\"A moment's\" must be followed by a noun -> 'hesitation'."},
       {"word": "convenience", "cat": "Word Form Overlaps", "sub": "Convenient -> Convenience", "src": "P5 Word Form Core", "sent": "For the [convenient] of elderly residents, ramps were installed at every block.", "feat": "Noun form ends in '-ce': con + ven + i + ence.", "tip": "'For the convenience of someone' uses the noun."},
       {"word": "permission", "cat": "Word Form Overlaps", "sub": "Permit (v.) -> Permission (n.)", "src": "P4/P5 WA2 Cloze & Word Form *", "sent": "Pupils must seek written [permit] from their parents before joining the excursion.", "feat": "Double 's' in noun: per + mis + sion.", "tip": "Adjective 'written' modifies abstract noun -> 'permission'."}
     ];
 
-    // 2. CLOZE DATABASE
     const CLOZE_DB = [
       { id: "c01", phrase: "aim at", cat: "Preposition", sent: "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", correct: "at", options: ["at", "to", "for", "with"], meaning: "To intend to achieve something.", clue: "Verb 'aim' followed by gerund (-ing): 'aim at + V-ing'.", exp: "'Aim at' means intending to achieve something when followed by a gerund." },
       { id: "c02", phrase: "arrive at", cat: "Collocation", sent: "After a heated debate, the panel finally arrived [ ______ ] a unanimous decision.", correct: "at", options: ["at", "to", "in", "on"], meaning: "To reach a conclusion or decision.", clue: "Collocation: 'arrive ___ a decision'.", exp: "In PSLE Cloze, we say 'arrive at a decision' or 'arrive at a conclusion'." },
@@ -301,61 +304,91 @@
       { id: "c20", phrase: "put out", cat: "Phrasal Verb", sent: "Brave firefighters battled the blaze for hours before putting [ ______ ] the fire.", correct: "out", options: ["out", "off", "down", "up"], meaning: "To extinguish fire.", clue: "Extinguishing a flame or fire.", exp: "'Put out' means to extinguish. 'Put off' means postpone; 'put up with' means tolerate." }
     ];
 
-    // State Variables
     let activeApp = 'spelling'; 
     let currentMode = 'daily';
     let currentIdx = 0;
     let selectedClozeOpt = null;
     let clozeFormat = 'mcq';
-    
     let attemptNum = 1;
     let hasFinalSubmitted = false;
-
+    let sessionList = [];
+    let currentQuestion = null;
     let timerInterval = null;
     let timeLeft = 45;
 
-    // Stable Session List & Current Question Pointer (Fixes Hint Jump Bug)
-    let sessionList = [];
-    let currentQuestion = null;
+    const todayStr = new Date().toISOString().split('T')[0];
 
-    function getStoreKey() { 
-      if (activeApp === 'speed') return 'portal_speed_v4';
-      return activeApp === 'spelling' ? 'portal_spelling_v4' : 'portal_cloze_v4'; 
-    }
-
-    function loadStore() {
-      const key = getStoreKey();
-      let s = JSON.parse(localStorage.getItem(key) || '{}');
-      
-      // Auto-migrate from previous versions (v2/v3) so child never loses stars or progress
+    function loadInitialStore() {
+      let s = JSON.parse(localStorage.getItem('portal_spelling_v4') || '{}');
       if (!s.stars) {
-        ['portal_spelling_v3', 'portal_cloze_v3', 'portal_spelling_v2'].forEach(oldKey => {
+        ['portal_spelling_v3', 'portal_cloze_v3', 'portal_spelling_v2'].forEach(k => {
           try {
-            const oldData = JSON.parse(localStorage.getItem(oldKey) || '{}');
-            if (oldData.stars && oldData.stars > (s.stars || 0)) {
-              s.stars = oldData.stars;
-              if (oldData.mastered) s.mastered = [...new Set([...(s.mastered||[]), ...oldData.mastered])];
-              if (oldData.inReview) s.inReview = [...new Set([...(s.inReview||[]), ...oldData.inReview])];
-              if (oldData.progress) s.progress = Object.assign({}, oldData.progress, s.progress||{});
+            const old = JSON.parse(localStorage.getItem(k) || '{}');
+            if (old.stars && old.stars > (s.stars || 0)) {
+              s.stars = old.stars;
+              if (old.mastered) s.mastered = old.mastered;
+              if (old.inReview) s.inReview = old.inReview;
+              if (old.progress) s.progress = old.progress;
             }
           } catch(e) {}
         });
       }
-
-      if (!s.mastered) s.mastered = [];
-      if (!s.inReview) s.inReview = [];
-      if (!s.progress) s.progress = {};
-      if (!s.dailyLogs) s.dailyLogs = {};
-      if (s.stars === undefined) s.stars = 0;
-      if (!s.lastDate) s.lastDate = new Date().toISOString().split('T')[0];
-      return s;
+      return {
+        stars: s.stars || 0,
+        mastered: s.mastered || [],
+        inReview: s.inReview || [],
+        progress: s.progress || {},
+        dailyLogs: s.dailyLogs || {}
+      };
     }
 
-    const todayStr = new Date().toISOString().split('T')[0];
-    let store = loadStore();
+    let store = loadInitialStore();
 
-    function saveStore() {
-      localStorage.setItem(getStoreKey(), JSON.stringify(store));
+    if (dbRef) {
+      dbRef.on('value', (snapshot) => {
+        const val = snapshot.val();
+        if (val) {
+          store.stars = val.stars !== undefined ? val.stars : store.stars;
+          store.mastered = val.mastered || [];
+          store.inReview = val.inReview || [];
+          store.progress = val.progress || {};
+          store.dailyLogs = val.dailyLogs || {};
+          saveToLocalStorage();
+          updateStats();
+        }
+      });
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem('portal_spelling_v4', JSON.stringify(store));
+    }
+
+    function syncStore() {
+      saveToLocalStorage();
+      if (dbRef) {
+        dbRef.set({
+          stars: store.stars,
+          mastered: store.mastered,
+          inReview: store.inReview,
+          progress: store.progress,
+          dailyLogs: store.dailyLogs
+        });
+      }
+    }
+
+    function promptParentEdit() {
+      const pwd = prompt("请输入家长管理密码：", "");
+      if (pwd === "1234") {
+        const val = prompt(`当前云端星星总数：${store.stars} ⭐\n请输入修改后的新星星数：`, store.stars);
+        if (val !== null && !isNaN(val)) {
+          store.stars = parseInt(val, 10);
+          syncStore();
+          updateStats();
+          alert("星星已同步至所有设备！");
+        }
+      } else if (pwd !== null) {
+        alert("密码错误！");
+      }
     }
 
     function getDB() { 
@@ -363,7 +396,6 @@
       return activeApp === 'spelling' ? SPELLING_DB : CLOZE_DB; 
     }
 
-    // Build static list for current session - prevents re-indexing during active questions
     function buildSessionList() {
       const db = getDB();
       const idKey = (activeApp === 'spelling') ? 'word' : 'id';
@@ -399,9 +431,7 @@
     }
 
     function getActiveList() {
-      if (!sessionList || sessionList.length === 0) {
-        buildSessionList();
-      }
+      if (!sessionList || sessionList.length === 0) buildSessionList();
       return sessionList;
     }
 
@@ -410,19 +440,13 @@
       activeApp = app;
       currentMode = 'daily';
       currentIdx = 0;
-      store = loadStore();
-
       ['swSpelling', 'swCloze', 'swSpeed'].forEach(id => {
         document.getElementById(id).className = 'app-btn';
       });
       document.getElementById('sw' + capitalize(app)).className = 'app-btn active ' + app;
-      
-      const actionBtn = document.getElementById('actionBtn');
-      actionBtn.className = 'btn ' + app;
-
+      document.getElementById('actionBtn').className = 'btn ' + app;
       document.getElementById('tabFormat').style.display = (app === 'cloze') ? 'block' : 'none';
       document.getElementById('timerContainer').style.display = (app === 'speed') ? 'inline-flex' : 'none';
-
       buildSessionList();
       updateTabStyles();
       changeMode('daily');
@@ -443,6 +467,7 @@
     }
 
     function changeMode(mode) {
+      clearInterval(timerInterval);
       currentMode = mode;
       currentIdx = 0;
       buildSessionList();
@@ -484,7 +509,6 @@
       document.getElementById('qCategory').innerText = q.cat;
       document.getElementById('qSource').innerText = isSpellingItem ? q.src : ("Target: " + q.phrase);
       document.getElementById('qIndex').innerText = (currentIdx + 1) + " / " + list.length;
-      document.getElementById('dateDisplay').innerText = todayStr;
 
       document.getElementById('qInstruction').innerText = isSpellingItem 
         ? "Identify and correct the bracketed error (Watch Capital letters & Tense!):" 
@@ -497,7 +521,6 @@
             : q.sent.replace(/\[\s*______\s*\]/, `<span class="blank-target">[ ${q.correct.charAt(0)}______ ]</span>`));
       
       document.getElementById('sentenceContainer').innerHTML = formatted;
-
       updateAttemptUI();
 
       const hintBtn = document.getElementById('hintBtn');
@@ -632,7 +655,6 @@
       if (!window.speechSynthesis) return;
       const q = currentQuestion || getActiveList()[currentIdx];
       const textToSpeak = q.sent.replace(/\[.*?\]/, (q.word || q.correct));
-      
       const utter = new SpeechSynthesisUtterance(textToSpeak);
       utter.lang = 'en-GB';
       utter.rate = 0.9;
@@ -645,16 +667,14 @@
       document.getElementById('statMastered').innerText = store.mastered.length;
       document.getElementById('statReview').innerText = store.inReview.length;
       document.getElementById('revCount').innerText = store.inReview.length;
-      
       const todayLog = store.dailyLogs[todayStr] || { done: 0, firstTryCorrect: 0 };
       document.getElementById('statDone').innerText = todayLog.done + "/20";
-      saveStore();
     }
 
     function checkCapitalisationTrap(q, rawInput) {
       if (!q.sent.startsWith('[')) return null;
       if (rawInput.length > 0 && rawInput.charAt(0) !== rawInput.charAt(0).toUpperCase()) {
-        return "⚠️ Capital Letter Alert: In PSLE, words at the beginning of a sentence MUST start with a Capital Letter!";
+        return "⚠️ Capital Letter Alert: Words at the beginning of a sentence MUST start with a Capital Letter!";
       }
       return null;
     }
@@ -738,8 +758,7 @@
 
           resBox.className = 'result-box result-retry';
           resBox.style.display = 'block';
-          resBox.innerHTML = `<strong>⚠️ Not quite right! Hint Unlocked 💡</strong><br>
-            Read the rule/clue above and make your <strong>Attempt 2</strong>!`;
+          resBox.innerHTML = `<strong>⚠️ Not quite right! Hint Unlocked 💡</strong><br>Read the clue above and make your <strong>Attempt 2</strong>!`;
 
           if (isSpellingItem) {
             document.getElementById('answerInput').value = '';
@@ -750,6 +769,7 @@
           }
           actionBtn.innerText = 'Check Answer (Attempt 2)';
         }
+        syncStore();
         updateStats();
         return;
       }
@@ -769,7 +789,6 @@
           resBox.style.display = 'block';
           resBox.innerHTML = `<strong>✅ Good recovery on Attempt 2! (+1 ⭐)</strong><br>
             ${capWarning ? `<div style="color:#c2410c; font-weight:700; margin:4px 0;">${capWarning}</div>` : ''}
-            <span style="font-size:11px; color:#065f46;">Target to get it on 1st attempt next time!</span>
             <div class="tip-section">
               ${isSpellingItem ? `<strong>🔤 Structure:</strong> ${q.feat}<br><strong>💡 Tip:</strong> ${q.tip}` : `<strong>📖 Meaning:</strong> ${q.meaning}<br><strong>🔍 Analysis:</strong> ${q.exp}`}
             </div>`;
@@ -791,28 +810,25 @@
             </div>`;
         }
 
+        syncStore();
         updateStats();
         actionBtn.innerText = 'Next Question →';
       }
     }
 
     function revealCorrectUI(isSpellingItem, q) {
-      if (isSpellingItem) {
-        document.getElementById('answerInput').disabled = true;
-      } else if (clozeFormat === 'mcq') {
+      if (isSpellingItem) document.getElementById('answerInput').disabled = true;
+      else if (clozeFormat === 'mcq') {
         q.options.forEach((o, i) => {
           const el = document.getElementById('opt_' + i);
           if (el && o.toLowerCase() === q.correct.toLowerCase()) el.className = 'opt-btn correct';
         });
-      } else {
-        document.getElementById('clozeProInput').disabled = true;
-      }
+      } else document.getElementById('clozeProInput').disabled = true;
     }
 
     function revealWrongUI(isSpellingItem, q, userAns) {
-      if (isSpellingItem) {
-        document.getElementById('answerInput').disabled = true;
-      } else if (clozeFormat === 'mcq') {
+      if (isSpellingItem) document.getElementById('answerInput').disabled = true;
+      else if (clozeFormat === 'mcq') {
         q.options.forEach((o, i) => {
           const el = document.getElementById('opt_' + i);
           if (el) {
@@ -821,9 +837,7 @@
             else if (o.toLowerCase() === userAns.toLowerCase()) el.className = 'opt-btn wrong';
           }
         });
-      } else {
-        document.getElementById('clozeProInput').disabled = true;
-      }
+      } else document.getElementById('clozeProInput').disabled = true;
     }
 
     function openPrintModal() {
@@ -851,7 +865,7 @@
       const container = document.getElementById('historyListContainer');
       const dates = Object.keys(store.dailyLogs).sort().reverse();
       if (dates.length === 0) {
-        container.innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center;">No practice records yet. Start today!</p>';
+        container.innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center;">No practice records yet.</p>';
         return;
       }
       let html = '';
@@ -861,25 +875,18 @@
         html += `<div class="history-card" style="display:flex; justify-content:space-between; align-items:center; background:#fff; border-radius:12px; padding:10px 12px; border:1px solid #f1f5f9; margin-bottom:6px;">
           <div>
             <strong style="color:#0f172a; font-size:13px;">${d}</strong>
-            <div style="color:#64748b; font-size:11px; margin-top:2px;">
-              Finished: <strong>${log.done}</strong> Qs | 1st-Try Correct: <strong>${log.firstTryCorrect}</strong>
-            </div>
+            <div style="color:#64748b; font-size:11px; margin-top:2px;">Finished: <strong>${log.done}</strong> Qs | 1st-Try: <strong>${log.firstTryCorrect}</strong></div>
           </div>
           <div style="text-align:right;">
             <span style="font-size:15px; font-weight:800; color:${acc >= 80 ? '#059669' : '#d97706'};">${acc}%</span>
-            <div style="font-size:10px; color:#94a3b8;">1st-Try Acc</div>
           </div>
         </div>`;
       });
       container.innerHTML = html;
     }
 
-    document.getElementById('answerInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') handleAction();
-    });
-    document.getElementById('clozeProInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') handleAction();
-    });
+    document.getElementById('answerInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleAction(); });
+    document.getElementById('clozeProInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleAction(); });
 
     renderQuestion();
   </script>
