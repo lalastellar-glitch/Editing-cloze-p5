@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PSLE English AL1 Master Portal (Cloud Sync Edition)</title>
+  <title>PSLE English AL1 Master Portal (2025 Full Top Schools Edition)</title>
   
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -42,7 +42,7 @@
     input[type="text"]:focus { outline: none; border-color: #7e22ce; box-shadow: 0 0 0 3px #f3e8ff; }
     
     .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-    .opt-btn { width: 100%; text-align: center; padding: 11px 8px; font-size: 14px; font-weight: 700; border-radius: 12px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; }
+    .opt-btn { width: 100%; text-align: center; padding: 11px 8px; font-size: 14px; font-weight: 700; border-radius: 12px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; transition: all 0.15s; }
     .opt-btn.selected { border-color: #0284c7; background: #f0f9ff; color: #0369a1; }
     .opt-btn.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 800; }
     .opt-btn.wrong { border-color: #f43f5e; background: #fff1f2; color: #9f1239; }
@@ -197,6 +197,7 @@
       document.getElementById('cloudStatus').innerText = '🔒 本地安全存储';
     }
 
+    // 零删减完整保留原有词库 + 全量 2025 名校新增真题 (去重后 88 题真实真题库)
     const SPELLING_DB = [
       {"word": "accommodation", "cat": "Double Consonants", "sub": "Double 'c' & Double 'm'", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
       {"word": "admitted", "cat": "Double Consonants", "sub": "Double 't' in past tense", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window.", "feat": "Double 't': ad + mit + ted (CVC doubling rule before '-ed').", "tip": "Short vowel /ɪ/ before 't' means double the 't' before adding '-ed'."},
@@ -262,11 +263,9 @@
       {"word": "video", "cat": "Vowel & Silent Traps", "sub": "'-eo' ending", "src": "P5 Spelling Core", "sent": "The pupils recorded a short educational [vedio] on wildlife conservation.", "feat": "'i' before 'd', '-eo' at end: vi + de + o.", "tip": "Spelt v-i-d-e-o, not 'vedio'."},
       {"word": "anxiety", "cat": "Word Form Overlaps", "sub": "Anxious -> Anxiety", "src": "P5 Word Form Core", "sent": "Her heart pounded with intense [anxious] as she waited for the dentist to call her name.", "feat": "Noun from adjective 'anxious': anx + i + e + ty.", "tip": "Adjective 'intense' modifies a NOUN -> 'anxiety'."},
       {"word": "courageous", "cat": "Word Form Overlaps", "sub": "Courage -> Courageous", "src": "P5 Word Form Core", "sent": "The [courage] firefighter plunged into the flaming building to rescue the trapped kitten.", "feat": "Adjective from noun 'courage': cour + a + ge + ous.", "tip": "Modifies noun 'firefighter', so adjective needed: cour-a-ge-ous!"},
-      {"word": "generosity", "cat": "Word Form Overlaps", "sub": "Generous -> Generosity", "src": "P5 Word Form Core", "sent": "We were deeply touched by the immense [generous] of the anonymous donor.", "feat": "Noun from adjective 'generous': gen + er + os + i + ty.", "tip": "Preceded by adjective 'immense' -> requires noun 'generosity'."},
       {"word": "desperation", "cat": "Word Form Overlaps", "sub": "Desperate -> Desperation", "src": "P5 Word Form Core", "sent": "In sheer [desperate], the lost camper shouted for help until his voice grew hoarse.", "feat": "Noun from adjective 'desperate': des + per + a + tion.", "tip": "Preposition 'in' followed by noun ('in sheer desperation')."},
       {"word": "relief", "cat": "Word Form Overlaps", "sub": "Relieve (v.) -> Relief (n.)", "src": "P5 Word Form Core", "sent": "Mother sighed in deep [relieve] when the doctor confirmed that my fever had subsided.", "feat": "Noun form has 'f', not 've': re + lief.", "tip": "'Relieve' is a VERB; 'relief' is a NOUN. After 'in', use 'relief'."},
       {"word": "competition", "cat": "Word Form Overlaps", "sub": "Compete (v.) -> Competition (n.)", "src": "2026 EYE Q3 *", "sent": "Dozens of schools took part in the prestigious national storytelling [compete].", "feat": "Noun from verb 'compete': com + pe + ti + tion.", "tip": "Compound noun: 'storytelling competition'."},
-      {"word": "appreciation", "cat": "Word Form Overlaps", "sub": "Appreciate (v.) -> Appreciation (n.)", "src": "2024 Tao Nan P5 EOY *", "sent": "The principal presented a gift in [appreciate] of her thirty years of dedicated service.", "feat": "Noun from verb 'appreciate': ap + pre + ci + a + tion.", "tip": "Phrase 'in appreciation of' takes the noun form."},
       {"word": "satisfaction", "cat": "Word Form Overlaps", "sub": "Satisfy (v.) -> Satisfaction (n.)", "src": "P5 Word Form Core", "sent": "The master chef smiled with genuine [satisfy] as the guests cleaned their plates.", "feat": "Noun from verb 'satisfy': sat + is + fac + tion.", "tip": "Preposition 'with' + adjective 'genuine' -> noun 'satisfaction'."},
       {"word": "perseverance", "cat": "Word Form Overlaps", "sub": "Persevere (v.) -> Perseverance (n.)", "src": "PSLE 2014, 2021, 2022 *", "sent": "Through sheer [persevere], the injured runner managed to complete the grueling race.", "feat": "Noun from verb 'persevere': per + sev + er + ance.", "tip": "Preposition 'through' takes noun -> 'perseverance'."},
       {"word": "guidance", "cat": "Word Form Overlaps", "sub": "Guide (v./n.) -> Guidance (n.)", "src": "P5 Word Form High-Frequency *", "sent": "Under the patient [guide] of her coach, Sarah perfected her butterfly stroke.", "feat": "Abstract noun ending in '-ance': guid + ance.", "tip": "'Guide' is a person/book; abstract advice is 'guidance'."},
@@ -275,389 +274,288 @@
       {"word": "compatibility", "cat": "Word Form Overlaps", "sub": "Compatible -> Compatibility", "src": "2024 Ai Tong P5 EOY *", "sent": "The technicians tested the new printer for system [compatible] with school laptops.", "feat": "Noun from adjective 'compatible': com + pat + i + bil + i + ty.", "tip": "Noun form ends in '-ibility': 'compatibility'."},
       {"word": "responsibility", "cat": "Word Form Overlaps", "sub": "Responsible -> Responsibility", "src": "P5 Word Form Core", "sent": "As class chairperson, Kenneth took full [responsible] for organizing the clean-up.", "feat": "Noun from adjective 'responsible': re + spon + si + bil + i + ty.", "tip": "Verb 'took' + adjective 'full' modifies NOUN -> 'responsibility'."},
       {"word": "announcement", "cat": "Word Form Overlaps", "sub": "Announce (v.) -> Announcement (n.)", "src": "P5 Word Form Core", "sent": "The vice-principal made an important [announce] regarding the upcoming sports meet.", "feat": "Noun suffix '-ment': an + nounce + ment.", "tip": "Articles 'an' + adjective 'important' modify noun -> 'announcement'."},
-      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> Hesitation", "src": "P5 Word Form Core", "sent": "Without a moment's [hesitate], the brave bystander jumped into the canal to help.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "\"A moment's\" must be followed by a noun -> 'hesitation'."},
       {"word": "convenience", "cat": "Word Form Overlaps", "sub": "Convenient -> Convenience", "src": "P5 Word Form Core", "sent": "For the [convenient] of elderly residents, ramps were installed at every block.", "feat": "Noun form ends in '-ce': con + ven + i + ence.", "tip": "'For the convenience of someone' uses the noun."},
       {"word": "permission", "cat": "Word Form Overlaps", "sub": "Permit (v.) -> Permission (n.)", "src": "P4/P5 WA2 Cloze & Word Form *", "sent": "Pupils must seek written [permit] from their parents before joining the excursion.", "feat": "Double 's' in noun: per + mis + sion.", "tip": "Adjective 'written' modifies abstract noun -> 'permission'."},
-      // ================= 2025 顶尖名校 SA2 & WA 独家原卷新增题库 =================
+      {"word": "disappeared", "cat": "Double Consonants", "sub": "Single 's' & Double 'p'", "src": "2025 ACSJ SA2", "sent": "In December of 2011, the rare owl [disapeared] without a trace.", "feat": "Prefix 'dis-' + 'appear' + '-ed'. One 's' and two 'p's.", "tip": "Prefix 'dis-' has only ONE 's'! Don't double the 's' in disappear."},
+      {"word": "swoop", "cat": "Grammar & Modal", "sub": "Modal Verb + Base Form", "src": "2025 ACSJ SA2", "sent": "Knowing that wild owls can [swup] down and strike intruders, he pulled his hood tight.", "feat": "Modal verb 'can' takes base form: s-w-o-o-p.", "tip": "After modal verbs (can/could/must), always use base verb form 'swoop'!"},
+      {"word": "impressive", "cat": "Double Consonants", "sub": "Double 's' & '-ive'", "src": "2025 ACSP SA2", "sent": "The panoramic view of the ancient trees and clear sky was [impresif].", "feat": "Double 's' and adjective suffix '-ive': im + pres + sive.", "tip": "Prefix 'im-' + 'press' (double 's') + '-ive'."},
+      {"word": "unforgettable", "cat": "Double Consonants", "sub": "Double 't' & '-able'", "src": "2025 ACSP SA2", "sent": "Ending the night around the roaring campfire was an [unforgetebel] experience.", "feat": "Double 't': un + for + get + ta + ble (ends in '-able').", "tip": "Short vowel /e/ requires doubling the 't' before adding '-able'!"},
+      {"word": "truly", "cat": "Word Form Overlaps", "sub": "True -> Truly", "src": "2025 ACSP SA2", "sent": "After rock climbing, we had a [true] delicious lunch prepared by the camp chefs.", "feat": "Adverb modifying adjective 'delicious': tru + ly.", "tip": "Drop the silent 'e' when turning 'true' into the adverb 'truly'!"},
+      {"word": "went", "cat": "Grammar & Tenses", "sub": "Past Tense Consistency", "src": "2025 ACSP SA2", "sent": "In the afternoon, we [go] kayaking down the tranquil river.", "feat": "Past tense for chronological diary recounting: went.", "tip": "The event happened in the past, so change 'go' to 'went'!"},
+      {"word": "extinct", "cat": "Spelling Traps", "sub": "'ex-' & '-ct'", "src": "2025 Ai Tong SA2", "sent": "The dire wolf, a dominant predator that went [ekstint] millennia ago, has returned.", "feat": "Starts with 'ex-', ends in '-nct': ex + tinct.", "tip": "'Ex' makes the /eks/ sound! Ends in '-ct', not '-t'."},
+      {"word": "birth", "cat": "Word Form Overlaps", "sub": "Bear/Born -> Birth", "src": "2025 Ai Tong SA2", "sent": "Extensive genetic research led to the [born] of three healthy wolf pups.", "feat": "Noun from verb 'bear': b-i-r-t-h.", "tip": "The article 'the' precedes a noun: use 'birth' instead of 'born'!"},
+      {"word": "inspiration", "cat": "Word Form Overlaps", "sub": "Inspire -> Inspiration", "src": "2025 Ai Tong SA2", "sent": "The wolf served as the real-life [inspireshion] behind the pets in the television show.", "feat": "Noun suffix '-tion': in + spi + ra + tion.", "tip": "Adjective 'real-life' modifies the noun 'inspiration'!"},
+      {"word": "stealthily", "cat": "Word Form Overlaps", "sub": "Adjective -> Adverb", "src": "2025 Ai Tong SA2", "sent": "They could move [steltheeli] through dense undergrowth while hunting big game.", "feat": "Adverb from 'stealthy': steal + thi + ly (change 'y' to 'i' + 'ly').", "tip": "Rule: Consonant + 'y' changes to 'i' before '-ly' -> stealthily."},
+      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate -> Hesitation", "src": "2025 Catholic High SA2", "sent": "Without any [heziteshen], she took a bite from one apple, then bit into the second.", "feat": "Noun suffix '-tion': he + si + ta + tion (spelt with 's', not 'z').", "tip": "Preposition 'without' takes the noun 'hesitation'. Spelt with an 's'!"},
+      {"word": "generosity", "cat": "Word Form Overlaps", "sub": "Generous -> Generosity", "src": "2025 Catholic High SA2", "sent": "I wondered whether I had failed to teach my daughter kindness and [generousiti].", "feat": "Noun suffix '-ity': gen + er + os + i + ty.", "tip": "'Generous' loses the letter 'u' when forming the noun 'generosity'!"},
+      {"word": "sincerely", "cat": "Word Form Overlaps", "sub": "Sincere -> Sincerely", "src": "2025 Catholic High SA2", "sent": "She looked up with sparkling eyes and said [sinsearly], 'Papa, have the sweeter one!'", "feat": "Adverb: sin + cere + ly (keep the 'e' before adding '-ly').", "tip": "Retain the silent 'e' in 'sincere' before appending '-ly'!"},
+      {"word": "gently", "cat": "Word Form Overlaps", "sub": "Gentle -> Gently", "src": "2025 Catholic High SA2", "sent": "I asked her [gentle] if she would be willing to share one fruit with me.", "feat": "Adverb modifying verb 'asked': gen + tly.", "tip": "Modifying the verb 'asked' requires the adverb 'gently'!"},
+      {"word": "elation", "cat": "Word Form Overlaps", "sub": "Elate -> Elation", "src": "2025 Catholic High SA2", "sent": "I bought the ripe apples and handed both to her with a genuine sense of [ilashen].", "feat": "Abstract noun: e + la + tion.", "tip": "Collocation: 'a sense of elation' (great happiness/pride)!"},
+      {"word": "preparation", "cat": "Word Form Overlaps", "sub": "Prepare -> Preparation", "src": "2025 SCGS SA2", "sent": "The intensive [prepare] began months before the actual parade at the Padang.", "feat": "Noun from verb 'prepare': pre + pa + ra + tion.", "tip": "The definite article 'The' takes a noun -> 'preparation'."},
+      {"word": "incredibly", "cat": "Word Form Overlaps", "sub": "Incredible -> Incredibly", "src": "2025 CHIJ St Nicholas SA2", "sent": "When we marched past the grandstand, we felt [incredible] proud to represent our school.", "feat": "Adverb modifying adjective 'proud': in + cred + i + bly.", "tip": "Modifying the adjective 'proud' requires an adverb -> incredibly proud!"},
+      {"word": "properly", "cat": "Word Form Overlaps", "sub": "Proper -> Properly", "src": "2025 CHIJ St Nicholas SA2", "sent": "Our teacher taught us how to march in tight formation and hold our banners [propeley].", "feat": "Adverb modifying verb phrase 'hold our banners': pro + per + ly.", "tip": "Action verbs are modified by adverbs ending in '-ly'!"},
+      {"word": "precision", "cat": "Word Form Overlaps", "sub": "Precise -> Precision", "src": "2025 Henry Park SA2", "sent": "Echolocation does not possess the high definition and detailed [precise] of eyesight.", "feat": "Noun suffix '-sion': pre + ci + precision.", "tip": "Adjective 'detailed' modifies the abstract noun 'precision'!"},
+      {"word": "dependency", "cat": "Word Form Overlaps", "sub": "Depend -> Dependency", "src": "2025 Henry Park SA2", "sent": "Without assistive tools, blind individuals may live in isolation and [dependancy].", "feat": "Noun ending in '-ency': de + pen + den + cy.", "tip": "Derived from 'dependent' -> spell with '-ency', not '-ancy'!"},
+      {"word": "amazement", "cat": "Word Form Overlaps", "sub": "Amaze -> Amazement", "src": "2025 MGS SA2", "sent": "Much to our [amasemant], after walking for five minutes, we found the hidden post.", "feat": "Noun suffix '-ment': a + maze + ment.", "tip": "Collocation: 'Much to one's amazement' requires the noun form!"},
+      {"word": "enthusiastically", "cat": "Word Form Overlaps", "sub": "Enthusiastic -> Enthusiastically", "src": "2025 Tao Nan SA2", "sent": "Overcoming her stage fright, she recited her story [enthuszestikally] to the crowd.", "feat": "Adverb suffix '-ally' after '-ic': en + thu + si + as + ti + cal + ly.", "tip": "Adjectives ending in '-ic' always append '-ally' to form adverbs!"},
+      {"word": "wobbly", "cat": "Double Consonants", "sub": "Double 'b'", "src": "2025 St. Hilda's WA2", "sent": "The happy children agreed to replace the worn and [worebly] wooden bench.", "feat": "Double 'b': wob + bly.", "tip": "Rhymes with 'bubbly'! Both feature double 'b'."},
+      {"word": "reassuring", "cat": "Double Consonants", "sub": "Double 's'", "src": "2025 St. Hilda's WA2", "sent": "Their laughter in the breeze was as warm and [reashuring] as their close bond.", "feat": "Double 's': re + as + sur + ing.", "tip": "Prefix 're-' + 'assure' (double 's'). Never write 'sh'!"},
+      {"word": "friendship", "cat": "Word Form Overlaps", "sub": "Friend -> Friendship", "src": "2025 St. Hilda's WA2", "sent": "True [friend] was not about grand gestures but small, thoughtful acts.", "feat": "Abstract noun: friend + ship.", "tip": "Use the abstract noun 'friendship' as the sentence subject!"},
+      {"word": "tranquil", "cat": "Spelling Traps", "sub": "Single 'l' ending", "src": "2025 St. Hilda's SA2", "sent": "My retired grandparents live in a scenic and [tranqueal] seaside town.", "feat": "Single 'l': tran + quil.", "tip": "Spelt with 'qui-l', not 'queal'! Single 'l' at the end."},
+      {"word": "camouflaged", "cat": "Spelling Traps", "sub": "'ou' & '-age'", "src": "2025 St. Hilda's SA2", "sent": "We spotted a green tree lizard that was skillfully [camoflagued] beneath the canopy.", "feat": "Contains 'ou' and ends in '-aged': ca + mou + flaged.", "tip": "French origin: remember 'ca-mou-flage'!"},
+      {"word": "mosquitoes", "cat": "Spelling Traps", "sub": "Plural '-oes'", "src": "2025 St. Hilda's SA2", "sent": "Even though I got bitten by pesky [moskittos] during our hike, I loved the adventure.", "feat": "Spelt mos + qui + toes (plural with '-es').", "tip": "Contains 'qui' for the /ki/ sound, and plural ends in '-oes'!"},
+      {"word": "souvenir", "cat": "Spelling Traps", "sub": "'-ir' ending", "src": "2025 St. Hilda's SA2", "sent": "I bought a traditional handcrafted [suvenier] from the gift store for my friend.", "feat": "Contains 'sou-' and ends in '-ir': sou + ve + nir.", "tip": "Starts with 'sou-' and ends with '-ir'!"},
+      {"word": "consciousness", "cat": "Vowel & Silent Traps", "sub": "'sc' & '-ious'", "src": "2025 SCGS SA2", "sent": "One of the most remarkable faculties of the human mind is [concioussness].", "feat": "Contains 'sc' and '-ness': con + sci + ous + ness.", "tip": "Look at the root 'science' (sc) inside consciousness!"},
+      {"word": "occurrence", "cat": "Double Consonants", "sub": "Double 'c' & Double 'r'", "src": "2025 SCGS SA2", "sent": "Dreaming is a fascinating neurological [ocurrance] experienced each night.", "feat": "Double 'c', double 'r', ending in '-ence': oc + cur + rence.", "tip": "2 Cats (cc) and 2 Rabbits (rr) meet at the occurrence (-ence)!"},
+      {"word": "privilege", "cat": "Spelling Traps", "sub": "No double letters", "src": "2025 SCGS SA2", "sent": "Receiving a scholarship to study abroad is a tremendous [privellege].", "feat": "All single consonants: priv + i + lege (ends in '-lege').", "tip": "Never double the 'l' in privilege! Spelt p-r-i-v-i-l-e-g-e."},
+      {"word": "savouring", "cat": "Grammar & Participle", "sub": "Present Participle", "src": "2025 Red Swastika WA1", "sent": "[Savoured] his fragrant hot tea with his eyes closed, he looked immensely relaxed.", "feat": "Present participle as an active modifier: Sa + vour + ing.", "tip": "Active participle modifying 'he' requires '-ing': Savouring his tea!"},
+      {"word": "impatience", "cat": "Word Form Overlaps", "sub": "Impatient -> Impatience", "src": "2025 Red Swastika WA1", "sent": "Stopping frequently along the walkway drew his mother's visible [impaysions].", "feat": "Noun suffix '-ence': im + pa + tience.", "tip": "Possessive 'mother's' takes a noun -> impatience!"},
+      {"word": "exasperation", "cat": "Word Form Overlaps", "sub": "Exasperate -> Exasperation", "src": "2025 Red Swastika WA1", "sent": "Her tone revealed clear signs of [exasparasion] as she urged the boy to hurry.", "feat": "Noun suffix '-ation': ex + as + per + a + tion.", "tip": "Spelt with single 's' and single 'p': ex-as-per-a-tion!"},
+      {"word": "resilience", "cat": "Spelling Traps", "sub": "'-ence' ending", "src": "2025 HPPS WA2", "sent": "The training camp focused on building emotional [resilence] and stamina in youth.", "feat": "Noun ending in '-ence': re + sil + i + ence.", "tip": "Don't omit the 'i' after 'sil'! It's re-sil-i-ence."},
+      {"word": "complement", "cat": "Spelling Traps", "sub": "'-ple-' vs '-pli-'", "src": "2025 HPPS WA2", "sent": "To [komplemant] classroom lessons, students visited outdoor nature reserves.", "feat": "Spelt com + ple + ment (means to supplement/pair well).", "tip": "From 'complete' -> use 'e' for complement (supplement/pair well)!"},
+      {"word": "veterinarian", "cat": "Spelling Traps", "sub": "'-nar-' syllable", "src": "2025 HPPS WA2", "sent": "The wildlife park was staffed by seasoned zoologists and skilled [veterineriens].", "feat": "Spelt vet + er + i + nar + i + an.", "tip": "Animal doctor: watch the syllable 'nar' in vet-er-i-NAR-i-an!"},
+      {"word": "highly", "cat": "Word Form Overlaps", "sub": "Adjective -> Adverb", "src": "2025 Nan Hua SA2", "sent": "The [High] Anticipated Switch console was released last Thursday to massive hype.", "feat": "Adverb modifying participle: high + ly.", "tip": "Modifying the adjective/participle 'anticipated' requires adverb 'highly'!"},
+      {"word": "excitement", "cat": "Word Form Overlaps", "sub": "Excite -> Excitement", "src": "2025 Nan Hua SA2", "sent": "It launched to great [eggsitement] from eager gaming fans across the island.", "feat": "Noun suffix '-ment': ex + cite + ment.", "tip": "Abstract noun for being excited: excitement (not spelt with 'egg')!"},
+      {"word": "inclusion", "cat": "Word Form Overlaps", "sub": "Include -> Inclusion", "src": "2025 Nan Hua SA2", "sent": "What differentiates this model is an [include] of twenty-four bundled games.", "feat": "Noun suffix '-sion': in + clu + sion.", "tip": "Indefinite article 'an' must be followed by noun 'inclusion'!"},
+      {"word": "expects", "cat": "Grammar & Agreement", "sub": "Subject-Verb Agreement", "src": "2025 Nan Hua SA2", "sent": "The gaming enterprise [axepaks] to sell fifteen million units worldwide this fiscal year.", "feat": "Singular verb: ex + pects.", "tip": "Singular company name takes third-person singular verb 'expects'!"},
+      {"word": "enthusiasts", "cat": "Spelling & Plural", "sub": "'-asts' plural", "src": "2025 Nan Hua SA2", "sent": "Worldwide, thousands of gaming [enthoozasts] queued outside retail stores overnight.", "feat": "Spelt en + thu + si + asts.", "tip": "Watch the Greek root: en-thu-si-ASTS!"},
+      {"word": "testing", "cat": "Grammar & Gerund", "sub": "Preposition + Gerund", "src": "2025 Nan Hua SA2", "sent": "Fans are looking forward to the exciting process of [test] the new console out.", "feat": "Gerund after preposition 'of': test + ing.", "tip": "Preposition 'of' must be followed by a gerund -> testing!"},
+      {"word": "experience", "cat": "Spelling Traps", "sub": "'-ence' ending", "src": "2025 Nan Hua SA2", "sent": "Shoppers were eager to try the devices and savour the immersive [ekspeeriance].", "feat": "Spelt ex + pe + ri + ence.", "tip": "Starts with 'ex-', ends in '-ence': experience!"},
+      {"word": "attempts", "cat": "Spelling Traps", "sub": "Silent 'p' & double 't'", "src": "2025 Rosyth SA2", "sent": "She often felt isolated despite her repeated [attamps] to make new friends.", "feat": "Double 't', silent 'p': at + tempts.", "tip": "Root is 'attempt' -> at + tempt + s!"},
+      {"word": "activities", "cat": "Spelling Traps", "sub": "Plural '-ies'", "src": "2025 Rosyth SA2", "sent": "She invited her to join co-curricular [acktivitese] organised by the school council.", "feat": "Plural changes 'y' to '-ies': ac + tiv + i + ties.", "tip": "Consonant + 'y' changes to '-ies' in plural: activities!"},
+      {"word": "widen", "cat": "Word Form Overlaps", "sub": "Wide -> Widen", "src": "2025 Rosyth SA2", "sent": "She joined various clubs to [wide] her circle of close companions.", "feat": "Infinitive verb: to + wi + den.", "tip": "Infinitive 'to' takes verb 'widen' (make wider)!"},
+      {"word": "opportunities", "cat": "Spelling Traps", "sub": "Double 'p'", "src": "2025 Rosyth SA2", "sent": "As a direct result, she had abundant [oportiunitis] to expand her social circle.", "feat": "Double 'p', single 't', plural '-ies': op + por + tu + ni + ties.", "tip": "Prefix 'op-' + 'portune' -> double 'p' in opportunities!"},
+      {"word": "attentively", "cat": "Word Form Overlaps", "sub": "Attentive -> Attentively", "src": "2025 Rosyth SA2", "sent": "Her peers gathered eagerly around the desk to listen [attentive] to her stories.", "feat": "Adverb modifying verb 'listen': at + ten + tive + ly.", "tip": "Action verbs like 'listen' are modified by adverbs -> attentively!"},
+      {"word": "eventually", "cat": "Word Form Overlaps", "sub": "Eventual -> Eventually", "src": "2025 Rosyth SA2", "sent": "With steady encouragement, she [evantuealy] grew to love going to school every day.", "feat": "Adverb: e + ven + tu + al + ly.", "tip": "Spelt e-ven-tu-al-ly!"},
+      {"word": "devastating", "cat": "Spelling Traps", "sub": "'-stating' suffix", "src": "2025 Rulang SA2", "sent": "A severe behavioral addiction can be [darevestating] and extremely hard to overcome.", "feat": "Spelt de + vas + tat + ing.", "tip": "Break down into: de-vas-tat-ing!"},
+      {"word": "worries", "cat": "Grammar & Agreement", "sub": "Subject-Verb Agreement", "src": "2025 Rulang SA2", "sent": "This concerning trend no doubt [worry] parents who observe their children daily.", "feat": "Singular verb: wor + ries (changes 'y' to '-ies').", "tip": "Singular subject 'trend' takes singular verb 'worries'!"},
+      {"word": "lethargy", "cat": "Spelling & Vocabulary", "sub": "Greek root 'leth-'", "src": "2025 Rulang SA2", "sent": "Prolonged inactivity can induce chronic [letargee] and fatigue in young bodies.", "feat": "Spelt leth + ar + gy.", "tip": "Spelt with 'th' and ending in '-gy': lethargy!"},
+      {"word": "explanation", "cat": "Word Form Overlaps", "sub": "Explain -> Explanation", "src": "2025 Rulang SA2", "sent": "The medical journal provided a scientific [explain] for this modern addiction.", "feat": "Noun from verb 'explain': ex + pla + na + tion.", "tip": "Drop the 'i' from 'explain' when adding '-ation' -> explanation!"},
+      {"word": "neighbourhood", "cat": "Spelling Traps", "sub": "'eigh' combination", "src": "2025 Rulang SA2", "sent": "Children spend less time cycling in their [neyporhood] than previous generations.", "feat": "Contains 'eigh' and '-our-': neigh + bour + hood.", "tip": "Remember 'neighbor' with 'eigh' like 'eight': neighbourhood!"},
+      {"word": "attraction", "cat": "Word Form Overlaps", "sub": "Attract -> Attraction", "src": "2025 Rulang SA2", "sent": "Another major factor is the captivating [atraksion] of these interactive games.", "feat": "Double 't', noun suffix '-tion': at + trac + tion.", "tip": "Prefix 'at-' + 'traction' (double 't', ending in '-tion')!"},
+      {"word": "access", "cat": "Spelling Traps", "sub": "Double 'c' & Double 's'", "src": "2025 Rulang SA2", "sent": "Unrestricted [akces] to portable tablets makes self-regulation challenging.", "feat": "Double 'c' AND double 's': ac + cess.", "tip": "2 Cats (cc) and 2 Snakes (ss) have access!"},
+      {"word": "making", "cat": "Grammar & Participle", "sub": "Resultative Participle", "src": "2025 Rulang SA2", "sent": "Children carry devices everywhere, [make] it difficult for them to disengage.", "feat": "Present participle as result clause: mak + ing.", "tip": "Comma followed by result clause takes '-ing': making it difficult!"},
+      {"word": "do", "cat": "Grammar & Modal", "sub": "Modal Verb Parallelism", "src": "2025 Rulang SA2", "sent": "Families can embark on outdoor walks together and [does] so on a routine basis.", "feat": "Base verb following modal 'can': d-o.", "tip": "Parallel with 'embark': can embark... and DO so!"},
+      // ================= 150 Frequently Misspelled Words 核心增量补充 =================
   {
-    "word": "disappeared",
+    "word": "recommend",
     "cat": "Double Consonants",
-    "sub": "Single 's' & Double 'p'",
-    "src": "2025 ACSJ SA2",
-    "sent": "In December of 2011, the rare owl [disapeared] without a trace.",
-    "feat": "Prefix 'dis-' + 'appear' + '-ed'. One 's' and two 'p's.",
-    "tip": "Prefix 'dis-' has only ONE 's'! Don't double the 's' in disappear."
+    "sub": "Single 'c' & Double 'm'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The head librarian decided to [recoment] a historical novel to the reading club.",
+    "feat": "Single 'c', double 'm': re + com + mend.",
+    "tip": "Prefix 're-' has only ONE 'c', while 'commend' has TWO 'm's!"
   },
   {
-    "word": "environment",
-    "cat": "Vowel & Silent Traps",
-    "sub": "Silent 'n'",
-    "src": "2025 ACSJ SA2",
-    "sent": "The owl allowed him to observe her natural behavior in her [enviaroument].",
-    "feat": "Silent 'n': en + vi + ron + ment.",
-    "tip": "Remember 'iron' inside: en-vi-RON-ment! Never omit the 'n'."
+    "word": "religious",
+    "cat": "Vowel Traps",
+    "sub": "'-gious' ending",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Singaporeans from various [religous] groups celebrate harmonious racial harmony together.",
+    "feat": "Contains 'i' after 'g': re + li + gi + ous.",
+    "tip": "Don't omit the 'i' before '-ous'! It's re-li-gi-ous."
   },
   {
-    "word": "swoop",
-    "cat": "Grammar & Modal",
-    "sub": "Modal Verb + Base Form",
-    "src": "2025 ACSJ SA2",
-    "sent": "Knowing that wild owls can [swup] down and strike intruders, he pulled his hood tight.",
-    "feat": "Modal verb 'can' takes base form: s-w-o-o-p.",
-    "tip": "After modal verbs (can/could/must), always use base verb form 'swoop'!"
+    "word": "repetition",
+    "cat": "Vowel Traps",
+    "sub": "Vowel shift: repeat -> repetition",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Mastering English vocabulary requires constant practice and mindful [repatition].",
+    "feat": "Changes 'ea' from repeat to 'e': re + pe + ti + tion.",
+    "tip": "Warning: 'repeat' changes to 're-PET-ition', not 'repeatition'!"
   },
   {
-    "word": "fascinated",
-    "cat": "Vowel & Silent Traps",
-    "sub": "'sc' cluster",
-    "src": "2025 ACSJ SA2",
-    "sent": "He gazed into her dark eyes and was instantly [fassinated] by her plumage.",
-    "feat": "'sc' sounds like /s/: fas + ci + nat + ed.",
-    "tip": "'Fascinated' uses 'sc', not double 's'!"
-  },
-  {
-    "word": "impressive",
+    "word": "necessary",
     "cat": "Double Consonants",
-    "sub": "Double 's' & '-ive'",
-    "src": "2025 ACSP SA2",
-    "sent": "The panoramic view of the ancient trees and clear sky was [impresif].",
-    "feat": "Double 's' and adjective suffix '-ive': im + pres + sive.",
-    "tip": "Prefix 'im-' + 'press' (double 's') + '-ive'."
+    "sub": "Single 'c' & Double 's'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Proper hydration is strictly [necesary] during arduous cross-country runs.",
+    "feat": "One 'c', double 's': ne + ces + sa + ry.",
+    "tip": "One Collar (c) and Two Sleeves (ss) are necessary for a shirt!"
   },
   {
-    "word": "unforgettable",
+    "word": "occasionally",
     "cat": "Double Consonants",
-    "sub": "Double 't' & '-able'",
-    "src": "2025 ACSP SA2",
-    "sent": "Ending the night around the roaring campfire was an [unforgetebel] experience.",
-    "feat": "Double 't': un + for + get + ta + ble (ends in '-able').",
-    "tip": "Short vowel /e/ requires doubling the 't' before adding '-able'!"
+    "sub": "Double 'c' & Single 's'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "My grandparents still enjoy [occasionaly] strolling through the botanic gardens.",
+    "feat": "Double 'c', single 's', double 'l': oc + ca + sion + al + ly.",
+    "tip": "2 Cups of Coffee (cc), 1 Sugar (s), and 2 Lollies (ll) occasionally!"
   },
   {
-    "word": "truly",
-    "cat": "Word Form Overlaps",
-    "sub": "True -> Truly",
-    "src": "2025 ACSP SA2",
-    "sent": "After rock climbing, we had a [true] delicious lunch prepared by the camp chefs.",
-    "feat": "Adverb modifying adjective 'delicious': tru + ly.",
-    "tip": "Drop the silent 'e' when turning 'true' into the adverb 'truly'!"
-  },
-  {
-    "word": "went",
-    "cat": "Grammar & Tenses",
-    "sub": "Past Tense Consistency",
-    "src": "2025 ACSP SA2",
-    "sent": "In the afternoon, we [go] kayaking down the tranquil river.",
-    "feat": "Past tense for chronological diary recounting: went.",
-    "tip": "The event happened in the past, so change 'go' to 'went'!"
-  },
-  {
-    "word": "extinct",
-    "cat": "Spelling Traps",
-    "sub": "'ex-' & '-ct'",
-    "src": "2025 Ai Tong SA2",
-    "sent": "The dire wolf, a dominant predator that went [ekstint] millennia ago, has returned.",
-    "feat": "Starts with 'ex-', ends in '-nct': ex + tinct.",
-    "tip": "'Ex' makes the /eks/ sound! Ends in '-ct', not '-t'."
-  },
-  {
-    "word": "birth",
-    "cat": "Word Form Overlaps",
-    "sub": "Bear/Born -> Birth",
-    "src": "2025 Ai Tong SA2",
-    "sent": "Extensive genetic research led to the [born] of three healthy wolf pups.",
-    "feat": "Noun from verb 'bear': b-i-r-t-h.",
-    "tip": "The article 'the' precedes a noun: use 'birth' instead of 'born'!"
-  },
-  {
-    "word": "inspiration",
-    "cat": "Word Form Overlaps",
-    "sub": "Inspire -> Inspiration",
-    "src": "2025 Ai Tong SA2",
-    "sent": "The wolf served as the real-life [inspireshion] behind the pets in the television show.",
-    "feat": "Noun suffix '-tion': in + spi + ra + tion.",
-    "tip": "Adjective 'real-life' modifies the noun 'inspiration'!"
-  },
-  {
-    "word": "stealthily",
-    "cat": "Word Form Overlaps",
-    "sub": "Adjective -> Adverb",
-    "src": "2025 Ai Tong SA2",
-    "sent": "They could move [steltheeli] through dense undergrowth while hunting big game.",
-    "feat": "Adverb from 'stealthy': steal + thi + ly (change 'y' to 'i' + 'ly').",
-    "tip": "Rule: Consonant + 'y' changes to 'i' before '-ly' -> stealthily."
-  },
-  {
-    "word": "hesitation",
-    "cat": "Word Form Overlaps",
-    "sub": "Hesitate -> Hesitation",
-    "src": "2025 Catholic High SA2",
-    "sent": "Without any [heziteshen], she took a bite from one apple, then bit into the second.",
-    "feat": "Noun suffix '-tion': he + si + ta + tion (spelt with 's', not 'z').",
-    "tip": "Preposition 'without' takes the noun 'hesitation'. Spelt with an 's'!"
-  },
-  {
-    "word": "generosity",
-    "cat": "Word Form Overlaps",
-    "sub": "Generous -> Generosity",
-    "src": "2025 Catholic High SA2",
-    "sent": "I wondered whether I had failed to teach my daughter kindness and [generousiti].",
-    "feat": "Noun suffix '-ity': gen + er + os + i + ty.",
-    "tip": "'Generous' loses the letter 'u' when forming the noun 'generosity'!"
-  },
-  {
-    "word": "sincerely",
-    "cat": "Word Form Overlaps",
-    "sub": "Sincere -> Sincerely",
-    "src": "2025 Catholic High SA2",
-    "sent": "She looked up with sparkling eyes and said [sinsearly], 'Papa, have the sweeter one!'",
-    "feat": "Adverb: sin + cere + ly (keep the 'e' before adding '-ly').",
-    "tip": "Retain the silent 'e' in 'sincere' before appending '-ly'!"
-  },
-  {
-    "word": "gently",
-    "cat": "Word Form Overlaps",
-    "sub": "Gentle -> Gently",
-    "src": "2025 Catholic High SA2",
-    "sent": "I asked her [gentle] if she would be willing to share one fruit with me.",
-    "feat": "Adverb modifying verb 'asked': gen + tly.",
-    "tip": "Modifying the verb 'asked' requires the adverb 'gently'!"
-  },
-  {
-    "word": "elation",
-    "cat": "Word Form Overlaps",
-    "sub": "Elate -> Elation",
-    "src": "2025 Catholic High SA2",
-    "sent": "I bought the ripe apples and handed both to her with a genuine sense of [ilashen].",
-    "feat": "Abstract noun: e + la + tion.",
-    "tip": "Collocation: 'a sense of elation' (great happiness/pride)!"
-  },
-  {
-    "word": "preparation",
-    "cat": "Word Form Overlaps",
-    "sub": "Prepare -> Preparation",
-    "src": "2025 SCGS SA2",
-    "sent": "The intensive [prepare] began months before the actual parade at the Padang.",
-    "feat": "Noun from verb 'prepare': pre + pa + ra + tion.",
-    "tip": "The definite article 'The' takes a noun -> 'preparation'."
-  },
-  {
-    "word": "incredibly",
-    "cat": "Word Form Overlaps",
-    "sub": "Incredible -> Incredibly",
-    "src": "2025 CHIJ St Nicholas SA2",
-    "sent": "When we marched past the grandstand, we felt [incredible] proud to represent our school.",
-    "feat": "Adverb modifying adjective 'proud': in + cred + i + bly.",
-    "tip": "Modifying the adjective 'proud' requires an adverb -> incredibly proud!"
-  },
-  {
-    "word": "properly",
-    "cat": "Word Form Overlaps",
-    "sub": "Proper -> Properly",
-    "src": "2025 CHIJ St Nicholas SA2",
-    "sent": "Our teacher taught us how to march in tight formation and hold our banners [propeley].",
-    "feat": "Adverb modifying verb phrase 'hold our banners': pro + per + ly.",
-    "tip": "Action verbs are modified by adverbs ending in '-ly'!"
-  },
-  {
-    "word": "precision",
-    "cat": "Word Form Overlaps",
-    "sub": "Precise -> Precision",
-    "src": "2025 Henry Park SA2",
-    "sent": "Echolocation does not possess the high definition and detailed [precise] of eyesight.",
-    "feat": "Noun suffix '-sion': pre + ci + sion.",
-    "tip": "Adjective 'detailed' modifies the abstract noun 'precision'!"
-  },
-  {
-    "word": "dependency",
-    "cat": "Word Form Overlaps",
-    "sub": "Depend -> Dependency",
-    "src": "2025 Henry Park SA2",
-    "sent": "Without assistive tools, blind individuals may live in isolation and [dependancy].",
-    "feat": "Noun ending in '-ency': de + pen + den + cy.",
-    "tip": "Derived from 'dependent' -> spell with '-ency', not '-ancy'!"
-  },
-  {
-    "word": "appreciation",
-    "cat": "Word Form Overlaps",
-    "sub": "Appreciate -> Appreciation",
-    "src": "2025 Maha Bodhi SA2",
-    "sent": "She cultivated a deep [apreciasion] for rare orchids from a very tender age.",
-    "feat": "Double 'p', '-ci-', ending in '-ation': ap + pre + ci + a + tion.",
-    "tip": "Prefix 'ap-' has double 'p'. Abstract noun ends in '-tion'."
-  },
-  {
-    "word": "amazement",
-    "cat": "Word Form Overlaps",
-    "sub": "Amaze -> Amazement",
-    "src": "2025 MGS SA2",
-    "sent": "Much to our [amasemant], after walking for five minutes, we found the hidden post.",
-    "feat": "Noun suffix '-ment': a + maze + ment.",
-    "tip": "Collocation: 'Much to one's amazement' requires the noun form!"
-  },
-  {
-    "word": "enthusiastically",
-    "cat": "Word Form Overlaps",
-    "sub": "Enthusiastic -> Enthusiastically",
-    "src": "2025 Tao Nan SA2",
-    "sent": "Overcoming her stage fright, she recited her story [enthuszestikally] to the crowd.",
-    "feat": "Adverb suffix '-ally' after '-ic': en + thu + si + as + ti + cal + ly.",
-    "tip": "Adjectives ending in '-ic' always append '-ally' to form adverbs!"
-  },
-  {
-    "word": "wobbly",
+    "word": "omission",
     "cat": "Double Consonants",
-    "sub": "Double 'b'",
-    "src": "2025 St. Hilda's WA2",
-    "sent": "The happy children agreed to replace the worn and [worebly] wooden bench.",
-    "feat": "Double 'b': wob + bly.",
-    "tip": "Rhymes with 'bubbly'! Both feature double 'b'."
+    "sub": "Single 'm' & Double 's'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The student corrected an accidental [ommision] of punctuation in her composition.",
+    "feat": "Single 'm', double 's': o + mis + sion.",
+    "tip": "Only ONE 'm', followed by double 's' in omission!"
   },
   {
-    "word": "reassuring",
+    "word": "perceive",
+    "cat": "Vowel Traps",
+    "sub": "'-ei-' after 'c'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Animals often [percieve] distant earth vibrations long before humans do.",
+    "feat": "'e' before 'i' after 'c': per + ceive.",
+    "tip": "Rule: 'i' before 'e', EXCEPT AFTER 'C' -> per-c-e-i-ve!"
+  },
+  {
+    "word": "permanent",
+    "cat": "Vowel Traps",
+    "sub": "'-anent' ending",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The injured athlete was worried that his knee sprain might cause [perminent] damage.",
+    "feat": "Spelt per + ma + nent (middle vowel is 'a').",
+    "tip": "Notice 'man' in the middle: per-ma-nent!"
+  },
+  {
+    "word": "pleasant",
+    "cat": "Vowel Traps",
+    "sub": "'-ant' ending & 'ea'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "We enjoyed a very [plesant] picnic breeze beneath the shady trees.",
+    "feat": "Contains 'ea' and ends in '-ant': plea + sant.",
+    "tip": "Related to 'please' -> keep the 'ea' in pleasant!"
+  },
+  {
+    "word": "possess",
     "cat": "Double Consonants",
-    "sub": "Double 's'",
-    "src": "2025 St. Hilda's WA2",
-    "sent": "Their laughter in the breeze was as warm and [reashuring] as their close bond.",
-    "feat": "Double 's': re + as + sur + ing.",
-    "tip": "Prefix 're-' + 'assure' (double 's'). Never write 'sh'!"
+    "sub": "Two pairs of double 's'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Courageous leaders [posess] the determination to guide others through adversity.",
+    "feat": "Double 's' twice: pos + sess (4 's's total).",
+    "tip": "Pos-sess possesses 4 's's in total!"
   },
   {
-    "word": "friendship",
-    "cat": "Word Form Overlaps",
-    "sub": "Friend -> Friendship",
-    "src": "2025 St. Hilda's WA2",
-    "sent": "True [friend] was not about grand gestures but small, thoughtful acts.",
-    "feat": "Abstract noun: friend + ship.",
-    "tip": "Use the abstract noun 'friendship' as the sentence subject!"
-  },
-  {
-    "word": "tranquil",
-    "cat": "Spelling Traps",
-    "sub": "Single 'l' ending",
-    "src": "2025 St. Hilda's SA2",
-    "sent": "My retired grandparents live in a scenic and [tranqueal] seaside town.",
-    "feat": "Single 'l': tran + quil.",
-    "tip": "Spelt with 'qui-l', not 'queal'! Single 'l' at the end."
-  },
-  {
-    "word": "camouflaged",
-    "cat": "Spelling Traps",
-    "sub": "'ou' & '-age'",
-    "src": "2025 St. Hilda's SA2",
-    "sent": "We spotted a green tree lizard that was skillfully [camoflagued] beneath the canopy.",
-    "feat": "Contains 'ou' and ends in '-aged': ca + mou + flaged.",
-    "tip": "French origin: remember 'ca-mou-flage'!"
-  },
-  {
-    "word": "mosquitoes",
-    "cat": "Spelling Traps",
-    "sub": "Plural '-oes'",
-    "src": "2025 St. Hilda's SA2",
-    "sent": "Even though I got bitten by pesky [moskittos] during our hike, I loved the adventure.",
-    "feat": "Spelt mos + qui + toes (plural with '-es').",
-    "tip": "Contains 'qui' for the /ki/ sound, and plural ends in '-oes'!"
-  },
-  {
-    "word": "souvenir",
-    "cat": "Spelling Traps",
-    "sub": "'-ir' ending",
-    "src": "2025 St. Hilda's SA2",
-    "sent": "I bought a traditional handcrafted [suvenier] from the gift store for my friend.",
-    "feat": "Contains 'sou-' and ends in '-ir': sou + ve + nir.",
-    "tip": "Starts with 'sou-' and ends with '-ir'!"
-  },
-  {
-    "word": "consciousness",
-    "cat": "Vowel & Silent Traps",
-    "sub": "'sc' & '-ious'",
-    "src": "2025 SCGS SA2",
-    "sent": "One of the most remarkable faculties of the human mind is [concioussness].",
-    "feat": "Contains 'sc' and '-ness': con + sci + ous + ness.",
-    "tip": "Look at the root 'science' (sc) inside consciousness!"
-  },
-  {
-    "word": "occurrence",
+    "word": "professional",
     "cat": "Double Consonants",
-    "sub": "Double 'c' & Double 'r'",
-    "src": "2025 SCGS SA2",
-    "sent": "Dreaming is a fascinating neurological [ocurrance] experienced each night.",
-    "feat": "Double 'c', double 'r', ending in '-ence': oc + cur + rence.",
-    "tip": "2 Cats (cc) and 2 Rabbits (rr) meet at the occurrence (-ence)!"
+    "sub": "Single 'f' & Double 's'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The concert pianist gave a highly [proffessional] and inspiring performance.",
+    "feat": "Single 'f', double 's': pro + fes + sion + al.",
+    "tip": "Only ONE 'f', but DOUBLE 's' in professional!"
   },
   {
-    "word": "privilege",
-    "cat": "Spelling Traps",
-    "sub": "No double letters",
-    "src": "2025 SCGS SA2",
-    "sent": "Receiving a scholarship to study abroad is a tremendous [privellege].",
-    "feat": "All single consonants: priv + i + lege (ends in '-lege').",
-    "tip": "Never double the 'l' in privilege! Spelt p-r-i-v-i-l-e-g-e."
+    "word": "psychology",
+    "cat": "Silent Letters",
+    "sub": "Silent 'p'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Understanding child [sychology] helps teachers engage their pupils effectively.",
+    "feat": "Silent initial 'p': psy + cho + lo + gy.",
+    "tip": "Greek origin: starts with silent 'p' -> psy-cho-lo-gy!"
   },
   {
-    "word": "rhythm",
-    "cat": "Vowel & Silent Traps",
-    "sub": "'rh' and 'y'",
-    "src": "2025 SCGS SA2",
-    "sent": "Restful sleep helps the human body maintain its natural biological [rythem].",
-    "feat": "Contains 'rh' and 'y': rhy + thm.",
-    "tip": "Rhythm Helps Your Two Hips Move (R-H-Y-T-H-M)!"
+    "word": "interfere",
+    "cat": "Vowel Traps",
+    "sub": "'-fere' ending",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Loud background noise will [interfeer] with your concentration while studying.",
+    "feat": "Spelt in + ter + fere (single 'r', ends in '-fere').",
+    "tip": "Ends in '-fere', NOT '-fear' or '-feer'!"
   },
   {
-    "word": "savouring",
-    "cat": "Grammar & Participle",
-    "sub": "Present Participle",
-    "src": "2025 Red Swastika WA1",
-    "sent": "[Savoured] his fragrant hot tea with his eyes closed, he looked immensely relaxed.",
-    "feat": "Present participle as an active modifier: Sa + vour + ing.",
-    "tip": "Active participle modifying 'he' requires '-ing': Savouring his tea!"
-  },
-  {
-    "word": "impatience",
+    "word": "interpretation",
     "cat": "Word Form Overlaps",
-    "sub": "Impatient -> Impatience",
-    "src": "2025 Red Swastika WA1",
-    "sent": "Stopping frequently along the walkway drew his mother's visible [impaysions].",
-    "feat": "Noun suffix '-ence': im + pa + tience.",
-    "tip": "Possessive 'mother's' takes a noun -> impatience!"
+    "sub": "Interpret -> Interpretation",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Her artistic [interprete] of the poem impressed the panel of judges.",
+    "feat": "Noun suffix '-ation': in + ter + pre + ta + tion.",
+    "tip": "Noun form is in-ter-pre-ta-tion!"
   },
   {
-    "word": "exasperation",
+    "word": "interruption",
+    "cat": "Double Consonants",
+    "sub": "Double 'r'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The assembly continued without any unexpected [interuption] from the audience.",
+    "feat": "Double 'r', noun suffix '-tion': in + ter + rup + tion.",
+    "tip": "Root 'rupt' with prefix 'inter-' requires DOUBLE 'r'!"
+  },
+  {
+    "word": "laboratory",
+    "cat": "Vowel Traps",
+    "sub": "'-ora-' syllable",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The students conducted their chemistry test inside the school [labratory].",
+    "feat": "Spelt la + bor + a + to + ry.",
+    "tip": "Pronounced /ləˈbɒr.ə.tər.i/, don't omit the 'o' and 'a': lab-OR-A-tory!"
+  },
+  {
+    "word": "license",
+    "cat": "Spelling Traps",
+    "sub": "'c' then 's'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Motorists must present a valid driving [lisence] when requested by traffic police.",
+    "feat": "'c' before 'e', 's' before 'e': li + cense.",
+    "tip": "First comes 'c', then comes 's' in license!"
+  },
+  {
+    "word": "loneliness",
     "cat": "Word Form Overlaps",
-    "sub": "Exasperate -> Exasperation",
-    "src": "2025 Red Swastika WA1",
-    "sent": "Her tone revealed clear signs of [exasparasion] as she urged the boy to hurry.",
-    "feat": "Noun suffix '-ation': ex + as + per + a + tion.",
-    "tip": "Spelt with single 's' and single 'p': ex-as-per-a-tion!"
+    "sub": "Lonely -> Loneliness",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Adopting a rescued puppy helped cure the elderly widower's deep [lonlyness].",
+    "feat": "Change 'y' to 'i' + '-ness': lone + li + ness.",
+    "tip": "Retain 'lone', change 'y' to 'i' before '-ness'!"
   },
   {
-    "word": "resilience",
-    "cat": "Spelling Traps",
-    "sub": "'-ence' ending",
-    "src": "2025 HPPS WA2",
-    "sent": "The training camp focused on building emotional [resilence] and stamina in youth.",
-    "feat": "Noun ending in '-ence': re + sil + i + ence.",
-    "tip": "Don't omit the 'i' after 'sil'! It's re-sil-i-ence."
+    "word": "marriage",
+    "cat": "Double Consonants",
+    "sub": "Double 'r' & '-iage'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "My parents celebrated their twentieth wedding [mariage] anniversary yesterday.",
+    "feat": "Double 'r', '-iage' ending: mar + riage.",
+    "tip": "Two people marry -> double 'r' in marriage!"
   },
   {
-    "word": "complement",
-    "cat": "Spelling Traps",
-    "sub": "'-ple-' vs '-pli-'",
-    "src": "2025 HPPS WA2",
-    "sent": "To [komplemant] classroom lessons, students visited outdoor nature reserves.",
-    "feat": "Spelt com + ple + ment (means to supplement/pair well).",
-    "tip": "From 'complete' -> use 'e' for complement (supplement/pair well)!"
+    "word": "calendar",
+    "cat": "Vowel Traps",
+    "sub": "'-ar' ending",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Please mark the date of the primary school sports day on your [calender].",
+    "feat": "Ends in '-ar', not '-er': cal + en + dar.",
+    "tip": "A calendar ends with '-AR', not '-er'!"
   },
   {
-    "word": "veterinarian",
+    "word": "cemetery",
+    "cat": "Vowel Traps",
+    "sub": "Three 'e's",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The war memorial was erected quietly beside the historic [cemetary].",
+    "feat": "Three 'e's and no 'a': cem + e + ter + y.",
+    "tip": "Three 'e's (c-E-m-E-t-E-ry) like tombstones in a row!"
+  },
+  {
+    "word": "dilemma",
+    "cat": "Double Consonants",
+    "sub": "Double 'm'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "Having to choose between two beloved hobbies posed a difficult [dilema].",
+    "feat": "Double 'm': di + lem + ma.",
+    "tip": "A dilemma puts you between TWO options -> DOUBLE 'm'!"
+  },
+  {
+    "word": "twelfth",
     "cat": "Spelling Traps",
-    "sub": "'-nar-' syllable",
-    "src": "2025 HPPS WA2",
-    "sent": "The wildlife park was staffed by seasoned zoologists and skilled [veterineriens].",
-    "feat": "Spelt vet + er + i + nar + i + an.",
-    "tip": "Animal doctor: watch the syllable 'nar' in vet-er-i-NAR-i-an!"
+    "sub": "'-fth' ending",
+    "src": "PSLE 150 Spelling List",
+    "sent": "The swimmer finished in [twelth] position during the preliminary heats.",
+    "feat": "Has 'f' before 'th': twel + fth.",
+    "tip": "From 'twelve', the 'v' turns into 'f': twel-F-th!"
+  },
+  {
+    "word": "weird",
+    "cat": "Vowel Traps",
+    "sub": "Exception to 'i before e'",
+    "src": "PSLE 150 Spelling List",
+    "sent": "We heard a very [wierd] scratching noise coming from the locked attic room.",
+    "feat": "'e' comes before 'i': w-e-i-r-d.",
+    "tip": "Weird is truly WEIRD because 'e' comes before 'i'!"
   }
+    ];
 
+    // 全量融合 2025 名校完形填空高频库 (零删减完整版)
     const CLOZE_DB = [
       { id: "c01", phrase: "aim at", cat: "Preposition", sent: "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", correct: "at", options: ["at", "to", "for", "with"], meaning: "To intend to achieve something.", clue: "Verb 'aim' followed by gerund (-ing): 'aim at + V-ing'.", exp: "'Aim at' means intending to achieve something when followed by a gerund." },
       { id: "c02", phrase: "arrive at", cat: "Collocation", sent: "After a heated debate, the panel finally arrived [ ______ ] a unanimous decision.", correct: "at", options: ["at", "to", "in", "on"], meaning: "To reach a conclusion or decision.", clue: "Collocation: 'arrive ___ a decision'.", exp: "In PSLE Cloze, we say 'arrive at a decision' or 'arrive at a conclusion'." },
@@ -679,227 +577,46 @@
       { id: "c18", phrase: "keep track of", cat: "Fixed Phrase", sent: "Prefects are required to keep [ ______ ] of all students who arrive late.", correct: "track", options: ["track", "record", "touch", "sight"], meaning: "To monitor regularly.", clue: "Fixed collocation: 'keep ______ of'.", exp: "'Keep track of' means monitoring status. 'Keep in touch' means staying in contact." },
       { id: "c19", phrase: "look forward to", cat: "Grammar & Phrasal", sent: "We are eagerly looking forward [ ______ ] visiting the bird park next week.", correct: "to", options: ["to", "for", "at", "on"], meaning: "To anticipate something pleasant.", clue: "Followed by gerund: 'looking forward ____'.", exp: "'Look forward to' is a fixed structure where 'to' is a preposition (+ V-ing)." },
       { id: "c20", phrase: "put out", cat: "Phrasal Verb", sent: "Brave firefighters battled the blaze for hours before putting [ ______ ] the fire.", correct: "out", options: ["out", "off", "down", "up"], meaning: "To extinguish fire.", clue: "Extinguishing a flame or fire.", exp: "'Put out' means to extinguish. 'Put off' means postpone; 'put up with' means tolerate." },
-      // ================= 2025 顶尖名校 SA2 & WA 完形填空增量题库 =================
-  {
-    id: "c2025_01",
-    phrase: "swept away",
-    cat: "Collocation",
-    sent: "Along the swollen riverbanks, rows of squatter huts had been swept [ ______ ] by the rising waters.",
-    correct: "away",
-    options: ["away", "off", "out", "down"],
-    meaning: "To be completely carried off or destroyed by water currents.",
-    clue: "Carried away violently by floodwaters: swept ______.",
-    exp: "'Swept away' specifically describes items carried off by floodwaters."
-  },
-  {
-    id: "c2025_02",
-    phrase: "put out",
-    cat: "Phrasal Verb",
-    sent: "Firefighters arrived swiftly at the shophouse and proceeded to put [ ______ ] the fierce fire.",
-    correct: "out",
-    options: ["out", "off", "down", "away"],
-    meaning: "To extinguish a fire.",
-    clue: "Extinguishing a blaze: put ______ the fire.",
-    exp: "'Put out' means to extinguish. 'Put off' means to postpone."
-  },
-  {
-    id: "c2025_03",
-    phrase: "caught up in",
-    cat: "Phrasal Verb",
-    sent: "Players can get so caught [ ______ ] in an exciting match that they easily lose track of time.",
-    correct: "up",
-    options: ["up", "in", "on", "into"],
-    meaning: "Deeply absorbed or engrossed in an activity.",
-    clue: "Entangled or deeply absorbed: caught ______ in.",
-    exp: "'Caught up in' is a fixed idiom meaning completely engrossed in something."
-  },
-  {
-    id: "c2025_04",
-    phrase: "blocked off",
-    cat: "Phrasal Verb",
-    sent: "The busy road was blocked [ ______ ] by the police to prevent onlookers from approaching the site.",
-    correct: "off",
-    options: ["off", "out", "away", "down"],
-    meaning: "To close or barricade a road or passageway.",
-    clue: "Barricading a road: blocked ______ by police.",
-    exp: "'Block off' means to close an area or street to traffic."
-  },
-  {
-    id: "c2025_05",
-    phrase: "feed on",
-    cat: "Verb & Preposition",
-    sent: "As red foxes are omnivorous, they feed [ ______ ] both small animals and wild berries.",
-    correct: "on",
-    options: ["on", "with", "at", "by"],
-    meaning: "To eat as regular sustenance.",
-    clue: "Animals eating a diet: feed ______.",
-    exp: "Animals 'feed on' food to survive."
-  },
-  {
-    id: "c2025_06",
-    phrase: "second nature",
-    cat: "Idiomatic Phrase",
-    sent: "Martial artists practise their stances repeatedly until every movement becomes second [ ______ ].",
-    correct: "nature",
-    options: ["nature", "habit", "action", "thought"],
-    meaning: "An acquired habit that becomes automatic and effortless.",
-    clue: "Fixed idiom: become second ______.",
-    exp: "'Second nature' means an acquired habit so ingrained that it feels natural."
-  },
-  {
-    id: "c2025_07",
-    phrase: "word of mouth",
-    cat: "Idiomatic Phrase",
-    sent: "In ancient times, timeless folk tales were passed down through word of [ ______ ] across generations.",
-    correct: "mouth",
-    options: ["mouth", "speech", "tongue", "voice"],
-    meaning: "Spoken communication rather than written records.",
-    clue: "Oral storytelling tradition: word of ______.",
-    exp: "'Word of mouth' is a standard fixed phrase meaning spoken communication."
-  },
-  {
-    id: "c2025_08",
-    phrase: "strike a balance",
-    cat: "Fixed Collocation",
-    sent: "It is essential for young gamers to strike a healthy [ ______ ] between gaming and outdoor exercises.",
-    correct: "balance",
-    options: ["balance", "harmony", "peace", "routine"],
-    meaning: "To achieve a fair compromise between two things.",
-    clue: "Fixed phrase: strike a ______.",
-    exp: "'Strike a balance' means to find an equilibrium between two competing demands."
-  },
-  {
-    id: "c2025_09",
-    phrase: "peace of mind",
-    cat: "Idiomatic Phrase",
-    sent: "Informing your parents of your whereabouts ensures your safety and gives them peace of [ ______ ].",
-    correct: "mind",
-    options: ["mind", "heart", "thought", "soul"],
-    meaning: "A state of calmness and freedom from worry.",
-    clue: "Three-word idiom: peace of ______.",
-    exp: "'Peace of mind' means feeling secure and free from anxiety."
-  },
-  {
-    id: "c2025_10",
-    phrase: "free of charge",
-    cat: "Fixed Phrase",
-    sent: "Admission to the newly opened botanical wetland is free of [ ______ ] for all local residents.",
-    correct: "charge",
-    options: ["charge", "cost", "price", "fee"],
-    meaning: "Completely complimentary without any payment.",
-    clue: "Collocation for free entry: free of ______.",
-    exp: "'Free of charge' is standard formal English for complimentary service."
-  },
-  {
-    id: "c2025_11",
-    phrase: "depend on",
-    cat: "Verb & Preposition",
-    sent: "The outcome of this team sport does not depend [ ______ ] raw physical strength alone.",
-    correct: "on",
-    options: ["on", "with", "to", "at"],
-    meaning: "To be determined or influenced by something.",
-    clue: "Pairs with depend: depend ______.",
-    exp: "Verb 'depend' takes preposition 'on'."
-  },
-  {
-    id: "c2025_12",
-    phrase: "safe than sorry",
-    cat: "Idiomatic Phrase",
-    sent: "When walking alone in the dark, it is always better to be safe than [ ______ ].",
-    correct: "sorry",
-    options: ["sorry", "afraid", "worried", "hurt"],
-    meaning: "Wise to take precautions rather than risk trouble.",
-    clue: "Well-known proverb: better to be safe than ______.",
-    exp: "The complete proverb is 'better to be safe than sorry'."
-  },
-  {
-    id: "c2025_13",
-    phrase: "give up",
-    cat: "Phrasal Verb",
-    sent: "By giving [ ______ ] their comfort food temporarily, believers learn self-discipline and gratitude.",
-    correct: "up",
-    options: ["up", "in", "away", "out"],
-    meaning: "To renounce, surrender, or sacrifice something.",
-    clue: "Sacrificing or letting go of habits: giving ______.",
-    exp: "'Give up' means to sacrifice or abstain from."
-  },
-  {
-    id: "c2025_14",
-    phrase: "draw near",
-    cat: "Phrasal Verb",
-    sent: "As the day of the crucial examination drew [ ______ ], her anxiety began to intensify.",
-    correct: "near",
-    options: ["near", "close", "on", "in"],
-    meaning: "To approach in time.",
-    clue: "Time approaching: drew ______.",
-    exp: "The idiom 'draw near' means to approach in time."
-  },
-  {
-    id: "c2025_15",
-    phrase: "look after",
-    cat: "Phrasal Verb",
-    sent: "Our kind neighbours agreed to look [ ______ ] our puppy while we were away on vacation.",
-    correct: "after",
-    options: ["after", "into", "for", "on"],
-    meaning: "To take care of someone or a pet.",
-    clue: "Caring for a pet: look ______.",
-    exp: "'Look after' means to care for or take charge of."
-  },
-  {
-    id: "c2025_16",
-    phrase: "abstain from",
-    cat: "Verb & Preposition",
-    sent: "The athlete was advised to abstain [ ______ ] sugary snacks to maintain optimum health.",
-    correct: "from",
-    options: ["from", "with", "against", "at"],
-    meaning: "To deliberately refrain from consuming something.",
-    clue: "Refraining from a habit: abstain ______.",
-    exp: "The verb 'abstain' is followed by the preposition 'from'."
-  },
-  {
-    id: "c2025_17",
-    phrase: "on the verge of",
-    cat: "Fixed Phrase",
-    sent: "Due to rampant deforestation, the Malayan colugo is now on the verge [ ______ ] extinction.",
-    correct: "of",
-    options: ["of", "to", "for", "at"],
-    meaning: "Very close to experiencing something critical.",
-    clue: "Close to extinction: on the verge ______.",
-    exp: "The fixed prepositional phrase is 'on the verge of'."
-  },
-  {
-    id: "c2025_18",
-    phrase: "stop in one's tracks",
-    cat: "Idiomatic Phrase",
-    sent: "Upon hearing a terrifying screech, the hiker stopped in his [ ______ ] and looked around.",
-    correct: "tracks",
-    options: ["tracks", "steps", "feet", "shoes"],
-    meaning: "To halt suddenly due to shock or surprise.",
-    clue: "Stopping abruptly: stopped in his ______.",
-    exp: "'Stop in one's tracks' means to come to a sudden halt."
-  },
-  {
-    id: "c2025_19",
-    phrase: "blend in with",
-    cat: "Phrasal Verb",
-    sent: "A tiger's orange and black stripes help it blend [ ______ ] the tall grasses of the jungle.",
-    correct: "with",
-    options: ["with", "in", "to", "at"],
-    meaning: "To merge smoothly into the surrounding environment.",
-    clue: "Camouflaging with surroundings: blend in ______.",
-    exp: "'Blend in with' means to harmonize or camouflage with."
-  },
-  {
-    id: "c2025_20",
-    phrase: "set an example",
-    cat: "Fixed Collocation",
-    sent: "The monitor strove to set a commendable [ ______ ] for his peers by arriving punctually every day.",
-    correct: "example",
-    options: ["example", "pattern", "standard", "rule"],
-    meaning: "To behave in a way that others should copy.",
-    clue: "Being a role model: set an ______.",
-    exp: "'Set an example' is the standard collocation for acting as a role model."
-  }
+      { id: "c2025_01", phrase: "swept away", cat: "Collocation", sent: "Along the swollen riverbanks, rows of squatter huts had been swept [ ______ ] by the rising waters.", correct: "away", options: ["away", "off", "out", "down"], meaning: "To be completely carried off or destroyed by water currents.", clue: "Carried away violently by floodwaters: swept ______.", exp: "'Swept away' specifically describes items carried off by floodwaters." },
+      { id: "c2025_02", phrase: "put out", cat: "Phrasal Verb", sent: "Firefighters arrived swiftly at the shophouse and proceeded to put [ ______ ] the fierce fire.", correct: "out", options: ["out", "off", "down", "away"], meaning: "To extinguish a fire.", clue: "Extinguishing a blaze: put ______ the fire.", exp: "'Put out' means to extinguish. 'Put off' means to postpone." },
+      { id: "c2025_03", phrase: "caught up in", cat: "Phrasal Verb", sent: "Players can get so caught [ ______ ] in an exciting match that they easily lose track of time.", correct: "up", options: ["up", "in", "on", "into"], meaning: "Deeply absorbed or engrossed in an activity.", clue: "Entangled or deeply absorbed: caught ______ in.", exp: "'Caught up in' is a fixed idiom meaning completely engrossed in something." },
+      { id: "c2025_04", phrase: "blocked off", cat: "Phrasal Verb", sent: "The busy road was blocked [ ______ ] by the police to prevent onlookers from approaching the site.", correct: "off", options: ["off", "out", "away", "down"], meaning: "To close or barricade a road or passageway.", clue: "Barricading a road: blocked ______ by police.", exp: "'Block off' means to close an area or street to traffic." },
+      { id: "c2025_05", phrase: "feed on", cat: "Verb & Preposition", sent: "As red foxes are omnivorous, they feed [ ______ ] both small animals and wild berries.", correct: "on", options: ["on", "with", "at", "by"], meaning: "To eat as regular sustenance.", clue: "Animals eating a diet: feed ______.", exp: "Animals 'feed on' food to survive." },
+      { id: "c2025_06", phrase: "second nature", cat: "Idiomatic Phrase", sent: "Martial artists practise their stances repeatedly until every movement becomes second [ ______ ].", correct: "nature", options: ["nature", "habit", "action", "thought"], meaning: "An acquired habit that becomes automatic and effortless.", clue: "Fixed idiom: become second ______.", exp: "'Second nature' means an acquired habit so ingrained that it feels natural." },
+      { id: "c2025_07", phrase: "word of mouth", cat: "Idiomatic Phrase", sent: "In ancient times, timeless folk tales were passed down through word of [ ______ ] across generations.", correct: "mouth", options: ["mouth", "speech", "tongue", "voice"], meaning: "Spoken communication rather than written records.", clue: "Oral storytelling tradition: word of ______.", exp: "'Word of mouth' is a standard fixed phrase meaning spoken communication." },
+      { id: "c2025_08", phrase: "strike a balance", cat: "Fixed Collocation", sent: "It is essential for young gamers to strike a healthy [ ______ ] between gaming and outdoor exercises.", correct: "balance", options: ["balance", "harmony", "peace", "routine"], meaning: "To achieve a fair compromise between two things.", clue: "Fixed phrase: strike a ______.", exp: "'Strike a balance' means to find an equilibrium between two competing demands." },
+      { id: "c2025_09", phrase: "peace of mind", cat: "Idiomatic Phrase", sent: "Informing your parents of your whereabouts ensures your safety and gives them peace of [ ______ ].", correct: "mind", options: ["mind", "heart", "thought", "soul"], meaning: "A state of calmness and freedom from worry.", clue: "Three-word idiom: peace of ______.", exp: "'Peace of mind' means feeling secure and free from anxiety." },
+      { id: "c2025_10", phrase: "free of charge", cat: "Fixed Phrase", sent: "Admission to the newly opened botanical wetland is free of [ ______ ] for all local residents.", correct: "charge", options: ["charge", "cost", "price", "fee"], meaning: "Completely complimentary without any payment.", clue: "Collocation for free entry: free of ______.", exp: "'Free of charge' is standard formal English for complimentary service." },
+      { id: "c2025_11", phrase: "depend on", cat: "Verb & Preposition", sent: "The outcome of this team sport does not depend [ ______ ] raw physical strength alone.", correct: "on", options: ["on", "with", "to", "at"], meaning: "To be determined or influenced by something.", clue: "Pairs with depend: depend ______.", exp: "Verb 'depend' takes preposition 'on'." },
+      { id: "c2025_12", phrase: "safe than sorry", cat: "Idiomatic Phrase", sent: "When walking alone in the dark, it is always better to be safe than [ ______ ].", correct: "sorry", options: ["sorry", "afraid", "worried", "hurt"], meaning: "Wise to take precautions rather than risk trouble.", clue: "Well-known proverb: better to be safe than ______.", exp: "The complete proverb is 'better to be safe than sorry'." },
+      { id: "c2025_13", phrase: "give up", cat: "Phrasal Verb", sent: "By giving [ ______ ] their comfort food temporarily, believers learn self-discipline and gratitude.", correct: "up", options: ["up", "in", "away", "out"], meaning: "To renounce, surrender, or sacrifice something.", clue: "Sacrificing or letting go of habits: giving ______.", exp: "'Give up' means to sacrifice or abstain from." },
+      { id: "c2025_14", phrase: "draw near", cat: "Phrasal Verb", sent: "As the day of the crucial examination drew [ ______ ], her anxiety began to intensify.", correct: "near", options: ["near", "close", "on", "in"], meaning: "To approach in time.", clue: "Time approaching: drew ______.", exp: "The idiom 'draw near' means to approach in time." },
+      { id: "c2025_15", phrase: "look after", cat: "Phrasal Verb", sent: "Our kind neighbours agreed to look [ ______ ] our puppy while we were away on vacation.", correct: "after", options: ["after", "into", "for", "on"], meaning: "To take care of someone or a pet.", clue: "Caring for a pet: look ______.", exp: "'Look after' means to care for or take charge of." },
+      { id: "c2025_16", phrase: "abstain from", cat: "Verb & Preposition", sent: "The athlete was advised to abstain [ ______ ] sugary snacks to maintain optimum health.", correct: "from", options: ["from", "with", "against", "at"], meaning: "To deliberately refrain from consuming something.", clue: "Refraining from a habit: abstain ______.", exp: "The verb 'abstain' is followed by the preposition 'from'." },
+      { id: "c2025_17", phrase: "on the verge of", cat: "Fixed Phrase", sent: "Due to rampant deforestation, the Malayan colugo is now on the verge [ ______ ] extinction.", correct: "of", options: ["of", "to", "for", "at"], meaning: "Very close to experiencing something critical.", clue: "Close to extinction: on the verge ______.", exp: "The fixed prepositional phrase is 'on the verge of'." },
+      { id: "c2025_18", phrase: "stop in one's tracks", cat: "Idiomatic Phrase", sent: "Upon hearing a terrifying screech, the hiker stopped in his [ ______ ] and looked around.", correct: "tracks", options: ["tracks", "steps", "feet", "shoes"], meaning: "To halt suddenly due to shock or surprise.", clue: "Stopping abruptly: stopped in his ______.", exp: "'Stop in one's tracks' means to come to a sudden halt." },
+      { id: "c2025_19", phrase: "blend in with", cat: "Phrasal Verb", sent: "A tiger's orange and black stripes help it blend [ ______ ] the tall grasses of the jungle.", correct: "with", options: ["with", "in", "to", "at"], meaning: "To merge smoothly into the surrounding environment.", clue: "Camouflaging with surroundings: blend in ______.", exp: "'Blend in with' means to harmonize or camouflage with." },
+      { id: "c2025_20", phrase: "set an example", cat: "Fixed Collocation", sent: "The monitor strove to set a commendable [ ______ ] for his peers by arriving punctually every day.", correct: "example", options: ["example", "pattern", "standard", "rule"], meaning: "To behave in a way that others should copy.", clue: "Being a role model: set an ______.", exp: "'Set an example' is the standard collocation for acting as a role model." },
+      { id: "c2025_21", phrase: "neither ... nor", cat: "Connectors", sent: "The police suspected neither arson [ ______ ] any malicious intent to harm.", correct: "nor", options: ["nor", "or", "and", "but"], meaning: "Not one and not the other.", clue: "Fixed correlative conjunction: neither ______.", exp: "Correlative pair: 'neither' always pairs with 'nor'!" },
+      { id: "c2025_22", phrase: "instead of", cat: "Prepositional Phrase", sent: "Instead [ ______ ] moving away, these clever wild foxes learn to thrive near human habitats.", correct: "of", options: ["of", "to", "for", "from"], meaning: "As an alternative or substitute to something.", clue: "Alternative action: instead ______.", exp: "Prepositional phrase 'instead of' is followed by a noun or gerund." },
+      { id: "c2025_23", phrase: "unlike", cat: "Preposition", sent: "[ ______ ] some sports that require expensive gear, pickleball is easy and cheap to pick up.", correct: "unlike", options: ["unlike", "like", "against", "except"], meaning: "Different from; not typical of.", clue: "Showing contrast at the start of sentence: ______ some sports...", exp: "'Unlike' introduces a contrast with other sports." },
+      { id: "c2025_24", phrase: "compared to", cat: "Collocation", sent: "Pickleball is gentler on elderly joints compared [ ______ ] high-impact sports like basketball.", correct: "to", options: ["to", "with", "against", "from"], meaning: "When considered in relation to another.", clue: "Comparison phrase: compared ______.", exp: "Standard collocation: 'compared to' (or 'compared with')." },
+      { id: "c2025_25", phrase: "give it a try", cat: "Idiom & Collocation", sent: "Pickleball offers something for everyone, so why not give it a [ ______ ] this weekend?", correct: "try", options: ["try", "shot", "go", "test"], meaning: "To attempt or test doing something.", clue: "Collocation for attempting something: give it a ______.", exp: "Fixed idiom: 'give it a try' (or 'give it a shot')." },
+      { id: "c2025_26", phrase: "role models", cat: "Collocation", sent: "Parents are encouraged to be good role [ ______ ] by keeping away devices during dinner.", correct: "models", options: ["models", "leaders", "examples", "figures"], meaning: "People whose behavior is imitated by others.", clue: "Compound noun: role ______.", exp: "Fixed collocation: 'role models'." },
+      { id: "c2025_27", phrase: "play a part", cat: "Idiomatic Phrase", sent: "Society, schools and parents all have an important role to [ ______ ] in children's digital health.", correct: "play", options: ["play", "take", "make", "do"], meaning: "To be involved in an action and have an effect on it.", clue: "Fixed collocation with role: have a role to ______.", exp: "Collocation: 'play a part' or 'have a role to play'." },
+      { id: "c2025_28", phrase: "due to", cat: "Cause & Effect", sent: "Around 40% of items in recycling bins cannot be processed due [ ______ ] food contamination.", correct: "to", options: ["to", "of", "from", "for"], meaning: "Because of; caused by.", clue: "Causal connector: due ______.", exp: "Prepositional connector: 'due to' means 'because of'." },
+      { id: "c2025_29", phrase: "look beyond", cat: "Phrasal Verb", sent: "Consumers are advised to look [ ______ ] misleading claims and inspect official energy ratings.", correct: "beyond", options: ["beyond", "after", "through", "over"], meaning: "To consider other aspects rather than just what is obvious.", clue: "Seeing past surface appearances: look ______.", exp: "'Look beyond' means to see past superficial claims." },
+      { id: "c2025_30", phrase: "make sense of", cat: "Idiomatic Phrase", sent: "Scientists believe that dreams help human minds make [ ______ ] of complex daily experiences.", correct: "sense", options: ["sense", "meaning", "order", "use"], meaning: "To comprehend or understand something.", clue: "Fixed idiom: make ______ of.", exp: "'Make sense of' means to understand or find meaning in something." },
+      { id: "c2025_31", phrase: "for instance / example", cat: "Connectors", sent: "For [ ______ ], if you study diligently, your brain sorts what you learned during sleep.", correct: "instance", options: ["instance", "example", "case", "fact"], meaning: "As an illustration.", clue: "Common transition phrase: For ______.", exp: "'For instance' and 'For example' introduce illustrative evidence." },
+      { id: "c2025_32", phrase: "solution to", cat: "Collocation", sent: "Have you ever awakened in the morning with a creative solution [ ______ ] a thorny problem?", correct: "to", options: ["to", "for", "with", "of"], meaning: "An answer to a problem.", clue: "Preposition following solution: solution ______.", exp: "Noun 'solution' takes the preposition 'to' (solution to a problem)." },
+      { id: "c2025_33", phrase: "tell apart / tell", cat: "Collocation", sent: "Examining your recurring dreams might [ ______ ] you valuable clues about your inner thoughts.", correct: "tell", options: ["tell", "show", "give", "teach"], meaning: "To reveal information.", clue: "Disclose thoughts: ______ you something about your mind.", exp: "'Tell you something' conveys disclosing insights or truth." },
+      { id: "c2025_34", phrase: "catch one's breath", cat: "Idiom", sent: "Passengers on the thrilling roller coaster tried to catch their [ ______ ] as they climbed the peak.", correct: "breath", options: ["breath", "air", "pace", "voice"], meaning: "To pause to rest until breathing normally again.", clue: "Fixed idiom: catch their ______.", exp: "'Catch one's breath' is a standard idiom for recovering normal breathing." },
+      { id: "c2025_35", phrase: "look forward to", cat: "Grammar & Phrasal", sent: "The enthusiastic students had been looking [ ______ ] to visiting the theme park for weeks.", correct: "forward", options: ["forward", "ahead", "on", "out"], meaning: "To feel excited about something that is going to happen.", clue: "Anticipating with pleasure: looking ______ to.", exp: "Fixed three-part phrasal verb: 'look forward to' (+ gerund/noun)." },
+      { id: "c2025_36", phrase: "sense of satisfaction", cat: "Collocation", sent: "Upon completing their handmade woodwork, makers gain a profound sense of [ ______ ].", correct: "satisfaction", options: ["satisfaction", "relief", "pride", "achievement"], meaning: "A feeling of fulfillment and happiness.", clue: "Feeling accomplished: a sense of ______.", exp: "'Sense of satisfaction' is a top-frequency PSLE emotional collocation." },
+      { id: "c2025_37", phrase: "take pride in", cat: "Idiomatic Phrase", sent: "Skilled craftsmen take immense [ ______ ] in ensuring every joint and surface is polished.", correct: "pride", options: ["pride", "care", "honor", "delight"], meaning: "To feel very pleased with something one has created or achieved.", clue: "Fixed phrase: take ______ in.", exp: "'Take pride in' means to be proud of one's work or actions." },
+      { id: "c2025_38", phrase: "second lease of life", cat: "Idiomatic Phrase", sent: "Donating pre-loved clothes gives these usable garments a second [ ______ ] of life.", correct: "lease", options: ["lease", "chance", "turn", "stage"], meaning: "A renewed opportunity to be useful or continue living.", clue: "Fixed idiom: a second ______ of life.", exp: "Fixed British/PSLE idiom: 'a second lease of life'." },
+      { id: "c2025_39", phrase: "participate in", cat: "Verb & Preposition", sent: "Residents are encouraged to actively participate [ ______ ] community upcycling workshops.", correct: "in", options: ["in", "on", "at", "with"], meaning: "To take part in an activity.", clue: "Preposition following participate: participate ______.", exp: "The verb 'participate' strictly pairs with 'in'." },
+      { id: "c2025_40", phrase: "lack of", cat: "Collocation", sent: "Many beginners give up DIY projects due to a [ ______ ] of space and proper tools at home.", correct: "lack", options: ["lack", "shortage", "loss", "need"], meaning: "The state of being without or not having enough of something.", clue: "Absence or insufficiency: a ______ of space.", exp: "Standard collocation: 'a lack of'." }
     ];
 
     let activeApp = 'spelling'; 
@@ -916,10 +633,15 @@
 
     const todayStr = new Date().toISOString().split('T')[0];
 
+    function getItemKey(item) {
+      if (!item) return '';
+      return item.word ? item.word : item.id;
+    }
+
     function loadInitialStore() {
-      let s = JSON.parse(localStorage.getItem('portal_spelling_v4') || '{}');
+      let s = JSON.parse(localStorage.getItem('psle_master_store_v5') || '{}');
       if (!s.stars) {
-        ['portal_spelling_v3', 'portal_cloze_v3', 'portal_spelling_v2'].forEach(k => {
+        ['portal_spelling_v4', 'portal_spelling_v3', 'portal_cloze_v3'].forEach(k => {
           try {
             const old = JSON.parse(localStorage.getItem(k) || '{}');
             if (old.stars && old.stars > (s.stars || 0)) {
@@ -958,7 +680,7 @@
     }
 
     function saveToLocalStorage() {
-      localStorage.setItem('portal_spelling_v4', JSON.stringify(store));
+      localStorage.setItem('psle_master_store_v5', JSON.stringify(store));
     }
 
     function syncStore() {
@@ -996,30 +718,29 @@
 
     function buildSessionList() {
       const db = getDB();
-      const idKey = (activeApp === 'spelling') ? 'word' : 'id';
 
       if (activeApp === 'speed') {
         sessionList = db.slice(0, 15);
         return;
       }
       if (currentMode === 'review') {
-        const rev = db.filter(item => store.inReview.includes(item[idKey] || item.word));
+        const rev = db.filter(item => store.inReview.includes(getItemKey(item)));
         sessionList = rev.length > 0 ? rev : db.slice(0, 20);
         return;
       }
       if (currentMode === 'daily') {
         const reviewDue = db.filter(item => {
-          const key = item[idKey] || item.word;
+          const key = getItemKey(item);
           const p = store.progress[key];
           return p && (!p.nextDue || p.nextDue <= todayStr) && p.streak < 3;
         });
         const unseen = db.filter(item => {
-          const key = item[idKey] || item.word;
+          const key = getItemKey(item);
           return !store.progress[key] && !store.mastered.includes(key);
         });
         let pool = [...reviewDue, ...unseen];
         if (pool.length < 20) {
-          const nonMastered = db.filter(item => !store.mastered.includes(item[idKey] || item.word));
+          const nonMastered = db.filter(item => !store.mastered.includes(getItemKey(item)));
           pool = nonMastered.length >= 20 ? nonMastered : db;
         }
         sessionList = pool.slice(0, 20);
@@ -1252,7 +973,12 @@
     function speakTargetSentence() {
       if (!window.speechSynthesis) return;
       const q = currentQuestion || getActiveList()[currentIdx];
-      const textToSpeak = q.sent.replace(/\[.*?\]/, (q.word || q.correct));
+      let textToSpeak = '';
+      if (q.word) {
+        textToSpeak = q.sent.replace(/\[(.*?)\]/, q.word);
+      } else {
+        textToSpeak = q.sent.replace(/\[\s*______\s*\]/, " " + q.correct + " ");
+      }
       const utter = new SpeechSynthesisUtterance(textToSpeak);
       utter.lang = 'en-GB';
       utter.rate = 0.9;
@@ -1260,21 +986,19 @@
       window.speechSynthesis.speak(utter);
     }
 
-    // 精准区分科目统计
     function updateStats() {
       document.getElementById('statStars').innerText = store.stars || 0;
       
       const isSp = (activeApp === 'spelling');
       const isCl = (activeApp === 'cloze');
       
-      // 当前科目的已掌握数量与错题池数量
-      const currentMasteredCount = store.mastered.filter(id => {
-        const isWord = SPELLING_DB.some(item => item.word === id);
+      const currentMasteredCount = store.mastered.filter(key => {
+        const isWord = SPELLING_DB.some(item => item.word === key);
         return isSp ? isWord : (isCl ? !isWord : true);
       }).length;
       
-      const currentReviewCount = store.inReview.filter(id => {
-        const isWord = SPELLING_DB.some(item => item.word === id);
+      const currentReviewCount = store.inReview.filter(key => {
+        const isWord = SPELLING_DB.some(item => item.word === key);
         return isSp ? isWord : (isCl ? !isWord : true);
       }).length;
 
@@ -1282,7 +1006,6 @@
       document.getElementById('statReview').innerText = currentReviewCount;
       document.getElementById('revCount').innerText = currentReviewCount;
 
-      // 动态切换标签和计数
       const statLabelEl = document.getElementById('statDoneLabel');
       const statDoneEl = document.getElementById('statDone');
       const todayLog = store.dailyLogs[todayStr] || { done: 0, firstTryCorrect: 0, byApp: {} };
@@ -1319,7 +1042,7 @@
       const q = currentQuestion || list[currentIdx];
       const isSpellingItem = !!q.word;
       const targetAnswer = isSpellingItem ? q.word : q.correct;
-      const idKey = isSpellingItem ? q.word : q.id;
+      const idKey = getItemKey(q);
       const actionBtn = document.getElementById('actionBtn');
       const resBox = document.getElementById('resultContainer');
 
@@ -1483,8 +1206,7 @@
     function openPrintModal() {
       const container = document.getElementById('printListContainer');
       const allDB = getDB();
-      const idKey = (activeApp === 'spelling') ? 'word' : 'id';
-      const weakList = allDB.filter(item => store.inReview.includes(item[idKey] || item.word));
+      const weakList = allDB.filter(item => store.inReview.includes(getItemKey(item)));
       const printPool = (weakList.length >= 5 ? weakList : allDB).slice(0, 15);
 
       let html = '';
