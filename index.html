@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PSLE English AL1 Master Portal (2025 Full Top Schools Edition)</title>
+  <title>PSLE English AL1 Master Portal (Ultimate Complete Edition)</title>
   
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -197,8 +197,9 @@
       document.getElementById('cloudStatus').innerText = '🔒 本地安全存储';
     }
 
-    // 零删减完整保留原有词库 + 全量 2025 名校新增真题 (去重后 88 题真实真题库)
+    // ================= 终极完整版 SPELLING & EDITING 题库 (共 142 题) =================
     const SPELLING_DB = [
+      // --- 第一部分：原有核心库 ---
       {"word": "accommodation", "cat": "Double Consonants", "sub": "Double 'c' & Double 'm'", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
       {"word": "admitted", "cat": "Double Consonants", "sub": "Double 't' in past tense", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window.", "feat": "Double 't': ad + mit + ted (CVC doubling rule before '-ed').", "tip": "Short vowel /ɪ/ before 't' means double the 't' before adding '-ed'."},
       {"word": "applause", "cat": "Double Consonants", "sub": "Double 'p'", "src": "2025 Tao Nan P5 EOY *", "sent": "Thunderous [apllause] erupted throughout the concert hall when the choir bowed.", "feat": "Double 'p', diphthong 'au', ends in '-se': ap + plause.", "tip": "Remember 'ap-' prefix doubles the 'p' before 'plause'."},
@@ -219,7 +220,7 @@
       {"word": "equipped", "cat": "Double Consonants", "sub": "Double 'p'", "src": "P5 Editing Core", "sent": "The new science lab is fully [equiped] with microscopes and safety goggles.", "feat": "Double 'p': e + quipped (short vowel /ɪ/ before 'p').", "tip": "Single final consonant 'p' doubles before '-ed'."},
       {"word": "immediately", "cat": "Double Consonants", "sub": "Double 'm'", "src": "P5 High-Frequency Spelling", "sent": "The paramedics rushed to the scene [imediately] after receiving the emergency call.", "feat": "Double 'm', ends in '-ely': im + me + di + ate + ly.", "tip": "Prefix 'im-' + root 'mediate' + '-ly'. Don't drop the 'e'!"},
       {"word": "interrupted", "cat": "Double Consonants", "sub": "Double 'r'", "src": "P5 Grammar & Editing *", "sent": "The loud fire siren [interupted] the teacher in the middle of her explanation.", "feat": "Double 'r': inter + rupt + ed.", "tip": "Root 'rupt' (to break) + prefix 'inter-' -> double 'r'."},
-      {"word": "occurrence", "cat": "Double Consonants", "sub": "Double 'c' & Double 'r'", "src": "PSLE & Top Schools Editing *", "sent": "The unexpected [occurance] of flash floods caused traffic delays islandwide.", "feat": "Double 'c' AND double 'r', ending in '-ence': oc + cur + rence.", "tip": "Double 'c', double 'r', and ends in '-ENCE' (never '-ance')!"},
+      {"word": "occurrence", "cat": "Double Consonants", "sub": "Double 'c' & Double 'r'", "src": "2025 SCGS SA2 / PSLE", "sent": "The unexpected [occurance] of flash floods caused traffic delays islandwide.", "feat": "Double 'c' AND double 'r', ending in '-ence': oc + cur + rence.", "tip": "2 Cats (cc) and 2 Rabbits (rr) meet at the occurrence (-ence)!"},
       {"word": "opponent", "cat": "Double Consonants", "sub": "Double 'p'", "src": "P5 Vocabulary Core", "sent": "Marcus bowed respectfully to his [oponent] before the judo match began.", "feat": "Double 'p', single 'n's: op + po + nent.", "tip": "Prefix 'op-' + 'opponent' -> 2 'p's. Ends with '-ent'."},
       {"word": "parallel", "cat": "Double Consonants", "sub": "Double 'l' in the middle", "src": "P5 Tricky Spelling", "sent": "The railway tracks ran [paralel] to the scenic coastal highway for miles.", "feat": "Single 'r', double 'l' in the middle: par + al + lel.", "tip": "The two parallel 'l's stand side-by-side in the middle!"},
       {"word": "planned", "cat": "Double Consonants", "sub": "Double 'n'", "src": "P5 Editing Core", "sent": "They [planed] a surprise birthday celebration for their class form teacher.", "feat": "Double 'n': plan + n + ed.", "tip": "'Planed' means shaved wood! Double 'n' for 'planned'."},
@@ -241,8 +242,8 @@
       {"word": "curiosity", "cat": "Vowel & Silent Traps", "sub": "Vowel shift from 'curious'", "src": "P5 Word Form & Spelling", "sent": "Driven by intense [curiousity], the child peeked through the keyhole.", "feat": "Loses the 'u' from 'curious': cu + ri + os + i + ty.", "tip": "Notice: 'curiOUS' has an 'o-u', but 'curiOSity' drops the 'u'!"},
       {"word": "definitely", "cat": "Vowel & Silent Traps", "sub": "'-ite-' not '-ate-'", "src": "PSLE High-Frequency Trap", "sent": "Our team will [definately] give our utmost effort during tomorrow's finals.", "feat": "Contains 'finite' inside: de + fin + ite + ly.", "tip": "Look at root 'finite' (no 'a' in definitely)!"},
       {"word": "discipline", "cat": "Vowel & Silent Traps", "sub": "Silent 'c'", "src": "P5 Editing Core", "sent": "Strict self-[disipline] is required if you wish to master a musical instrument.", "feat": "'sc' combination: dis + ci + pline.", "tip": "Related to 'disciple' — don't omit silent 'c' after 'dis-'."},
-      {"word": "environment", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "P5 Editing Core", "sent": "We must all do our part to keep our living [enviroment] clean and green.", "feat": "Silent 'n' before 'ment': en + vi + ron + ment.", "tip": "Remember 'iron': en-vi-RON-ment!"},
-      {"word": "fascinated", "cat": "Vowel & Silent Traps", "sub": "Silent 'c'", "src": "2024 Rosyth / ACSJ *", "sent": "The children were deeply [fasinated] by the luminous deep-sea jellyfish.", "feat": "'sc' combination: fas + ci + nated.", "tip": "Silent 'c' after 's': fas-ci-nated (think of 'fascinating')."},
+      {"word": "environment", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "2025 ACSJ / HPPS SA2", "sent": "The owl allowed him to observe her natural behavior in her [enviaroument].", "feat": "Silent 'n' before 'ment': en + vi + ron + ment.", "tip": "Remember 'iron' inside: en-vi-RON-ment! Never omit the 'n'."},
+      {"word": "fascinated", "cat": "Vowel & Silent Traps", "sub": "Silent 'c'", "src": "2025 ACSJ SA2", "sent": "He gazed into her dark eyes and was instantly [fassinated] by her plumage.", "feat": "'sc' combination: fas + ci + nated.", "tip": "Silent 'c' after 's': fas-ci-nated (never double 's')."},
       {"word": "foreign", "cat": "Vowel & Silent Traps", "sub": "'-eign' silent 'g'", "src": "P5 Editing Core", "sent": "Learning a [foriegn] language broadens your horizons and cultural understanding.", "feat": "'e' before 'i', silent 'g': for + eign.", "tip": "Exception to 'i before e'! Rhymes with 'reign'."},
       {"word": "government", "cat": "Vowel & Silent Traps", "sub": "Silent 'n'", "src": "P5 High-Frequency Spelling", "sent": "The [goverment] implemented new subsidies to help low-income households.", "feat": "Silent 'n': gov + ern + ment.", "tip": "Root is 'govern' + suffix '-ment' -> never drop the 'n'!"},
       {"word": "grateful", "cat": "Vowel & Silent Traps", "sub": "'grate-' not 'great-'", "src": "PSLE Confusable Trap", "sent": "The rescued hikers were immensely [greatful] to the courageous search team.", "feat": "Spelt 'grate', NOT 'great': grate + ful.", "tip": "From Latin 'gratus' (gratitude). Never write 'greatful'!"},
@@ -254,7 +255,7 @@
       {"word": "queue", "cat": "Vowel & Silent Traps", "sub": "'-ueue' vowels", "src": "P5 Common Trap", "sent": "Hungry patrons stood patiently in a long [que] outside the popular bakery.", "feat": "'q' followed by 'u-e-u-e': queue.", "tip": "'Q' followed by four vowels waiting in line: u-e-u-e!"},
       {"word": "received", "cat": "Vowel & Silent Traps", "sub": "'-ei-' after 'c'", "src": "P5 Editing Core", "sent": "She [recieved] a certificate of commendation for her exemplary conduct.", "feat": "'e' before 'i' AFTER 'c': re + ceive + d.", "tip": "Rule: 'i' before 'e', EXCEPT AFTER 'C'."},
       {"word": "restaurant", "cat": "Vowel & Silent Traps", "sub": "'-au-' in the middle", "src": "PSLE Common Trap", "sent": "Our family celebrated Mother's Day at an authentic Peranakan [restarant].", "feat": "Contains 'au' in second syllable: res + tau + rant.", "tip": "Notice 'tau' in the middle (res-TAU-rant)!"},
-      {"word": "rhythm", "cat": "Vowel & Silent Traps", "sub": "'rh' and 'y' as vowel", "src": "P5 Top School Core", "sent": "The dancers swayed gracefully to the pulsating [rythm] of the ethnic drums.", "feat": "'rh' and vowel 'y': rhy + thm.", "tip": "Rhythm Helps Your Two Hips Move (R-H-Y-T-H-M)!"},
+      {"word": "rhythm", "cat": "Vowel & Silent Traps", "sub": "'rh' and 'y' as vowel", "src": "2025 SCGS SA2", "sent": "Restful sleep helps the human body maintain its natural biological [rythem].", "feat": "'rh' and vowel 'y': rhy + thm.", "tip": "Rhythm Helps Your Two Hips Move (R-H-Y-T-H-M)!"},
       {"word": "schedule", "cat": "Vowel & Silent Traps", "sub": "'sch' combination", "src": "P5 Editing Core", "sent": "The teacher handed out the revised examination [scedule] before dismissal.", "feat": "Starts with 'sch-': sche + dule.", "tip": "Notice 'sch' (like 'school'). Don't omit the 'h'!"},
       {"word": "separate", "cat": "Vowel & Silent Traps", "sub": "'-par-' not '-per-'", "src": "PSLE High-Frequency Trap", "sent": "The teacher asked the two chatty students to sit at [seperate] desks.", "feat": "Contains 'par' in the middle: se + pa + rate.", "tip": "There is 'A RAT' (sep-A-RAT-e) in separate!"},
       {"word": "tongue", "cat": "Vowel & Silent Traps", "sub": "'-gue' silent ending", "src": "P5 Spelling Core", "sent": "Be careful when sipping the boiling soup, or you might burn your [tounge].", "feat": "'o-n-g-u-e': tongue.", "tip": "Notice vowel 'o', followed by 'ng', ending in 'ue'."},
@@ -263,9 +264,11 @@
       {"word": "video", "cat": "Vowel & Silent Traps", "sub": "'-eo' ending", "src": "P5 Spelling Core", "sent": "The pupils recorded a short educational [vedio] on wildlife conservation.", "feat": "'i' before 'd', '-eo' at end: vi + de + o.", "tip": "Spelt v-i-d-e-o, not 'vedio'."},
       {"word": "anxiety", "cat": "Word Form Overlaps", "sub": "Anxious -> Anxiety", "src": "P5 Word Form Core", "sent": "Her heart pounded with intense [anxious] as she waited for the dentist to call her name.", "feat": "Noun from adjective 'anxious': anx + i + e + ty.", "tip": "Adjective 'intense' modifies a NOUN -> 'anxiety'."},
       {"word": "courageous", "cat": "Word Form Overlaps", "sub": "Courage -> Courageous", "src": "P5 Word Form Core", "sent": "The [courage] firefighter plunged into the flaming building to rescue the trapped kitten.", "feat": "Adjective from noun 'courage': cour + a + ge + ous.", "tip": "Modifies noun 'firefighter', so adjective needed: cour-a-ge-ous!"},
+      {"word": "generosity", "cat": "Word Form Overlaps", "sub": "Generous -> Generosity", "src": "2025 Catholic High SA2", "sent": "I wondered whether I had failed to teach my daughter kindness and [generousiti].", "feat": "Noun from adjective 'generous': gen + er + os + i + ty.", "tip": "'Generous' loses the 'u' when forming the noun 'generosity'!"},
       {"word": "desperation", "cat": "Word Form Overlaps", "sub": "Desperate -> Desperation", "src": "P5 Word Form Core", "sent": "In sheer [desperate], the lost camper shouted for help until his voice grew hoarse.", "feat": "Noun from adjective 'desperate': des + per + a + tion.", "tip": "Preposition 'in' followed by noun ('in sheer desperation')."},
       {"word": "relief", "cat": "Word Form Overlaps", "sub": "Relieve (v.) -> Relief (n.)", "src": "P5 Word Form Core", "sent": "Mother sighed in deep [relieve] when the doctor confirmed that my fever had subsided.", "feat": "Noun form has 'f', not 've': re + lief.", "tip": "'Relieve' is a VERB; 'relief' is a NOUN. After 'in', use 'relief'."},
       {"word": "competition", "cat": "Word Form Overlaps", "sub": "Compete (v.) -> Competition (n.)", "src": "2026 EYE Q3 *", "sent": "Dozens of schools took part in the prestigious national storytelling [compete].", "feat": "Noun from verb 'compete': com + pe + ti + tion.", "tip": "Compound noun: 'storytelling competition'."},
+      {"word": "appreciation", "cat": "Word Form Overlaps", "sub": "Appreciate (v.) -> Appreciation (n.)", "src": "2025 Maha Bodhi SA2", "sent": "She cultivated a deep [apreciasion] for rare orchids from a very tender age.", "feat": "Noun from verb 'appreciate': ap + pre + ci + a + tion.", "tip": "Prefix 'ap-' has double 'p'. Abstract noun ends in '-tion'."},
       {"word": "satisfaction", "cat": "Word Form Overlaps", "sub": "Satisfy (v.) -> Satisfaction (n.)", "src": "P5 Word Form Core", "sent": "The master chef smiled with genuine [satisfy] as the guests cleaned their plates.", "feat": "Noun from verb 'satisfy': sat + is + fac + tion.", "tip": "Preposition 'with' + adjective 'genuine' -> noun 'satisfaction'."},
       {"word": "perseverance", "cat": "Word Form Overlaps", "sub": "Persevere (v.) -> Perseverance (n.)", "src": "PSLE 2014, 2021, 2022 *", "sent": "Through sheer [persevere], the injured runner managed to complete the grueling race.", "feat": "Noun from verb 'persevere': per + sev + er + ance.", "tip": "Preposition 'through' takes noun -> 'perseverance'."},
       {"word": "guidance", "cat": "Word Form Overlaps", "sub": "Guide (v./n.) -> Guidance (n.)", "src": "P5 Word Form High-Frequency *", "sent": "Under the patient [guide] of her coach, Sarah perfected her butterfly stroke.", "feat": "Abstract noun ending in '-ance': guid + ance.", "tip": "'Guide' is a person/book; abstract advice is 'guidance'."},
@@ -274,8 +277,11 @@
       {"word": "compatibility", "cat": "Word Form Overlaps", "sub": "Compatible -> Compatibility", "src": "2024 Ai Tong P5 EOY *", "sent": "The technicians tested the new printer for system [compatible] with school laptops.", "feat": "Noun from adjective 'compatible': com + pat + i + bil + i + ty.", "tip": "Noun form ends in '-ibility': 'compatibility'."},
       {"word": "responsibility", "cat": "Word Form Overlaps", "sub": "Responsible -> Responsibility", "src": "P5 Word Form Core", "sent": "As class chairperson, Kenneth took full [responsible] for organizing the clean-up.", "feat": "Noun from adjective 'responsible': re + spon + si + bil + i + ty.", "tip": "Verb 'took' + adjective 'full' modifies NOUN -> 'responsibility'."},
       {"word": "announcement", "cat": "Word Form Overlaps", "sub": "Announce (v.) -> Announcement (n.)", "src": "P5 Word Form Core", "sent": "The vice-principal made an important [announce] regarding the upcoming sports meet.", "feat": "Noun suffix '-ment': an + nounce + ment.", "tip": "Articles 'an' + adjective 'important' modify noun -> 'announcement'."},
+      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate (v.) -> Hesitation", "src": "2025 Catholic High SA2", "sent": "Without any [heziteshen], she took a bite from one apple, then bit into the second.", "feat": "Noun from verb 'hesitate': hes + i + ta + tion.", "tip": "Preposition 'without' takes the noun 'hesitation'. Spelt with an 's'!"},
       {"word": "convenience", "cat": "Word Form Overlaps", "sub": "Convenient -> Convenience", "src": "P5 Word Form Core", "sent": "For the [convenient] of elderly residents, ramps were installed at every block.", "feat": "Noun form ends in '-ce': con + ven + i + ence.", "tip": "'For the convenience of someone' uses the noun."},
       {"word": "permission", "cat": "Word Form Overlaps", "sub": "Permit (v.) -> Permission (n.)", "src": "P4/P5 WA2 Cloze & Word Form *", "sent": "Pupils must seek written [permit] from their parents before joining the excursion.", "feat": "Double 's' in noun: per + mis + sion.", "tip": "Adjective 'written' modifies abstract noun -> 'permission'."},
+
+      // --- 第二部分：2025 顶尖名校 SA2 & WA 真题全量库 ---
       {"word": "disappeared", "cat": "Double Consonants", "sub": "Single 's' & Double 'p'", "src": "2025 ACSJ SA2", "sent": "In December of 2011, the rare owl [disapeared] without a trace.", "feat": "Prefix 'dis-' + 'appear' + '-ed'. One 's' and two 'p's.", "tip": "Prefix 'dis-' has only ONE 's'! Don't double the 's' in disappear."},
       {"word": "swoop", "cat": "Grammar & Modal", "sub": "Modal Verb + Base Form", "src": "2025 ACSJ SA2", "sent": "Knowing that wild owls can [swup] down and strike intruders, he pulled his hood tight.", "feat": "Modal verb 'can' takes base form: s-w-o-o-p.", "tip": "After modal verbs (can/could/must), always use base verb form 'swoop'!"},
       {"word": "impressive", "cat": "Double Consonants", "sub": "Double 's' & '-ive'", "src": "2025 ACSP SA2", "sent": "The panoramic view of the ancient trees and clear sky was [impresif].", "feat": "Double 's' and adjective suffix '-ive': im + pres + sive.", "tip": "Prefix 'im-' + 'press' (double 's') + '-ive'."},
@@ -286,15 +292,13 @@
       {"word": "birth", "cat": "Word Form Overlaps", "sub": "Bear/Born -> Birth", "src": "2025 Ai Tong SA2", "sent": "Extensive genetic research led to the [born] of three healthy wolf pups.", "feat": "Noun from verb 'bear': b-i-r-t-h.", "tip": "The article 'the' precedes a noun: use 'birth' instead of 'born'!"},
       {"word": "inspiration", "cat": "Word Form Overlaps", "sub": "Inspire -> Inspiration", "src": "2025 Ai Tong SA2", "sent": "The wolf served as the real-life [inspireshion] behind the pets in the television show.", "feat": "Noun suffix '-tion': in + spi + ra + tion.", "tip": "Adjective 'real-life' modifies the noun 'inspiration'!"},
       {"word": "stealthily", "cat": "Word Form Overlaps", "sub": "Adjective -> Adverb", "src": "2025 Ai Tong SA2", "sent": "They could move [steltheeli] through dense undergrowth while hunting big game.", "feat": "Adverb from 'stealthy': steal + thi + ly (change 'y' to 'i' + 'ly').", "tip": "Rule: Consonant + 'y' changes to 'i' before '-ly' -> stealthily."},
-      {"word": "hesitation", "cat": "Word Form Overlaps", "sub": "Hesitate -> Hesitation", "src": "2025 Catholic High SA2", "sent": "Without any [heziteshen], she took a bite from one apple, then bit into the second.", "feat": "Noun suffix '-tion': he + si + ta + tion (spelt with 's', not 'z').", "tip": "Preposition 'without' takes the noun 'hesitation'. Spelt with an 's'!"},
-      {"word": "generosity", "cat": "Word Form Overlaps", "sub": "Generous -> Generosity", "src": "2025 Catholic High SA2", "sent": "I wondered whether I had failed to teach my daughter kindness and [generousiti].", "feat": "Noun suffix '-ity': gen + er + os + i + ty.", "tip": "'Generous' loses the letter 'u' when forming the noun 'generosity'!"},
       {"word": "sincerely", "cat": "Word Form Overlaps", "sub": "Sincere -> Sincerely", "src": "2025 Catholic High SA2", "sent": "She looked up with sparkling eyes and said [sinsearly], 'Papa, have the sweeter one!'", "feat": "Adverb: sin + cere + ly (keep the 'e' before adding '-ly').", "tip": "Retain the silent 'e' in 'sincere' before appending '-ly'!"},
       {"word": "gently", "cat": "Word Form Overlaps", "sub": "Gentle -> Gently", "src": "2025 Catholic High SA2", "sent": "I asked her [gentle] if she would be willing to share one fruit with me.", "feat": "Adverb modifying verb 'asked': gen + tly.", "tip": "Modifying the verb 'asked' requires the adverb 'gently'!"},
       {"word": "elation", "cat": "Word Form Overlaps", "sub": "Elate -> Elation", "src": "2025 Catholic High SA2", "sent": "I bought the ripe apples and handed both to her with a genuine sense of [ilashen].", "feat": "Abstract noun: e + la + tion.", "tip": "Collocation: 'a sense of elation' (great happiness/pride)!"},
       {"word": "preparation", "cat": "Word Form Overlaps", "sub": "Prepare -> Preparation", "src": "2025 SCGS SA2", "sent": "The intensive [prepare] began months before the actual parade at the Padang.", "feat": "Noun from verb 'prepare': pre + pa + ra + tion.", "tip": "The definite article 'The' takes a noun -> 'preparation'."},
       {"word": "incredibly", "cat": "Word Form Overlaps", "sub": "Incredible -> Incredibly", "src": "2025 CHIJ St Nicholas SA2", "sent": "When we marched past the grandstand, we felt [incredible] proud to represent our school.", "feat": "Adverb modifying adjective 'proud': in + cred + i + bly.", "tip": "Modifying the adjective 'proud' requires an adverb -> incredibly proud!"},
       {"word": "properly", "cat": "Word Form Overlaps", "sub": "Proper -> Properly", "src": "2025 CHIJ St Nicholas SA2", "sent": "Our teacher taught us how to march in tight formation and hold our banners [propeley].", "feat": "Adverb modifying verb phrase 'hold our banners': pro + per + ly.", "tip": "Action verbs are modified by adverbs ending in '-ly'!"},
-      {"word": "precision", "cat": "Word Form Overlaps", "sub": "Precise -> Precision", "src": "2025 Henry Park SA2", "sent": "Echolocation does not possess the high definition and detailed [precise] of eyesight.", "feat": "Noun suffix '-sion': pre + ci + precision.", "tip": "Adjective 'detailed' modifies the abstract noun 'precision'!"},
+      {"word": "precision", "cat": "Word Form Overlaps", "sub": "Precise -> Precision", "src": "2025 Henry Park SA2", "sent": "Echolocation does not possess the high definition and detailed [precise] of eyesight.", "feat": "Noun suffix '-sion': pre + ci + sion.", "tip": "Adjective 'detailed' modifies the abstract noun 'precision'!"},
       {"word": "dependency", "cat": "Word Form Overlaps", "sub": "Depend -> Dependency", "src": "2025 Henry Park SA2", "sent": "Without assistive tools, blind individuals may live in isolation and [dependancy].", "feat": "Noun ending in '-ency': de + pen + den + cy.", "tip": "Derived from 'dependent' -> spell with '-ency', not '-ancy'!"},
       {"word": "amazement", "cat": "Word Form Overlaps", "sub": "Amaze -> Amazement", "src": "2025 MGS SA2", "sent": "Much to our [amasemant], after walking for five minutes, we found the hidden post.", "feat": "Noun suffix '-ment': a + maze + ment.", "tip": "Collocation: 'Much to one's amazement' requires the noun form!"},
       {"word": "enthusiastically", "cat": "Word Form Overlaps", "sub": "Enthusiastic -> Enthusiastically", "src": "2025 Tao Nan SA2", "sent": "Overcoming her stage fright, she recited her story [enthuszestikally] to the crowd.", "feat": "Adverb suffix '-ally' after '-ic': en + thu + si + as + ti + cal + ly.", "tip": "Adjectives ending in '-ic' always append '-ally' to form adverbs!"},
@@ -306,7 +310,6 @@
       {"word": "mosquitoes", "cat": "Spelling Traps", "sub": "Plural '-oes'", "src": "2025 St. Hilda's SA2", "sent": "Even though I got bitten by pesky [moskittos] during our hike, I loved the adventure.", "feat": "Spelt mos + qui + toes (plural with '-es').", "tip": "Contains 'qui' for the /ki/ sound, and plural ends in '-oes'!"},
       {"word": "souvenir", "cat": "Spelling Traps", "sub": "'-ir' ending", "src": "2025 St. Hilda's SA2", "sent": "I bought a traditional handcrafted [suvenier] from the gift store for my friend.", "feat": "Contains 'sou-' and ends in '-ir': sou + ve + nir.", "tip": "Starts with 'sou-' and ends with '-ir'!"},
       {"word": "consciousness", "cat": "Vowel & Silent Traps", "sub": "'sc' & '-ious'", "src": "2025 SCGS SA2", "sent": "One of the most remarkable faculties of the human mind is [concioussness].", "feat": "Contains 'sc' and '-ness': con + sci + ous + ness.", "tip": "Look at the root 'science' (sc) inside consciousness!"},
-      {"word": "occurrence", "cat": "Double Consonants", "sub": "Double 'c' & Double 'r'", "src": "2025 SCGS SA2", "sent": "Dreaming is a fascinating neurological [ocurrance] experienced each night.", "feat": "Double 'c', double 'r', ending in '-ence': oc + cur + rence.", "tip": "2 Cats (cc) and 2 Rabbits (rr) meet at the occurrence (-ence)!"},
       {"word": "privilege", "cat": "Spelling Traps", "sub": "No double letters", "src": "2025 SCGS SA2", "sent": "Receiving a scholarship to study abroad is a tremendous [privellege].", "feat": "All single consonants: priv + i + lege (ends in '-lege').", "tip": "Never double the 'l' in privilege! Spelt p-r-i-v-i-l-e-g-e."},
       {"word": "savouring", "cat": "Grammar & Participle", "sub": "Present Participle", "src": "2025 Red Swastika WA1", "sent": "[Savoured] his fragrant hot tea with his eyes closed, he looked immensely relaxed.", "feat": "Present participle as an active modifier: Sa + vour + ing.", "tip": "Active participle modifying 'he' requires '-ing': Savouring his tea!"},
       {"word": "impatience", "cat": "Word Form Overlaps", "sub": "Impatient -> Impatience", "src": "2025 Red Swastika WA1", "sent": "Stopping frequently along the walkway drew his mother's visible [impaysions].", "feat": "Noun suffix '-ence': im + pa + tience.", "tip": "Possessive 'mother's' takes a noun -> impatience!"},
@@ -336,226 +339,56 @@
       {"word": "access", "cat": "Spelling Traps", "sub": "Double 'c' & Double 's'", "src": "2025 Rulang SA2", "sent": "Unrestricted [akces] to portable tablets makes self-regulation challenging.", "feat": "Double 'c' AND double 's': ac + cess.", "tip": "2 Cats (cc) and 2 Snakes (ss) have access!"},
       {"word": "making", "cat": "Grammar & Participle", "sub": "Resultative Participle", "src": "2025 Rulang SA2", "sent": "Children carry devices everywhere, [make] it difficult for them to disengage.", "feat": "Present participle as result clause: mak + ing.", "tip": "Comma followed by result clause takes '-ing': making it difficult!"},
       {"word": "do", "cat": "Grammar & Modal", "sub": "Modal Verb Parallelism", "src": "2025 Rulang SA2", "sent": "Families can embark on outdoor walks together and [does] so on a routine basis.", "feat": "Base verb following modal 'can': d-o.", "tip": "Parallel with 'embark': can embark... and DO so!"},
-      // ================= 150 Frequently Misspelled Words 核心增量补充 =================
-  {
-    "word": "recommend",
-    "cat": "Double Consonants",
-    "sub": "Single 'c' & Double 'm'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The head librarian decided to [recoment] a historical novel to the reading club.",
-    "feat": "Single 'c', double 'm': re + com + mend.",
-    "tip": "Prefix 're-' has only ONE 'c', while 'commend' has TWO 'm's!"
-  },
-  {
-    "word": "religious",
-    "cat": "Vowel Traps",
-    "sub": "'-gious' ending",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Singaporeans from various [religous] groups celebrate harmonious racial harmony together.",
-    "feat": "Contains 'i' after 'g': re + li + gi + ous.",
-    "tip": "Don't omit the 'i' before '-ous'! It's re-li-gi-ous."
-  },
-  {
-    "word": "repetition",
-    "cat": "Vowel Traps",
-    "sub": "Vowel shift: repeat -> repetition",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Mastering English vocabulary requires constant practice and mindful [repatition].",
-    "feat": "Changes 'ea' from repeat to 'e': re + pe + ti + tion.",
-    "tip": "Warning: 'repeat' changes to 're-PET-ition', not 'repeatition'!"
-  },
-  {
-    "word": "necessary",
-    "cat": "Double Consonants",
-    "sub": "Single 'c' & Double 's'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Proper hydration is strictly [necesary] during arduous cross-country runs.",
-    "feat": "One 'c', double 's': ne + ces + sa + ry.",
-    "tip": "One Collar (c) and Two Sleeves (ss) are necessary for a shirt!"
-  },
-  {
-    "word": "occasionally",
-    "cat": "Double Consonants",
-    "sub": "Double 'c' & Single 's'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "My grandparents still enjoy [occasionaly] strolling through the botanic gardens.",
-    "feat": "Double 'c', single 's', double 'l': oc + ca + sion + al + ly.",
-    "tip": "2 Cups of Coffee (cc), 1 Sugar (s), and 2 Lollies (ll) occasionally!"
-  },
-  {
-    "word": "omission",
-    "cat": "Double Consonants",
-    "sub": "Single 'm' & Double 's'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The student corrected an accidental [ommision] of punctuation in her composition.",
-    "feat": "Single 'm', double 's': o + mis + sion.",
-    "tip": "Only ONE 'm', followed by double 's' in omission!"
-  },
-  {
-    "word": "perceive",
-    "cat": "Vowel Traps",
-    "sub": "'-ei-' after 'c'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Animals often [percieve] distant earth vibrations long before humans do.",
-    "feat": "'e' before 'i' after 'c': per + ceive.",
-    "tip": "Rule: 'i' before 'e', EXCEPT AFTER 'C' -> per-c-e-i-ve!"
-  },
-  {
-    "word": "permanent",
-    "cat": "Vowel Traps",
-    "sub": "'-anent' ending",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The injured athlete was worried that his knee sprain might cause [perminent] damage.",
-    "feat": "Spelt per + ma + nent (middle vowel is 'a').",
-    "tip": "Notice 'man' in the middle: per-ma-nent!"
-  },
-  {
-    "word": "pleasant",
-    "cat": "Vowel Traps",
-    "sub": "'-ant' ending & 'ea'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "We enjoyed a very [plesant] picnic breeze beneath the shady trees.",
-    "feat": "Contains 'ea' and ends in '-ant': plea + sant.",
-    "tip": "Related to 'please' -> keep the 'ea' in pleasant!"
-  },
-  {
-    "word": "possess",
-    "cat": "Double Consonants",
-    "sub": "Two pairs of double 's'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Courageous leaders [posess] the determination to guide others through adversity.",
-    "feat": "Double 's' twice: pos + sess (4 's's total).",
-    "tip": "Pos-sess possesses 4 's's in total!"
-  },
-  {
-    "word": "professional",
-    "cat": "Double Consonants",
-    "sub": "Single 'f' & Double 's'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The concert pianist gave a highly [proffessional] and inspiring performance.",
-    "feat": "Single 'f', double 's': pro + fes + sion + al.",
-    "tip": "Only ONE 'f', but DOUBLE 's' in professional!"
-  },
-  {
-    "word": "psychology",
-    "cat": "Silent Letters",
-    "sub": "Silent 'p'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Understanding child [sychology] helps teachers engage their pupils effectively.",
-    "feat": "Silent initial 'p': psy + cho + lo + gy.",
-    "tip": "Greek origin: starts with silent 'p' -> psy-cho-lo-gy!"
-  },
-  {
-    "word": "interfere",
-    "cat": "Vowel Traps",
-    "sub": "'-fere' ending",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Loud background noise will [interfeer] with your concentration while studying.",
-    "feat": "Spelt in + ter + fere (single 'r', ends in '-fere').",
-    "tip": "Ends in '-fere', NOT '-fear' or '-feer'!"
-  },
-  {
-    "word": "interpretation",
-    "cat": "Word Form Overlaps",
-    "sub": "Interpret -> Interpretation",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Her artistic [interprete] of the poem impressed the panel of judges.",
-    "feat": "Noun suffix '-ation': in + ter + pre + ta + tion.",
-    "tip": "Noun form is in-ter-pre-ta-tion!"
-  },
-  {
-    "word": "interruption",
-    "cat": "Double Consonants",
-    "sub": "Double 'r'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The assembly continued without any unexpected [interuption] from the audience.",
-    "feat": "Double 'r', noun suffix '-tion': in + ter + rup + tion.",
-    "tip": "Root 'rupt' with prefix 'inter-' requires DOUBLE 'r'!"
-  },
-  {
-    "word": "laboratory",
-    "cat": "Vowel Traps",
-    "sub": "'-ora-' syllable",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The students conducted their chemistry test inside the school [labratory].",
-    "feat": "Spelt la + bor + a + to + ry.",
-    "tip": "Pronounced /ləˈbɒr.ə.tər.i/, don't omit the 'o' and 'a': lab-OR-A-tory!"
-  },
-  {
-    "word": "license",
-    "cat": "Spelling Traps",
-    "sub": "'c' then 's'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Motorists must present a valid driving [lisence] when requested by traffic police.",
-    "feat": "'c' before 'e', 's' before 'e': li + cense.",
-    "tip": "First comes 'c', then comes 's' in license!"
-  },
-  {
-    "word": "loneliness",
-    "cat": "Word Form Overlaps",
-    "sub": "Lonely -> Loneliness",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Adopting a rescued puppy helped cure the elderly widower's deep [lonlyness].",
-    "feat": "Change 'y' to 'i' + '-ness': lone + li + ness.",
-    "tip": "Retain 'lone', change 'y' to 'i' before '-ness'!"
-  },
-  {
-    "word": "marriage",
-    "cat": "Double Consonants",
-    "sub": "Double 'r' & '-iage'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "My parents celebrated their twentieth wedding [mariage] anniversary yesterday.",
-    "feat": "Double 'r', '-iage' ending: mar + riage.",
-    "tip": "Two people marry -> double 'r' in marriage!"
-  },
-  {
-    "word": "calendar",
-    "cat": "Vowel Traps",
-    "sub": "'-ar' ending",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Please mark the date of the primary school sports day on your [calender].",
-    "feat": "Ends in '-ar', not '-er': cal + en + dar.",
-    "tip": "A calendar ends with '-AR', not '-er'!"
-  },
-  {
-    "word": "cemetery",
-    "cat": "Vowel Traps",
-    "sub": "Three 'e's",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The war memorial was erected quietly beside the historic [cemetary].",
-    "feat": "Three 'e's and no 'a': cem + e + ter + y.",
-    "tip": "Three 'e's (c-E-m-E-t-E-ry) like tombstones in a row!"
-  },
-  {
-    "word": "dilemma",
-    "cat": "Double Consonants",
-    "sub": "Double 'm'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "Having to choose between two beloved hobbies posed a difficult [dilema].",
-    "feat": "Double 'm': di + lem + ma.",
-    "tip": "A dilemma puts you between TWO options -> DOUBLE 'm'!"
-  },
-  {
-    "word": "twelfth",
-    "cat": "Spelling Traps",
-    "sub": "'-fth' ending",
-    "src": "PSLE 150 Spelling List",
-    "sent": "The swimmer finished in [twelth] position during the preliminary heats.",
-    "feat": "Has 'f' before 'th': twel + fth.",
-    "tip": "From 'twelve', the 'v' turns into 'f': twel-F-th!"
-  },
-  {
-    "word": "weird",
-    "cat": "Vowel Traps",
-    "sub": "Exception to 'i before e'",
-    "src": "PSLE 150 Spelling List",
-    "sent": "We heard a very [wierd] scratching noise coming from the locked attic room.",
-    "feat": "'e' comes before 'i': w-e-i-r-d.",
-    "tip": "Weird is truly WEIRD because 'e' comes before 'i'!"
-  }
+
+      // --- 第三部分：150 Frequently Misspelled Words 全量补充 ---
+      {"word": "recommend", "cat": "Double Consonants", "sub": "Single 'c' & Double 'm'", "src": "PSLE 150 Spelling List", "sent": "The head librarian decided to [recoment] a historical novel to the reading club.", "feat": "Single 'c', double 'm': re + com + mend.", "tip": "Prefix 're-' has only ONE 'c', while 'commend' has TWO 'm's!"},
+      {"word": "religious", "cat": "Vowel Traps", "sub": "'-gious' ending", "src": "PSLE 150 Spelling List", "sent": "Singaporeans from various [religous] groups celebrate racial harmony together.", "feat": "Contains 'i' after 'g': re + li + gi + ous.", "tip": "Don't omit the 'i' before '-ous'! It's re-li-gi-ous."},
+      {"word": "repetition", "cat": "Vowel Traps", "sub": "Vowel shift: repeat -> repetition", "src": "PSLE 150 Spelling List", "sent": "Mastering English vocabulary requires constant practice and mindful [repatition].", "feat": "Changes 'ea' from repeat to 'e': re + pe + ti + tion.", "tip": "Warning: 'repeat' changes to 're-PET-ition', not 'repeatition'!"},
+      {"word": "necessary", "cat": "Double Consonants", "sub": "Single 'c' & Double 's'", "src": "PSLE 150 Spelling List", "sent": "Proper hydration is strictly [necesary] during arduous cross-country runs.", "feat": "One 'c', double 's': ne + ces + sa + ry.", "tip": "One Collar (c) and Two Sleeves (ss) are necessary for a shirt!"},
+      {"word": "occasionally", "cat": "Double Consonants", "sub": "Double 'c' & Single 's'", "src": "PSLE 150 Spelling List", "sent": "My grandparents still enjoy [occasionaly] strolling through the botanic gardens.", "feat": "Double 'c', single 's', double 'l': oc + ca + sion + al + ly.", "tip": "2 Cups of Coffee (cc), 1 Sugar (s), and 2 Lollies (ll) occasionally!"},
+      {"word": "omission", "cat": "Double Consonants", "sub": "Single 'm' & Double 's'", "src": "PSLE 150 Spelling List", "sent": "The student corrected an accidental [ommision] of punctuation in her composition.", "feat": "Single 'm', double 's': o + mis + sion.", "tip": "Only ONE 'm', followed by double 's' in omission!"},
+      {"word": "perceive", "cat": "Vowel Traps", "sub": "'-ei-' after 'c'", "src": "PSLE 150 Spelling List", "sent": "Animals often [percieve] distant earth vibrations long before humans do.", "feat": "'e' before 'i' after 'c': per + ceive.", "tip": "Rule: 'i' before 'e', EXCEPT AFTER 'C' -> per-c-e-i-ve!"},
+      {"word": "permanent", "cat": "Vowel Traps", "sub": "'-anent' ending", "src": "PSLE 150 Spelling List", "sent": "The injured athlete was worried that his knee sprain might cause [perminent] damage.", "feat": "Spelt per + ma + nent (middle vowel is 'a').", "tip": "Notice 'man' in the middle: per-ma-nent!"},
+      {"word": "pleasant", "cat": "Vowel Traps", "sub": "'-ant' ending & 'ea'", "src": "PSLE 150 Spelling List", "sent": "We enjoyed a very [plesant] picnic breeze beneath the shady trees.", "feat": "Contains 'ea' and ends in '-ant': plea + sant.", "tip": "Related to 'please' -> keep the 'ea' in pleasant!"},
+      {"word": "possess", "cat": "Double Consonants", "sub": "Two pairs of double 's'", "src": "PSLE 150 Spelling List", "sent": "Courageous leaders [posess] the determination to guide others through adversity.", "feat": "Double 's' twice: pos + sess (4 's's total).", "tip": "Pos-sess possesses 4 's's in total!"},
+      {"word": "professional", "cat": "Double Consonants", "sub": "Single 'f' & Double 's'", "src": "PSLE 150 Spelling List", "sent": "The concert pianist gave a highly [proffessional] and inspiring performance.", "feat": "Single 'f', double 's': pro + fes + sion + al.", "tip": "Only ONE 'f', but DOUBLE 's' in professional!"},
+      {"word": "psychology", "cat": "Silent Letters", "sub": "Silent 'p'", "src": "PSLE 150 Spelling List", "sent": "Understanding child [sychology] helps teachers engage their pupils effectively.", "feat": "Silent initial 'p': psy + cho + lo + gy.", "tip": "Greek origin: starts with silent 'p' -> psy-cho-lo-gy!"},
+      {"word": "interfere", "cat": "Vowel Traps", "sub": "'-fere' ending", "src": "PSLE 150 Spelling List", "sent": "Loud background noise will [interfeer] with your concentration while studying.", "feat": "Spelt in + ter + fere (single 'r', ends in '-fere').", "tip": "Ends in '-fere', NOT '-fear' or '-feer'!"},
+      {"word": "interpretation", "cat": "Word Form Overlaps", "sub": "Interpret -> Interpretation", "src": "PSLE 150 Spelling List", "sent": "Her artistic [interprete] of the poem impressed the panel of judges.", "feat": "Noun suffix '-ation': in + ter + pre + ta + tion.", "tip": "Noun form is in-ter-pre-ta-tion!"},
+      {"word": "interruption", "cat": "Double Consonants", "sub": "Double 'r'", "src": "PSLE 150 Spelling List", "sent": "The assembly continued without any unexpected [interuption] from the audience.", "feat": "Double 'r', noun suffix '-tion': in + ter + rup + tion.", "tip": "Root 'rupt' with prefix 'inter-' requires DOUBLE 'r'!"},
+      {"word": "laboratory", "cat": "Vowel Traps", "sub": "'-ora-' syllable", "src": "PSLE 150 Spelling List", "sent": "The students conducted their chemistry test inside the school [labratory].", "feat": "Spelt la + bor + a + to + ry.", "tip": "Pronounced /ləˈbɒr.ə.tər.i/, don't omit the 'o' and 'a': lab-OR-A-tory!"},
+      {"word": "license", "cat": "Spelling Traps", "sub": "'c' then 's'", "src": "PSLE 150 Spelling List", "sent": "Motorists must present a valid driving [lisence] when requested by traffic police.", "feat": "'c' before 'e', 's' before 'e': li + cense.", "tip": "First comes 'c', then comes 's' in license!"},
+      {"word": "loneliness", "cat": "Word Form Overlaps", "sub": "Lonely -> Loneliness", "src": "PSLE 150 Spelling List", "sent": "Adopting a rescued puppy helped cure the elderly widower's deep [lonlyness].", "feat": "Change 'y' to 'i' + '-ness': lone + li + ness.", "tip": "Retain 'lone', change 'y' to 'i' before '-ness'!"},
+      {"word": "marriage", "cat": "Double Consonants", "sub": "Double 'r' & '-iage'", "src": "PSLE 150 Spelling List", "sent": "My parents celebrated their twentieth wedding [mariage] anniversary yesterday.", "feat": "Double 'r', '-iage' ending: mar + riage.", "tip": "Two people marry -> double 'r' in marriage!"},
+      {"word": "calendar", "cat": "Vowel Traps", "sub": "'-ar' ending", "src": "PSLE 150 Spelling List", "sent": "Please mark the date of the primary school sports day on your [calender].", "feat": "Ends in '-ar', not '-er': cal + en + dar.", "tip": "A calendar ends with '-AR', not '-er'!"},
+      {"word": "cemetery", "cat": "Vowel Traps", "sub": "Three 'e's", "src": "PSLE 150 Spelling List", "sent": "The war memorial was erected quietly beside the historic [cemetary].", "feat": "Three 'e's and no 'a': cem + e + ter + y.", "tip": "Three 'e's (c-E-m-E-t-E-ry) like tombstones in a row!"},
+      {"word": "dilemma", "cat": "Double Consonants", "sub": "Double 'm'", "src": "PSLE 150 Spelling List", "sent": "Having to choose between two beloved hobbies posed a difficult [dilema].", "feat": "Double 'm': di + lem + ma.", "tip": "A dilemma puts you between TWO options -> DOUBLE 'm'!"},
+      {"word": "twelfth", "cat": "Spelling Traps", "sub": "'-fth' ending", "src": "PSLE 150 Spelling List", "sent": "The swimmer finished in [twelth] position during the preliminary heats.", "feat": "Has 'f' before 'th': twel + fth.", "tip": "From 'twelve', the 'v' turns into 'f': twel-F-th!"},
+      {"word": "weird", "cat": "Vowel Traps", "sub": "Exception to 'i before e'", "src": "PSLE 150 Spelling List", "sent": "We heard a very [wierd] scratching noise coming from the locked attic room.", "feat": "'e' comes before 'i': w-e-i-r-d.", "tip": "Weird is truly WEIRD because 'e' comes before 'i'!"},
+      {"word": "ridiculous", "cat": "Vowel Traps", "sub": "'ri-di-' not 're-di-'", "src": "PSLE 150 Spelling List", "sent": "It was utterly [rediculous] to blame the pet cat for the missing keys.", "feat": "Starts with 'ri-di-': ri + dic + u + lous.", "tip": "From 'ridicule' (starts with 'r-i', never 'r-e')!"},
+      {"word": "sacrifice", "cat": "Spelling Traps", "sub": "'-fice' ending", "src": "PSLE 150 Spelling List", "sent": "Parents make many personal [sacrafices] to provide the best for their children.", "feat": "Spelt sac + ri + fice.", "tip": "Middle vowel is 'i' (sac-RI-fice), not 'a'!"},
+      {"word": "secretary", "cat": "Vowel Traps", "sub": "'-ret-' not '-rat-'", "src": "PSLE 150 Spelling List", "sent": "The club [secratary] recorded the minutes of the committee meeting accurately.", "feat": "Contains 'secret' at the start: sec + re + ta + ry.", "tip": "A good secretary keeps a SECRET (sec-ret-ary)!"},
+      {"word": "temperature", "cat": "Vowel Traps", "sub": "4 Syllables '-pera-'", "src": "PSLE 150 Spelling List", "sent": "The nurse used a thermometer to check the patient's [temprature].", "feat": "Don't drop 'er': tem + per + a + ture.", "tip": "Remember 'temper' inside tem-PER-a-ture!"},
+      {"word": "temporary", "cat": "Vowel Traps", "sub": "'-pora-' syllable", "src": "PSLE 150 Spelling List", "sent": "The road closure is only [temparary] while repair works are underway.", "feat": "Spelt tem + po + ra + ry.", "tip": "Has 'o' in the middle: tem-PO-ra-ry!"},
+      {"word": "thorough", "cat": "Vowel Traps", "sub": "'-ough' ending", "src": "PSLE 150 Spelling List", "sent": "The detectives conducted a [thoroh] search of the premises for fingerprints.", "feat": "Spelt tho + rough.", "tip": "Starts with 'tho-' and ends with 'rough': tho-rough!"},
+      {"word": "miniature", "cat": "Vowel Traps", "sub": "'mini-a-ture'", "src": "PSLE 150 Spelling List", "sent": "The craftsman carved a delicate [miniture] boat out of a single walnut shell.", "feat": "Contains 'a' after 'mini': min + i + a + ture.", "tip": "Think of 'mini' + 'a' + 'ture' -> mini-A-ture!"},
+      {"word": "noticeable", "cat": "Vowel Traps", "sub": "Retain 'e' before '-able'", "src": "PSLE 150 Spelling List", "sent": "There has been a [noticable] improvement in his handwriting this term.", "feat": "Keep silent 'e' in notice: no + tice + able.", "tip": "Keep the 'e' after 'c' to keep the soft /s/ sound: notice-able!"},
+      {"word": "optimism", "cat": "Vowel Traps", "sub": "'-ti-mism'", "src": "PSLE 150 Spelling List", "sent": "Despite losing the first set, the team maintained their cheerful [optamism].", "feat": "Spelt op + ti + mism.", "tip": "Middle vowel is 'i': op-TI-mism!"},
+      {"word": "peculiar", "cat": "Vowel Traps", "sub": "'-liar' ending", "src": "PSLE 150 Spelling List", "sent": "The Durian fruit has a strong, [peculier] odour that divides opinions.", "feat": "Ends in '-iar': pe + cu + li + ar.", "tip": "Ends with 'liar' -> pe-cu-LIAR!"},
+      {"word": "prejudice", "cat": "Spelling Traps", "sub": "'pre-ju-dice'", "src": "PSLE 150 Spelling List", "sent": "We should treat everyone fairly without any [prejudise] or bias.", "feat": "Ends in '-ice': pre + ju + dice.", "tip": "Think of 'pre' (before) + 'judge' -> ends with 'dice'!"},
+      {"word": "forty", "cat": "Vowel Traps", "sub": "'for-' not 'four-'", "src": "PSLE 150 Spelling List", "sent": "More than [fourty] students volunteered to repaint the community mural.", "feat": "Drops the 'u' from four: f-o-r-t-y.", "tip": "Four has a 'u', Fourteen has a 'u', but FORTY drops the 'u'!"},
+      {"word": "grammar", "cat": "Double Consonants", "sub": "Double 'm' & '-ar'", "src": "PSLE 150 Spelling List", "sent": "Checking your verb tenses will help you avoid basic [grammer] mistakes.", "feat": "Double 'm', ends in '-ar': gram + mar.", "tip": "Ends in '-AR' (g-r-a-m-m-A-R), never '-er'!"},
+      {"word": "humorous", "cat": "Vowel Traps", "sub": "Drop 'u' in '-or-'", "src": "PSLE 150 Spelling List", "sent": "The guest speaker shared several [humourous] anecdotes that made us laugh.", "feat": "Loses first 'u' from humour: hu + mor + ous.", "tip": "'Humour' has 'ou', but 'humORous' drops the first 'u'!"},
+      {"word": "incidentally", "cat": "Word Form Overlaps", "sub": "'-ally' suffix", "src": "PSLE 150 Spelling List", "sent": "[Incidently], I happened to bump into your cousin at the library yesterday.", "feat": "From 'incidental' + '-ly': in + ci + den + tal + ly.", "tip": "Never drop '-al-'! It's in-ci-den-TAL-ly."},
+      {"word": "independent", "cat": "Vowel Traps", "sub": "All 'e's (no 'a')", "src": "PSLE 150 Spelling List", "sent": "The camp aims to nurture self-reliant and [independant] young leaders.", "feat": "Ends in '-ent': in + de + pen + dent.", "tip": "Allthree vowels after 'i' are 'E's: in-dE-pEn-dEnt!"},
+      {"word": "irrelevant", "cat": "Double Consonants", "sub": "Double 'r' & '-ant'", "src": "PSLE 150 Spelling List", "sent": "Please remove any [irelevant] details that do not support your main point.", "feat": "Prefix 'ir-' + 'relevant': ir + rel + e + vant.", "tip": "Prefix 'ir-' + 'relevant' produces DOUBLE 'r'!"},
+      {"word": "judgement", "cat": "Spelling Traps", "sub": "Judge + ment", "src": "PSLE 150 Spelling List", "sent": "The referee made a fair and accurate [jugement] during the penalty shootout.", "feat": " Contains 'dge': judge + ment.", "tip": "Keep the root 'judge' intact before adding '-ment'!"},
+      {"word": "knowledge", "cat": "Silent Letters", "sub": "Silent 'k' & '-dge'", "src": "PSLE 150 Spelling List", "sent": "Encyclopedias are a treasure trove of scientific [knowlege].", "feat": "Starts with 'know', ends with 'ledge': know + ledge.", "tip": "Think of 'know' + 'ledge' (don't forget the 'd' in ledge)!"},
+      {"word": "business", "cat": "Vowel Traps", "sub": "Busy -> Business", "src": "PSLE 150 Spelling List", "sent": "My uncle runs a thriving floral [buisness] in the town centre.", "feat": "'y' in busy changes to 'i': bus + i + ness.", "tip": "Take 'busy', change 'y' to 'i', add '-ness' -> bus-i-ness!"},
+      {"word": "existence", "cat": "Vowel Traps", "sub": "'-ence' ending", "src": "PSLE 150 Spelling List", "sent": "Scientists discovered the [existance] of a previously unknown deep-sea crab.", "feat": "Ends in '-ence', not '-ance': ex + ist + ence.", "tip": "Exist + '-ence' (with an 'e', never 'a')!"}
     ];
 
-    // 全量融合 2025 名校完形填空高频库 (零删减完整版)
+    // ================= 终极完整版 CLOZE TOP 300 题库 (共 60 题) =================
     const CLOZE_DB = [
       { id: "c01", phrase: "aim at", cat: "Preposition", sent: "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", correct: "at", options: ["at", "to", "for", "with"], meaning: "To intend to achieve something.", clue: "Verb 'aim' followed by gerund (-ing): 'aim at + V-ing'.", exp: "'Aim at' means intending to achieve something when followed by a gerund." },
       { id: "c02", phrase: "arrive at", cat: "Collocation", sent: "After a heated debate, the panel finally arrived [ ______ ] a unanimous decision.", correct: "at", options: ["at", "to", "in", "on"], meaning: "To reach a conclusion or decision.", clue: "Collocation: 'arrive ___ a decision'.", exp: "In PSLE Cloze, we say 'arrive at a decision' or 'arrive at a conclusion'." },
@@ -639,9 +472,9 @@
     }
 
     function loadInitialStore() {
-      let s = JSON.parse(localStorage.getItem('psle_master_store_v5') || '{}');
+      let s = JSON.parse(localStorage.getItem('portal_spelling_v4') || '{}');
       if (!s.stars) {
-        ['portal_spelling_v4', 'portal_spelling_v3', 'portal_cloze_v3'].forEach(k => {
+        ['psle_master_store_v5', 'portal_spelling_v3', 'portal_cloze_v3', 'portal_spelling_v2'].forEach(k => {
           try {
             const old = JSON.parse(localStorage.getItem(k) || '{}');
             if (old.stars && old.stars > (s.stars || 0)) {
@@ -649,6 +482,7 @@
               if (old.mastered) s.mastered = old.mastered;
               if (old.inReview) s.inReview = old.inReview;
               if (old.progress) s.progress = old.progress;
+              if (old.dailyLogs) s.dailyLogs = old.dailyLogs;
             }
           } catch(e) {}
         });
@@ -680,7 +514,7 @@
     }
 
     function saveToLocalStorage() {
-      localStorage.setItem('psle_master_store_v5', JSON.stringify(store));
+      localStorage.setItem('portal_spelling_v4', JSON.stringify(store));
     }
 
     function syncStore() {
