@@ -1,22 +1,25 @@
-// ================= PSLE P5/P6 专项题库数据文件 (questions.js) =================
-
 const SPELLING_DB = [
-  {"word": "accommodation", "cat": "Double Consonants", "sub": "Double 'c' & Double 'm'", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
-  {"word": "admitted", "cat": "Double Consonants", "sub": "Double 't' in past tense", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window.", "feat": "Double 't': ad + mit + ted (CVC doubling rule before '-ed').", "tip": "Short vowel /ɪ/ before 't' means double the 't' before adding '-ed'."},
-  {"word": "applause", "cat": "Double Consonants", "sub": "Double 'p'", "src": "2025 Tao Nan P5 EOY *", "sent": "Thunderous [apllause] erupted throughout the concert hall when the choir bowed.", "feat": "Double 'p', diphthong 'au', ends in '-se': ap + plause.", "tip": "Remember 'ap-' prefix doubles the 'p' before 'plause'."},
-  {"word": "attack", "cat": "Double Consonants", "sub": "Double 't'", "src": "P5 Editing Core", "sent": "The guards were trained to defend the castle against any sudden [atack].", "feat": "Double 't' and ends in 'ck': at + tack.", "tip": "Prefix 'at-' attaches to 'tack' -> always double 't'."},
-  {"word": "bellowed", "cat": "Double Consonants", "sub": "Double 'l'", "src": "P5 Narrative Vocabulary", "sent": "\"Silence in the hall!\" the angry captain [belowed] at the top of his voice.", "feat": "Double 'l': bel + low + ed.", "tip": "Rhymes with 'yellow' and 'fellow' — both have double 'l'."},
-  {"word": "beginning", "cat": "Double Consonants", "sub": "Double 'n'", "src": "P5 Editing Trap", "sent": "At the very [begining] of the ceremony, the national anthem was played.", "feat": "Single 'g', but double 'n': be + gin + ning.", "tip": "Stress on second syllable (be-GIN) -> double the final 'n'."},
-  {"word": "brilliant", "cat": "Double Consonants", "sub": "Double 'l'", "src": "P5 Descriptive Core", "sent": "The young scientist devised a [briliant] solution to filter contaminated river water.", "feat": "Double 'l' and '-iant' ending: bril + liant.", "tip": "Watch out for single 'l' error; like 'million', it has double 'l'."},
-  {"word": "committee", "cat": "Double Consonants", "sub": "Double 'm', 't', and 'e'", "src": "Top Primary Schools", "sent": "The organising [comitee] held an emergency meeting to finalise the timetable.", "feat": "Three doubles: com + mit + tee (double 'm', 't', and 'e').", "tip": "A committee needs 2 Members (mm), 2 Teas (tt), and 2 Eggs (ee)!"},
-  {"word": "commitment", "cat": "Double Consonants", "sub": "Double 'm' & Single 't'", "src": "2024 Tao Nan P5 EOY *", "sent": "The athletes showed unwavering [comitment] to their daily training routines.", "feat": "Double 'm', but SINGLE 't': com + mit + ment.", "tip": "Do not confuse with 'committee'! 'Commitment' has only ONE 't'."},
-  {"word": "colleagues", "cat": "Double Consonants", "sub": "Double 'l' & '-gues'", "src": "2024 Pei Chun P5 EOY *", "sent": "Mr. Tan joined his [colleages] at the cafeteria for a quick lunch.", "feat": "Double 'l', diphthong 'ea', silent ending '-gues': col + leagues.", "tip": "Prefix 'col-' + 'league'. Keep '-ue' before 's'."}
+  {
+    "word": "accommodation", 
+    "cat": "Double Consonants", 
+    "sub": "Double 'c' & Double 'm'", 
+    "src": "P5 Editing Core", 
+    "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", 
+    "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", 
+    "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"
+  }
 ];
 
 const CLOZE_DB = [
-  { id: "c01", phrase: "aim at", cat: "Preposition", sent: "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", correct: "at", options: ["at", "to", "for", "with"], meaning: "To intend to achieve something.", clue: "Verb 'aim' followed by gerund (-ing): 'aim at + V-ing'.", exp: "'Aim at' means intending to achieve something when followed by a gerund." },
-  { id: "c02", phrase: "arrive at", cat: "Collocation", sent: "After a heated debate, the panel finally arrived [ ______ ] a unanimous decision.", correct: "at", options: ["at", "to", "in", "on"], meaning: "To reach a conclusion or decision.", clue: "Collocation: 'arrive ___ a decision'.", exp: "In PSLE Cloze, we say 'arrive at a decision' or 'arrive at a conclusion'." },
-  { id: "c03", phrase: "back down", cat: "Phrasal Verb", sent: "Confronted with undeniable proof, the bully finally backed [ ______ ] and apologised.", correct: "down", options: ["down", "away", "off", "up"], meaning: "To stop arguing or admit defeat.", clue: "Surrendering his position in an argument.", exp: "'Back down' means to yield or admit defeat. 'Back up' means to support." },
-  { id: "c04", phrase: "blow out", cat: "Phrasal Verb", sent: "The birthday girl made a wish before leaning forward to blow [ ______ ] the candles.", correct: "out", options: ["out", "off", "up", "away"], meaning: "To extinguish with a puff of air.", clue: "Extinguishing candles with breath.", exp: "'Blow out' means to extinguish flame with air. 'Blow up' means to explode." },
-  { id: "c05", phrase: "break down", cat: "Phrasal Verb", sent: "Upon hearing the tragic news of her pet, Evelyn broke [ ______ ] and wept.", correct: "down", options: ["down", "out", "up", "off"], meaning: "To lose emotional control and start crying.", clue: "Intense emotional grief and tears.", exp: "'Break down' means losing emotional control. 'Break out' means sudden start of war/fire." }
+  { 
+    "id": "c101", 
+    "phrase": "aim at", 
+    "cat": "Preposition", 
+    "sent": "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", 
+    "correct": "at", 
+    "options": ["at", "to", "for", "with"], 
+    "meaning": "To intend to achieve something or direct an action towards a goal.", 
+    "clue": "Verb 'aim' is strictly followed by the gerund structure 'aim at + V-ing'.", 
+    "exp": "'Aim at' means intending to achieve something when followed by a gerund." 
+  }
 ];
