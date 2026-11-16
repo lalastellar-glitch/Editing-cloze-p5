@@ -4,15 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>PSLE English AL1 Master Portal (2024-2025 Top Schools Edition)</title>
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 12px; }
 .container { max-width: 480px; margin: 0 auto; min-height: 94vh; display: flex; flex-direction: column; justify-content: space-between; }
-
-/* 顶栏网格化应用切换 */
 .app-switcher { display: grid; grid-template-columns: repeat(3, 1fr); background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 8px; gap: 4px; }
 .app-switcher-row2 { display: grid; grid-template-columns: repeat(3, 1fr); background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 10px; gap: 4px; }
 .app-btn { padding: 8px 2px; font-size: 11px; font-weight: 800; border-radius: 10px; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; text-align: center; }
@@ -22,71 +19,39 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helve
 .app-btn.active.vcloze { background: #0284c7; color: #ffffff; box-shadow: 0 2px 4px rgba(2,132,199,0.25); }
 .app-btn.active.gcloze { background: #0d9488; color: #ffffff; box-shadow: 0 2px 4px rgba(13,148,136,0.25); }
 .app-btn.active.st { background: #059669; color: #ffffff; box-shadow: 0 2px 4px rgba(5,150,105,0.25); }
-
 .tool-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .cloud-status { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; }
 .cloud-live { background: #dcfce7; color: #15803d; }
 .cloud-local { background: #f1f5f9; color: #475569; }
-
 .card { background: #ffffff; border-radius: 18px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; margin-bottom: 12px; }
 .badge-cat { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-
-.ebbinghaus-bar { display: flex; gap: 4px; margin: 8px 0 10px 0; font-size: 10px; font-weight: 700; }
-.eb-step { flex: 1; text-align: center; padding: 3px 2px; border-radius: 6px; background: #f1f5f9; color: #94a3b8; border: 1px solid #e2e8f0; }
-.eb-step.done { background: #dcfce7; color: #15803d; border-color: #86efac; }
-.eb-step.current { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
-
 .sentence-box { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px; font-size: 15px; line-height: 1.65; margin: 10px 0; color: #0f172a; position: relative; }
 .error-target { color: #e11d48; background: #ffe4e6; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-decoration: underline wavy #f43f5e; }
-.blank-target { color: #0284c7; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; font-weight: 800; border-bottom: 2px solid #0284c7; font-family: monospace; letter-spacing: 0.5px; }
-
-.audio-btn { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.blank-target { color: #0284c7; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; font-weight: 800; border-bottom: 2px solid #0284c7; font-family: monospace; }
 input[type="text"], textarea { width: 100%; font-family: inherit; font-size: 15px; font-weight: 600; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; margin-bottom: 6px; }
 input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce; box-shadow: 0 0 0 3px #f3e8ff; }
-
-.btn { width: 100%; color: #ffffff; font-weight: 700; font-size: 15px; padding: 14px; border: none; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
+.btn { width: 100%; color: #ffffff; font-weight: 700; font-size: 15px; padding: 14px; border: none; border-radius: 14px; cursor: pointer; }
 .btn.editing { background: #7e22ce; }
 .btn.grammar { background: #2563eb; }
 .btn.vocab { background: #d97706; }
 .btn.vcloze { background: #0284c7; }
 .btn.gcloze { background: #0d9488; }
 .btn.st { background: #059669; }
-.btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-
 .sub-tabs { display: flex; gap: 4px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
-.tab-pill { flex: 1; min-width: 65px; padding: 6px 2px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; color: #64748b; cursor: pointer; text-align: center; white-space: nowrap; }
+.tab-pill { flex: 1; min-width: 65px; padding: 6px 2px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; color: #64748b; cursor: pointer; text-align: center; }
 .tab-pill.active { background: #0f172a; color: #fff; border-color: #0f172a; }
-
 .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; text-align: center; }
 .stat-item { background: #ffffff; padding: 8px 4px; border-radius: 14px; border: 1px solid #f1f5f9; }
 .stat-val { font-size: 16px; font-weight: 800; }
 .stat-lbl { font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
-
 .result-box { padding: 13px; border-radius: 12px; font-size: 13px; line-height: 1.55; margin-top: 10px; }
 .result-correct { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
-.result-retry { background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; }
 .result-wrong { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; }
-.tip-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(0,0,0,0.1); font-size: 12px; }
-
-@media (min-width: 680px) {
-  body { padding: 24px; }
-  .container { max-width: 780px; }
-  .card { border-radius: 24px; padding: 28px; margin-bottom: 18px; }
-  .sentence-box { padding: 20px; font-size: 19px; line-height: 1.75; }
-  input[type="text"], textarea { font-size: 18px; padding: 16px 18px; }
-  .btn { font-size: 18px; padding: 18px; }
-}
-@media print {
-  body { background: #fff; color: #000; padding: 0; }
-  .container { max-width: 100%; }
-  .no-print { display: none !important; }
-}
 </style>
 </head>
 <body>
 <div class="container">
 <div class="no-print">
-<!-- 第一行与第二行应用分类切换（对应纸面 6 大核心模块） -->
 <div class="app-switcher">
 <button id="swEditing" class="app-btn active editing" onclick="switchApp('editing')">✍️ Editing</button>
 <button id="swGrammar" class="app-btn" onclick="switchApp('grammar')">📐 Grammar</button>
@@ -97,32 +62,24 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 <button id="swGCloze" class="app-btn" onclick="switchApp('gcloze')">📝 Grammar Cloze</button>
 <button id="swSt" class="app-btn" onclick="switchApp('st')">🔗 S &amp; T</button>
 </div>
-
 <div class="tool-bar">
 <div style="display:flex; align-items:center; gap:6px;">
-<span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步</span>
+<span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步 (801 ⭐)</span>
 </div>
-<div style="display:flex; gap:6px;">
 <button onclick="promptParentEdit()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">⚙️ 家长调分</button>
-<button onclick="openPrintModal()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">🖨️ 导出</button>
 </div>
-</div>
-
 <div class="stats-row">
-<div class="stat-item"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">0</div></div>
-<div class="stat-item"><div class="stat-lbl">Accuracy %</div><div id="statAccuracy" class="stat-val" style="color:#059669;">100%</div></div>
+<div class="stat-item"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">801</div></div>
+<div class="stat-item"><div class="stat-lbl">Accuracy %</div><div id="statAccuracy" class="stat-val" style="color:#059669;">98%</div></div>
 <div class="stat-item"><div class="stat-lbl">Due / Review</div><div id="statReview" class="stat-val" style="color:#d97706;">0</div></div>
 <div class="stat-item"><div id="statDoneLabel" class="stat-lbl">Done Today</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
 </div>
-
 <div class="sub-tabs">
 <button id="tabDaily" class="tab-pill active" onclick="changeMode('daily')">Daily Qs</button>
-<button id="tabReview" class="tab-pill" onclick="changeMode('review')">Review (<span id="revCount">0</span>)</button>
-<button id="tabAll" class="tab-pill" onclick="changeMode('all')">All Library</button>
+<button id="tabReview" class="tab-pill" onclick="changeMode('review')">Review</button>
 <button id="tabHistory" class="tab-pill" onclick="changeMode('history')">7-Day Log</button>
 <button id="tabCheatsheet" class="tab-pill" onclick="changeMode('cheatsheet')">💡 Cheatsheet</button>
 </div>
-
 <div id="quizView" class="card">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
 <div>
@@ -131,114 +88,78 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 </div>
 <span id="qIndex" style="font-size:12px; color:#94a3b8; font-weight:700;"></span>
 </div>
-<div id="ebbinghausBar" class="ebbinghaus-bar"></div>
-<div id="stTypeBanner" class="st-type-banner" style="display:none;"></div>
-
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-<div id="qSource" style="font-size:11px; color:#64748b; font-weight:600;"></div>
-<button class="audio-btn" onclick="speakTargetSentence()">🔊 Read British</button>
-</div>
-
-<div style="font-size:11px; color:#64748b; font-weight:600;" id="qInstruction"></div>
+<div id="stTypeBanner" style="display:none; background:#ecfdf5; border:1.5px solid #a7f3d0; border-radius:10px; padding:8px 10px; margin-bottom:10px; font-size:12px; color:#065f46;"></div>
+<div id="qSource" style="font-size:11px; color:#64748b; font-weight:600; margin-bottom:6px;"></div>
+<div id="qInstruction" style="font-size:11px; color:#64748b; font-weight:600;"></div>
 <div id="sentenceContainer" class="sentence-box"></div>
-<div id="stPromptBox" class="st-prompt-box" style="display:none;"></div>
-
+<div id="stPromptBox" style="display:none; background:#f0fdf4; border:1.5px dashed #34d399; border-radius:10px; padding:10px 12px; margin-bottom:10px; font-size:14px; font-weight:700; color:#064e3b;"></div>
 <div id="inputArea" style="position:relative;">
 <input type="text" id="answerInput" placeholder="Type correct answer..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 </div>
 <div id="stInputArea" style="display:none;">
-<button id="stStarterBtn" class="starter-btn" onclick="fillStStarter()" style="display:none; background:#ecfdf5; border:1px solid #6ee7b7; color:#047857; font-size:11px; font-weight:700; padding:4px 10px; border-radius:8px; margin-bottom:6px; cursor:pointer;">⚡ Auto-fill Opening Word(s)</button>
-<textarea id="stInput" class="st-input" rows="2" placeholder="Type the complete rewritten sentence..." autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
+<textarea id="stInput" rows="2" placeholder="Type complete rewritten sentence..." autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
 </div>
-
-<div style="display:flex; justify-content:space-between; align-items:center; margin: 4px 0 8px 0;">
-<span id="attemptTip" style="font-size:11px; color:#94a3b8; font-weight:600;">🔒 Hint unlocks on 2nd attempt</span>
-<button id="hintBtn" disabled onclick="toggleHint()" style="background:#f1f5f9; border:none; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:700; color:#94a3b8; cursor:not-allowed;">🔒 Hint (Locked)</button>
-</div>
-<div id="hintBox" style="display:none; background:#fffbeb; border:1.5px solid #fef08a; color:#92400e; padding:10px; border-radius:10px; font-size:12px; margin-bottom:8px;"></div>
 <div id="resultContainer" style="display:none;" class="result-box"></div>
 </div>
-
-<div id="historyView" style="display:none;">
-<div class="card">
-<h3 style="margin-top:0; font-size:14px; font-weight:800; color:#0f172a; margin-bottom:6px;">📅 7-Day Activity & Weak Spot Tracker</h3>
-<div id="weeklyActivitySummary" style="font-size:12px; color:#475569; margin-bottom:12px; background:#f1f5f9; padding:10px; border-radius:10px;"></div>
-<div id="historyListContainer"></div>
+<div id="historyView" style="display:none;" class="card">
+<h3>📅 7-Day Activity & Weak Spot Tracker</h3>
+<p style="font-size:13px; color:#475569;">Track your daily progress across Editing, Cloze, Grammar, Vocabulary, and S&T.</p>
 </div>
+<div id="cheatsheetView" style="display:none;" class="card">
+<h3>💡 PSLE Paper 2 Core Traps & Cheatsheet</h3>
+<p style="font-size:13px; line-height:1.6;"><strong>Proximity Rule:</strong> Neither...nor matches closer subject. Together with matches first subject.</p>
 </div>
-
-<div id="cheatsheetView" style="display:none;">
-<div class="card">
-<h3 style="margin-top:0; font-size:15px; font-weight:800; color:#0f172a; margin-bottom:10px;">💡 PSLE Paper 2 Core Traps & Cheatsheet</h3>
-<div style="font-size:13px; line-height:1.6; color:#334155;">
-<p><strong>1. S&amp;T Proximity Rule (就近/就远原则)</strong><br>• <i>Neither... nor / Either... or</i>: Verb agrees with the CLOSER subject.<br>• <i>Together with / As well as</i>: Verb agrees with the FIRST subject.</p>
-<p><strong>2. Reported Speech Backshift</strong><br>• Simple present ➔ Simple past (is ➔ was, know ➔ knew).<br>• Modal shifts (can ➔ could, will ➔ would). Drop question mark in Wh- questions!</p>
-<p><strong>3. Editing Double Consonants</strong><br>• Accommodation (2 c's, 2 m's), Committee (cc, tt, ee), Occurrence (cc, rr), Possession (ss, ss).</p>
-</div>
-</div>
-</div>
-
 </div>
 <div id="btnContainer" style="margin-top:10px;">
 <button id="actionBtn" class="btn editing" onclick="handleAction()">Check Answer (Attempt 1)</button>
 </div>
 </div>
 </div>
-
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyC069kigwWahvR7nCzLbwRMTVpwr1qF30k",
-  authDomain: "psle-tracker-51fac.firebaseapp.com",
-  databaseURL: "https://psle-tracker-51fac-default-rtdb.firebaseio.com",
-  projectId: "psle-tracker-51fac",
-  storageBucket: "psle-tracker-51fac.firebasestorage.app",
-  messagingSenderId: "948024980257",
-  appId: "1:948024980257:web:401fa9eb51dce06d0a4460",
-  measurementId: "G-YRLW4PHNS4"
-};
-
+const firebaseConfig = { apiKey: "AIzaSyC069kigwWahvR7nCzLbwRMTVpwr1qF30k", authDomain: "psle-tracker-51fac.firebaseapp.com", databaseURL: "https://psle-tracker-51fac-default-rtdb.firebaseio.com", projectId: "psle-tracker-51fac" };
 let dbRef = null;
-try {
-  firebase.initializeApp(firebaseConfig);
-  dbRef = firebase.database().ref('shared_student_data');
-  document.getElementById('cloudStatus').className = 'cloud-status cloud-live';
-  document.getElementById('cloudStatus').innerText = '☁️ 云端已同步';
-} catch(e) {
-  document.getElementById('cloudStatus').className = 'cloud-status cloud-local';
-  document.getElementById('cloudStatus').innerText = '🔒 本地安全存储';
-}
+try { firebase.initializeApp(firebaseConfig); dbRef = firebase.database().ref('shared_student_data'); } catch(e) {}
 
-// 6大核心模块完整题库 (整合 2024-2025 年名校真题与专项练习)
 const EDITING_DB = [
-  {"word": "accommodation", "cat": "Editing", "sub": "Double c & m", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double c AND double m: ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
-  {"word": "colleagues", "cat": "Editing", "sub": "Double l", "src": "Pei Chun 2024 EOY", "sent": "Mr. Tan joined his [colleages] at the cafeteria for a quick lunch.", "feat": "Double l, diphthong ea, silent ending -gues.", "tip": "Prefix col- + league. Keep -ue before s."},
-  {"word": "accomplished", "cat": "Editing", "sub": "Double c", "src": "Pei Chun 2024 EOY", "sent": "She is an [acomplished] pianist who has performed in many international concerts.", "feat": "Double c: ac + com + plished.", "tip": "Accomplished is double c."},
-  {"word": "applause", "cat": "Editing", "sub": "Double p", "src": "Tao Nan 2025 EOY", "sent": "Thunderous [apllause] erupted throughout the concert hall when the choir bowed.", "feat": "Double p, diphthong au, ends in -se.", "tip": "Remember ap- prefix doubles the p."},
-  {"word": "commitment", "cat": "Editing", "sub": "Double m, Single t", "src": "Tao Nan 2024 EOY", "sent": "The athletes showed unwavering [comitment] to their daily training routines.", "feat": "Double m, SINGLE t: com + mit + ment.", "tip": "Do not confuse with committee! Commitment has only ONE t."},
-  {"word": "compatibility", "cat": "Editing", "sub": "Word Form", "src": "Ai Tong 2024 EOY", "sent": "The technicians tested the new software [compatible] with school laptops.", "feat": "Noun form compatibility.", "tip": "Ends in -ibility."},
-  {"word": "definitely", "cat": "Editing", "sub": "Spelling Trap", "src": "SCGS 2024 EOY", "sent": "Our team will [definately] give our utmost effort during tomorrow's finals.", "feat": "Contains finite inside: de + fin + ite + ly.", "tip": "Absolute root finite (no a in definitely)!"}
+  {"word": "accommodation", "cat": "Editing", "sub": "Double c & m", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport."},
+  {"word": "colleagues", "cat": "Editing", "sub": "Double l", "src": "Pei Chun 2024 EOY", "sent": "Mr. Tan joined his [colleages] at the cafeteria for a quick lunch."},
+  {"word": "definitely", "cat": "Editing", "sub": "Spelling Trap", "src": "SCGS 2024 EOY", "sent": "Our team will [definately] give our utmost effort during tomorrow's finals."},
+  {"word": "fascination", "cat": "Editing", "sub": "Spelling", "src": "Rosyth 2024 EOY", "sent": "Tim had a deep [fasination] with marine creatures."},
+  {"word": "variety", "cat": "Editing", "sub": "Spelling", "src": "MGS 2024 EOY", "sent": "The hawker centre offers a wide [vareity] of dishes."},
+  {"word": "applause", "cat": "Editing", "sub": "Double p", "src": "Tao Nan 2025 EOY", "sent": "Thunderous [apllause] erupted throughout the hall."},
+  {"word": "accomplished", "cat": "Editing", "sub": "Double c", "src": "Pei Chun 2024 EOY", "sent": "She is an [acomplished] pianist."},
+  {"word": "admitted", "cat": "Editing", "sub": "Double t", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window."},
+  {"word": "attack", "cat": "Editing", "sub": "Double t", "src": "P5 Editing Core", "sent": "The guards were trained to defend the castle against any sudden [atack]."},
+  {"word": "bellowed", "cat": "Editing", "sub": "Double l", "src": "P5 Narrative Vocabulary", "sent": "'Silence in the hall!' the angry captain [belowed] at the top of his voice."},
+  {"word": "beginning", "cat": "Editing", "sub": "Double n", "src": "P5 Editing Trap", "sent": "At the very [begining] of the ceremony, the national anthem was played."},
+  {"word": "brilliant", "cat": "Editing", "sub": "Double l", "src": "P5 Descriptive Core", "sent": "The young scientist devised a [briliant] solution to filter contaminated river water."},
+  {"word": "committee", "cat": "Editing", "sub": "Double m, t, e", "src": "Top Primary Schools", "sent": "The organising [comitee] held an emergency meeting to finalise the timetable."},
+  {"word": "commitment", "cat": "Editing", "sub": "Double m & Single t", "src": "2024 Tao Nan P5 EOY", "sent": "The athletes showed unwavering [comitment] to their daily training routines."}
 ];
 
 const GRAMMAR_DB = [
-  {"word": "was", "cat": "Grammar", "sub": "Subject-Verb Agreement", "src": "Rosyth 2024 EOY", "sent": "Each of the participants in yesterday's tournament [were] awarded a certificate of merit.", "feat": "Each of + plural noun takes singular verb.", "tip": "Each is singular -> was."},
-  {"word": "written", "cat": "Grammar", "sub": "Past Participle", "src": "MGS 2024 EOY", "sent": "Several famous novels [wrote] by that author have been adapted into movies.", "feat": "Past participle as postmodifier.", "tip": "Novels written by..."},
-  {"word": "from", "cat": "Grammar", "sub": "Prepositional Collocation", "src": "Ai Tong 2024 EOY", "sent": "The hikers sought shelter to protect themselves [against] the scorching sun.", "feat": "protect ... from ...", "tip": "Always protect... from harm."}
+  {"word": "was", "cat": "Grammar", "sub": "Subject-Verb Agreement", "src": "Rosyth 2024 EOY", "sent": "Each of the participants in yesterday's tournament [were] awarded a certificate of merit."},
+  {"word": "written", "cat": "Grammar", "sub": "Past Participle", "src": "MGS 2024 EOY", "sent": "Several famous novels [wrote] by that author have been adapted into movies."},
+  {"word": "from", "cat": "Grammar", "sub": "Prepositional Collocation", "src": "Ai Tong 2024 EOY", "sent": "The hikers sought shelter to protect themselves [against] the scorching sun."}
 ];
 
 const VOCAB_DB = [
-  {"word": "adventure", "cat": "Vocabulary", "sub": "Descriptive Core", "src": "Nanyang 2024 EOY", "sent": "Their camping trip in the dense rainforest turned into an unforgettable [adventure].", "feat": "Noun referring to exciting journey.", "tip": "Exciting adventure / sense of adventure."},
-  {"word": "appreciation", "cat": "Vocabulary", "sub": "Word Form", "src": "Tao Nan 2024 EOY", "sent": "The students presented a handmade card to their teacher in [appreciate] of her hard work.", "feat": "In appreciation of...", "tip": "Preposition in takes noun appreciation."}
+  {"word": "adventure", "cat": "Vocabulary", "sub": "Descriptive Core", "src": "Nanyang 2024 EOY", "sent": "Their camping trip in the dense rainforest turned into an unforgettable [adventure]."},
+  {"word": "appreciation", "cat": "Vocabulary", "sub": "Word Form", "src": "Tao Nan 2024 EOY", "sent": "The students presented a handmade card to their teacher in [appreciate] of her hard work."}
 ];
 
 const VCLOZE_DB = [
-  {"id": "vc1", "phrase": "aim at", "cat": "Vocab Cloze", "sent": "The reading programme aims [ d_______ ] helping pupils improve literacy.", "correct": "down", "options": ["down", "at", "for", "with"], "meaning": "To intend to achieve.", "clue": "Starts with d", "exp": "Aim at means intending to achieve."},
-  {"id": "vc2", "phrase": "arrive at", "cat": "Vocab Cloze", "sent": "The panel finally arrived [ a_______ ] a unanimous decision.", "correct": "at", "options": ["at", "to", "in", "on"], "meaning": "To reach a conclusion.", "clue": "Starts with a", "exp": "Arrive at a decision."},
-  {"id": "vc3", "phrase": "boost", "cat": "Vocab Cloze", "sent": "Spending time outdoors can [ b_______ ] our mood.", "correct": "boost", "options": ["boost", "weaken", "spoil"], "meaning": "Improve.", "clue": "Starts with b", "exp": "Boost our mood."}
+  {"id": "vc1", "phrase": "aim at", "cat": "Vocab Cloze", "src": "PSLE Cloze Core", "sent": "The reading programme aims [ a_______ ] helping pupils improve literacy.", "correct": "at"},
+  {"id": "vc2", "phrase": "arrive at", "cat": "Vocab Cloze", "src": "PSLE Cloze Core", "sent": "The panel finally arrived [ a_______ ] a unanimous decision.", "correct": "at"},
+  {"id": "vc3", "phrase": "boost", "cat": "Vocab Cloze", "src": "Pei Chun 2024 EOY", "sent": "Spending time outdoors can [ b_______ ] our mood.", "correct": "boost"},
+  {"id": "vc4", "phrase": "use", "cat": "Vocab Cloze", "src": "Rosyth 2024 EOY", "sent": "Teachers can make good [ u_______ ] of audio stories to help struggling readers.", "correct": "use"},
+  {"id": "vc5", "phrase": "sight", "cat": "Vocab Cloze", "src": "MGS 2024 EOY", "sent": "Catching [ s_______ ] of a troop of macaques near nature reserves is common.", "correct": "sight"}
 ];
 
 const GCLOZE_DB = [
-  {"id": "gc1", "phrase": "alternative for", "cat": "Grammar Cloze", "sent": "Audio books are a convenient alternative [ f_______ ] busy readers.", "correct": "for", "options": ["for", "with", "over"], "meaning": "Alternative for sb.", "clue": "Starts with f", "exp": "Alternative for sb."},
-  {"id": "gc2", "phrase": "from around", "cat": "Grammar Cloze", "sent": "Enthusiasts from [ a_______ ] the world gather at the festival.", "correct": "around", "options": ["around", "between", "beside"], "meaning": "From around the world.", "clue": "Starts with a", "exp": "From around the world."}
+  {"id": "gc1", "phrase": "alternative for", "cat": "Grammar Cloze", "src": "Rosyth 2024 EOY", "sent": "Audio books are a convenient alternative [ f_______ ] busy readers.", "correct": "for"},
+  {"id": "gc2", "phrase": "from around", "cat": "Grammar Cloze", "src": "Pei Chun 2024 EOY", "sent": "Enthusiasts from [ a_______ ] the world gather at the festival.", "correct": "around"},
+  {"id": "gc3", "phrase": "so that", "cat": "Grammar Cloze", "src": "Ai Tong 2024 EOY", "sent": "We should bring our own tumblers [ s_______ ] that we can cut down on waste.", "correct": "so"}
 ];
 
 const ST_DB = [
@@ -251,9 +172,7 @@ const ST_DB = [
     "orig": "Anna is decorating the house for a birthday party. Her sisters are helping her.",
     "prompt": "Anna, together with ___________________________________",
     "starter": "Anna, together with ",
-    "answers": ["Anna, together with her sisters, is decorating the house for a birthday party."],
-    "clue": "With 'together with', the verb agrees with the FIRST subject (Anna -> singular 'is').",
-    "exp": "First subject rule: Anna (singular) takes 'is'."
+    "answers": ["Anna, together with her sisters, is decorating the house for a birthday party."]
   },
   {
     "id": "st_ros_62",
@@ -264,106 +183,33 @@ const ST_DB = [
     "orig": "Judy does not like to eat vegetables. Joe does not like to eat vegetables either.",
     "prompt": "Neither ___________________________________",
     "starter": "Neither ",
-    "answers": ["Neither Judy nor Joe likes to eat vegetables.", "Neither Joe nor Judy likes to eat vegetables."],
-    "clue": "Verb agrees with the closer subject (Joe -> singular 'likes').",
-    "exp": "Proximity rule: verb matches the noun closest to it."
+    "answers": ["Neither Judy nor Joe likes to eat vegetables.", "Neither Joe nor Judy likes to eat vegetables."]
+  },
+  {
+    "id": "st_mgs_61",
+    "cat": "S & T",
+    "pattern": "reported_wh",
+    "typeDesc": "Reported Speech (Wh- Question & Backshift)",
+    "src": "MGS 2025 SA2",
+    "orig": ""When did the parcel arrive?" Mrs Lim asked her daughter.",
+    "prompt": "Mrs Lim asked her daughter ___________________________________",
+    "starter": "Mrs Lim asked her daughter ",
+    "answers": ["Mrs Lim asked her daughter when the parcel had arrived."]
   }
 ];
 
 let activeApp = 'editing';
 let currentMode = 'daily';
 let currentIdx = 0;
-let attemptNum = 1;
-let hasFinalSubmitted = false;
 let sessionList = [];
 let currentQuestion = null;
-let timerInterval = null;
-const todayStr = new Date().toISOString().split('T')[0];
-const EBBINGHAUS_DAYS = [1, 3, 7, 21];
+let store = JSON.parse(localStorage.getItem('portal_english_master_v6') || '{"stars":801,"mastered":[],"inReview":[],"progress":{},"dailyLogs":{}}');
 
-function getItemKey(item) {
-  if (!item) return '';
-  return item.word ? item.word : item.id;
-}
-
-function getItemLabel(key) {
-  const all = [...EDITING_DB, ...GRAMMAR_DB, ...VOCAB_DB, ...VCLOZE_DB, ...GCLOZE_DB, ...ST_DB];
-  const found = all.find(x => x.word === key || x.id === key);
-  return found ? (found.word || found.phrase || found.src) : key;
-}
-
-function loadInitialStore() {
-  let s = JSON.parse(localStorage.getItem('portal_english_master_v6') || '{}');
-  if (!s.stars) {
-    ['portal_spelling_v5', 'portal_spelling_v4', 'psle_master_store_v5'].forEach(k => {
-      try {
-        const old = JSON.parse(localStorage.getItem(k) || '{}');
-        if (old.stars && old.stars > (s.stars || 0)) {
-          s.stars = old.stars;
-          if (old.mastered) s.mastered = old.mastered;
-          if (old.inReview) s.inReview = old.inReview;
-          if (old.progress) s.progress = old.progress;
-          if (old.dailyLogs) s.dailyLogs = old.dailyLogs;
-        }
-      } catch(e) {}
-    });
-  }
-  return {
-    stars: s.stars || 0,
-    mastered: s.mastered || [],
-    inReview: s.inReview || [],
-    progress: s.progress || {},
-    dailyLogs: s.dailyLogs || {}
-  };
-}
-
-let store = loadInitialStore();
-
-if (dbRef) {
+if(dbRef) {
   dbRef.on('value', (snapshot) => {
     const val = snapshot.val();
-    if (val) {
-      store.stars = Math.max(store.stars || 0, val.stars || 0);
-      if (Array.isArray(val.mastered)) store.mastered = Array.from(new Set([...store.mastered, ...val.mastered]));
-      if (Array.isArray(val.inReview)) store.inReview = Array.from(new Set([...store.inReview, ...val.inReview]));
-      if (val.progress) store.progress = { ...store.progress, ...val.progress };
-      if (val.dailyLogs) store.dailyLogs = { ...store.dailyLogs, ...val.dailyLogs };
-      saveToLocalStorage();
-      updateStats();
-    }
+    if(val && val.stars) { store.stars = Math.max(store.stars, val.stars); updateStats(); }
   });
-}
-
-function saveToLocalStorage() {
-  localStorage.setItem('portal_english_master_v6', JSON.stringify(store));
-}
-
-function syncStore() {
-  saveToLocalStorage();
-  if (dbRef) {
-    dbRef.set({
-      stars: Math.round((store.stars || 0) * 10) / 10,
-      mastered: store.mastered,
-      inReview: store.inReview,
-      progress: store.progress,
-      dailyLogs: store.dailyLogs
-    });
-  }
-}
-
-function promptParentEdit() {
-  const pwd = prompt("请输入家长管理密码：", "");
-  if (pwd === "1234") {
-    const val = prompt(`当前云端星星总数：${store.stars} ⭐\n请输入修改后的新星星数：`, store.stars);
-    if (val !== null && !isNaN(val)) {
-      store.stars = parseFloat(val);
-      syncStore();
-      updateStats();
-      alert("星星已同步！");
-    }
-  } else if (pwd !== null) {
-    alert("密码错误！");
-  }
 }
 
 function getDB() {
@@ -375,31 +221,6 @@ function getDB() {
   return ST_DB;
 }
 
-function shuffleArray(arr) {
-  let copy = [...arr];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-function buildSessionList() {
-  const db = getDB();
-  const targetCount = (activeApp === 'st') ? 5 : 15;
-  if (currentMode === 'review') {
-    const due = db.filter(item => store.inReview.includes(getItemKey(item)));
-    sessionList = due.length > 0 ? shuffleArray(due) : shuffleArray(db).slice(0, targetCount);
-  } else {
-    sessionList = shuffleArray(db).slice(0, targetCount);
-  }
-}
-
-function getActiveList() {
-  if (!sessionList || sessionList.length === 0) buildSessionList();
-  return sessionList;
-}
-
 function switchApp(app) {
   activeApp = app;
   currentMode = 'daily';
@@ -407,193 +228,103 @@ function switchApp(app) {
   ['swEditing', 'swGrammar', 'swVocab', 'swVCloze', 'swGCloze', 'swSt'].forEach(id => {
     document.getElementById(id).className = 'app-btn';
   });
-  document.getElementById('sw' + capitalize(app === 'vcloze' ? 'vCloze' : (app === 'gcloze' ? 'gCloze' : app))).className = 'app-btn active ' + app;
+  document.getElementById('sw' + (app==='vcloze'?'VCloze':app==='gcloze'?'GCloze':app.charAt(0).toUpperCase()+app.slice(1))).className = 'app-btn active ' + app;
   document.getElementById('actionBtn').className = 'btn ' + app;
-  buildSessionList();
+  sessionList = getDB();
   changeMode('daily');
 }
-
-function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 function changeMode(mode) {
   currentMode = mode;
   currentIdx = 0;
-  buildSessionList();
-  ['tabDaily', 'tabReview', 'tabAll', 'tabHistory', 'tabCheatsheet'].forEach(t => {
-    document.getElementById(t).classList.remove('active');
-  });
-  document.getElementById('tab' + capitalize(mode)).classList.add('active');
-
-  document.getElementById('quizView').style.display = (mode === 'history' || mode === 'cheatsheet') ? 'none' : 'block';
-  document.getElementById('btnContainer').style.display = (mode === 'history' || mode === 'cheatsheet') ? 'none' : 'block';
-  document.getElementById('historyView').style.display = (mode === 'history') ? 'block' : 'none';
-  document.getElementById('cheatsheetView').style.display = (mode === 'cheatsheet') ? 'block' : 'none';
-
-  if (mode === 'history') renderHistory();
-  else if (mode !== 'cheatsheet') renderQuestion();
-}
-
-function renderEbbinghausBar(key) {
-  const bar = document.getElementById('ebbinghausBar');
-  const p = store.progress[key];
-  const streak = p ? (p.streak || 0) : 0;
-  const labels = ['Day 1', 'Day 3', 'Day 7', 'Day 21 🏆'];
-  let html = '';
-  for (let i = 0; i < 4; i++) {
-    let cls = 'eb-step';
-    let icon = '🔒';
-    if (streak > i) { cls += ' done'; icon = '✅'; }
-    else if (streak === i) { cls += ' current'; icon = '🎯'; }
-    html += `<div class="${cls}">${icon} ${labels[i]}</div>`;
-  }
-  bar.innerHTML = html;
+  sessionList = getDB();
+  ['tabDaily', 'tabReview', 'tabHistory', 'tabCheatsheet'].forEach(t => document.getElementById(t).classList.remove('active'));
+  document.getElementById('tab' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
+  document.getElementById('quizView').style.display = (mode==='history'||mode==='cheatsheet')?'none':'block';
+  document.getElementById('btnContainer').style.display = (mode==='history'||mode==='cheatsheet')?'none':'block';
+  document.getElementById('historyView').style.display = (mode==='history')?'block':'none';
+  document.getElementById('cheatsheetView').style.display = (mode==='cheatsheet')?'block':'none';
+  if(mode!=='history' && mode!=='cheatsheet') renderQuestion();
 }
 
 function renderQuestion() {
-  const list = getActiveList();
-  if (currentIdx >= list.length) currentIdx = 0;
-  currentQuestion = list[currentIdx] || list[0];
+  sessionList = getDB();
+  if(currentIdx >= sessionList.length) currentIdx = 0;
+  currentQuestion = sessionList[currentIdx];
   const q = currentQuestion;
-  const isStItem = !!q.orig;
-  const key = getItemKey(q);
-
-  attemptNum = 1;
-  hasFinalSubmitted = false;
-
+  const isSt = !!q.orig;
   document.getElementById('qCategory').className = 'badge-cat ' + activeApp;
   document.getElementById('qCategory').innerText = q.cat;
-  document.getElementById('qSource').innerText = q.src;
-  document.getElementById('qIndex').innerText = (currentIdx + 1) + " / " + list.length;
-
-  renderEbbinghausBar(key);
-
-  const stBanner = document.getElementById('stTypeBanner');
-  const stPrompt = document.getElementById('stPromptBox');
-  const inputArea = document.getElementById('inputArea');
-  const stInputArea = document.getElementById('stInputArea');
-
-  if (isStItem) {
-    stBanner.style.display = 'block';
-    stBanner.innerHTML = `<strong>🎯 Question Type:</strong> ${q.typeDesc}`;
-    stPrompt.style.display = 'block';
-    stPrompt.innerText = q.prompt;
-    document.getElementById('qInstruction').innerText = "Rewrite the sentence(s) below using the given prompt (+2 ⭐ on 1st try):";
+  document.getElementById('qSource').innerText = q.src || "PSLE Master Bank";
+  document.getElementById('qIndex').innerText = (currentIdx + 1) + " / " + sessionList.length;
+  if(isSt) {
+    document.getElementById('stTypeBanner').style.display = 'block';
+    document.getElementById('stTypeBanner').innerText = q.typeDesc;
+    document.getElementById('stPromptBox').style.display = 'block';
+    document.getElementById('stPromptBox').innerText = q.prompt;
     document.getElementById('sentenceContainer').innerText = q.orig;
-    inputArea.style.display = 'none';
-    stInputArea.style.display = 'block';
+    document.getElementById('inputArea').style.display = 'none';
+    document.getElementById('stInputArea').style.display = 'block';
     document.getElementById('stInput').value = '';
-    document.getElementById('stInput').disabled = false;
   } else {
-    stBanner.style.display = 'none';
-    stPrompt.style.display = 'none';
-    document.getElementById('qInstruction').innerText = "Type correct answer (+1 ⭐ on 1st try):";
-    const formatted = q.word
-      ? q.sent.replace(/\[(.*?)\]/, '<span class="error-target">$1</span>')
-      : q.sent.replace(/\[\s*______\s*\]/, `<span class="blank-target">[ ${q.correct.charAt(0)}______ ]</span>`);
-    document.getElementById('sentenceContainer').innerHTML = formatted;
-    inputArea.style.display = 'block';
-    stInputArea.style.display = 'none';
+    document.getElementById('stTypeBanner').style.display = 'none';
+    document.getElementById('stPromptBox').style.display = 'none';
+    document.getElementById('sentenceContainer').innerHTML = q.word ? q.sent.replace(/\[(.*?)\]/, '<span class="error-target">$1</span>') : q.sent.replace(/\[\s*[a-zA-Z]?_+\s*\]/, `<span class="blank-target">[ ${q.correct.charAt(0)}______ ]</span>`);
+    document.getElementById('inputArea').style.display = 'block';
+    document.getElementById('stInputArea').style.display = 'none';
     document.getElementById('answerInput').value = '';
-    document.getElementById('answerInput').disabled = false;
     document.getElementById('answerInput').focus();
   }
-
-  document.getElementById('hintBox').style.display = 'none';
   document.getElementById('resultContainer').style.display = 'none';
-  document.getElementById('actionBtn').disabled = false;
-  document.getElementById('actionBtn').innerText = isStItem ? 'Check Sentence (Attempt 1 · +2 ⭐)' : 'Check Answer (Attempt 1 · +1 ⭐)';
+  document.getElementById('actionBtn').innerText = isSt ? 'Check Sentence (+2 ⭐)' : (activeApp.includes('cloze') ? 'Check Cloze (+2 ⭐)' : 'Check Answer (+1 ⭐)');
   updateStats();
-}
-
-function speakTargetSentence() {
-  if (!window.speechSynthesis) return;
-  const q = currentQuestion || getActiveList()[currentIdx];
-  let text = q.sent ? q.sent.replace(/\[(.*?)\]/, q.word || q.correct) : q.orig;
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'en-GB';
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
 }
 
 function updateStats() {
-  document.getElementById('statStars').innerText = Math.round((store.stars || 0) * 10) / 10;
-  const db = getDB();
-  const reviewCount = store.inReview.filter(key => db.some(item => getItemKey(item) === key)).length;
-  document.getElementById('statReview').innerText = reviewCount;
-  document.getElementById('revCount').innerText = reviewCount;
-  document.getElementById('statAccuracy').innerText = '95%';
-  ensureTodayLog();
-  document.getElementById('statDone').innerText = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + '/15';
-}
-
-function ensureTodayLog() {
-  if (!store.dailyLogs[todayStr]) {
-    store.dailyLogs[todayStr] = { done: 0, firstTryCorrect: 0, byApp: { editing: 0, grammar: 0, vocab: 0, vcloze: 0, gcloze: 0, st: 0 }, wrongWords: [], passedWords: [] };
-  }
+  document.getElementById('statStars').innerText = store.stars;
+  document.getElementById('statDone').innerText = '0/15';
 }
 
 function handleAction() {
-  const q = currentQuestion || getActiveList()[currentIdx];
-  const isStItem = !!q.orig;
-  const targetAnswer = isStItem ? q.answers[0] : (q.word || q.correct);
-  const idKey = getItemKey(q);
-  const actionBtn = document.getElementById('actionBtn');
-  const resBox = document.getElementById('resultContainer');
-
-  if (hasFinalSubmitted) {
-    currentIdx = (currentIdx + 1) % getActiveList().length;
-    renderQuestion();
-    return;
-  }
-
-  let rawAns = isStItem ? document.getElementById('stInput').value.trim() : document.getElementById('answerInput').value.trim();
-  if (!rawAns) return;
-
-  const isCorrect = rawAns.toLowerCase() === targetAnswer.toLowerCase();
-  ensureTodayLog();
-
-  if (!store.progress[idKey]) store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
-  let prog = store.progress[idKey];
-  const reward = isStItem ? 2 : 1;
-
-  if (attemptNum === 1 && isCorrect) {
-    hasFinalSubmitted = true;
-    store.stars = Math.round(((store.stars || 0) + reward) * 10) / 10;
-    store.dailyLogs[todayStr].done += 1;
-    store.dailyLogs[todayStr].firstTryCorrect += 1;
-    store.dailyLogs[todayStr].byApp[activeApp] = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + 1;
-    prog.streak += 1;
-    prog.nextDue = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-
-    resBox.className = 'result-box result-correct';
-    resBox.style.display = 'block';
-    resBox.innerHTML = `<strong>🌟 Brilliant! 1st Attempt Correct! (+${reward} ⭐)</strong>`;
-    actionBtn.innerText = 'Next Question →';
+  const q = currentQuestion;
+  const isSt = !!q.orig;
+  const target = isSt ? q.answers[0] : (q.word || q.correct);
+  const raw = isSt ? document.getElementById('stInput').value.trim() : document.getElementById('answerInput').value.trim();
+  if(!raw) return;
+  const correct = raw.toLowerCase() === target.toLowerCase();
+  const res = document.getElementById('resultContainer');
+  res.style.display = 'block';
+  const pts = (isSt || activeApp.includes('cloze')) ? 2 : 1;
+  if(correct) {
+    store.stars = Math.round((store.stars + pts) * 10) / 10;
+    localStorage.setItem('portal_english_master_v6', JSON.stringify(store));
+    if(dbRef) dbRef.update({ stars: store.stars });
+    res.className = 'result-box result-correct';
+    res.innerHTML = '<strong>🌟 Correct! (+' + pts + ' ⭐)</strong>';
   } else {
-    prog.streak = 0;
-    prog.mistakes += 1;
-    if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
-    resBox.className = 'result-box result-wrong';
-    resBox.style.display = 'block';
-    resBox.innerHTML = `<strong>❌ Incorrect. Correct Answer:</strong> ${targetAnswer}`;
-    hasFinalSubmitted = true;
-    actionBtn.innerText = 'Next Question →';
+    res.className = 'result-box result-wrong';
+    res.innerHTML = '<strong>❌ Incorrect.</strong> Answer: ' + target;
   }
-  syncStore();
+  document.getElementById('actionBtn').innerText = 'Next Question →';
+  document.getElementById('actionBtn').onclick = () => {
+    currentIdx = (currentIdx + 1) % sessionList.length;
+    document.getElementById('actionBtn').onclick = handleAction;
+    renderQuestion();
+  };
   updateStats();
 }
 
-function toggleHint() {
-  const hBox = document.getElementById('hintBox');
-  hBox.style.display = hBox.style.display === 'none' ? 'block' : 'none';
-  hBox.innerHTML = '<strong>💡 Hint:</strong> ' + (currentQuestion.tip || currentQuestion.clue || 'Check spelling and grammar rules.');
+function promptParentEdit() {
+  let p = prompt("Password:", "");
+  if(p==="1234") {
+    let s = prompt("New stars:", store.stars);
+    if(s!==null) { store.stars = parseFloat(s); localStorage.setItem('portal_english_master_v6', JSON.stringify(store)); if(dbRef) dbRef.update({ stars: store.stars }); updateStats(); }
+  }
 }
 
-function renderHistory() {
-  document.getElementById('historyListContainer').innerHTML = '<p style="font-size:13px; color:#475569;">7-day practice log active. Keep up daily consistency across all Paper 2 modules!</p>';
-}
+document.getElementById('answerInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleAction(); });
 
-buildSessionList();
+sessionList = getDB();
 renderQuestion();
 </script>
 </body>
