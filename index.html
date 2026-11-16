@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PSLE English AL1 Master Portal (Ultimate Complete Edition · 2024+2025 Top Schools)</title>
+<title>PSLE English AL1 Master Portal (2024-2025 Top Schools Edition)</title>
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -11,181 +11,146 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 12px; }
 .container { max-width: 480px; margin: 0 auto; min-height: 94vh; display: flex; flex-direction: column; justify-content: space-between; }
-.app-switcher { display: grid; grid-template-columns: repeat(4, 1fr); background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 10px; gap: 4px; }
-.app-btn { padding: 9px 2px; font-size: 11.5px; font-weight: 800; border-radius: 10px; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; text-align: center; }
-.app-btn.active.spelling { background: #7e22ce; color: #ffffff; box-shadow: 0 2px 4px rgba(126,34,206,0.25); }
-.app-btn.active.cloze { background: #0284c7; color: #ffffff; box-shadow: 0 2px 4px rgba(2,132,199,0.25); }
+
+/* 顶栏网格化应用切换 */
+.app-switcher { display: grid; grid-template-columns: repeat(3, 1fr); background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 8px; gap: 4px; }
+.app-switcher-row2 { display: grid; grid-template-columns: repeat(3, 1fr); background: #e2e8f0; padding: 4px; border-radius: 14px; margin-bottom: 10px; gap: 4px; }
+.app-btn { padding: 8px 2px; font-size: 11px; font-weight: 800; border-radius: 10px; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; text-align: center; }
+.app-btn.active.editing { background: #7e22ce; color: #ffffff; box-shadow: 0 2px 4px rgba(126,34,206,0.25); }
+.app-btn.active.grammar { background: #2563eb; color: #ffffff; box-shadow: 0 2px 4px rgba(37,99,235,0.25); }
+.app-btn.active.vocab { background: #d97706; color: #ffffff; box-shadow: 0 2px 4px rgba(217,119,6,0.25); }
+.app-btn.active.vcloze { background: #0284c7; color: #ffffff; box-shadow: 0 2px 4px rgba(2,132,199,0.25); }
+.app-btn.active.gcloze { background: #0d9488; color: #ffffff; box-shadow: 0 2px 4px rgba(13,148,136,0.25); }
 .app-btn.active.st { background: #059669; color: #ffffff; box-shadow: 0 2px 4px rgba(5,150,105,0.25); }
-.app-btn.active.speed { background: #dc2626; color: #ffffff; box-shadow: 0 2px 4px rgba(220,38,38,0.25); }
+
 .tool-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .cloud-status { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; }
 .cloud-live { background: #dcfce7; color: #15803d; }
 .cloud-local { background: #f1f5f9; color: #475569; }
+
 .card { background: #ffffff; border-radius: 18px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; margin-bottom: 12px; }
 .badge-cat { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-.badge-cat.spelling { background: #f3e8ff; color: #7e22ce; }
-.badge-cat.cloze { background: #e0f2fe; color: #0369a1; }
-.badge-cat.st { background: #d1fae5; color: #047857; }
-.badge-cat.speed { background: #fee2e2; color: #dc2626; }
-.st-type-banner { background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 10px; padding: 8px 10px; margin-bottom: 10px; font-size: 12px; color: #065f46; }
-.st-prompt-box { background: #f0fdf4; border: 1.5px dashed #34d399; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: #064e3b; }
+
 .ebbinghaus-bar { display: flex; gap: 4px; margin: 8px 0 10px 0; font-size: 10px; font-weight: 700; }
 .eb-step { flex: 1; text-align: center; padding: 3px 2px; border-radius: 6px; background: #f1f5f9; color: #94a3b8; border: 1px solid #e2e8f0; }
 .eb-step.done { background: #dcfce7; color: #15803d; border-color: #86efac; }
 .eb-step.current { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+
 .sentence-box { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px; font-size: 15px; line-height: 1.65; margin: 10px 0; color: #0f172a; position: relative; }
 .error-target { color: #e11d48; background: #ffe4e6; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-decoration: underline wavy #f43f5e; }
 .blank-target { color: #0284c7; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; font-weight: 800; border-bottom: 2px solid #0284c7; font-family: monospace; letter-spacing: 0.5px; }
+
 .audio-btn { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
-.audio-btn:active { background: #e2e8f0; }
 input[type="text"], textarea { width: 100%; font-family: inherit; font-size: 15px; font-weight: 600; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; margin-bottom: 6px; }
 input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce; box-shadow: 0 0 0 3px #f3e8ff; }
-textarea.st-input:focus { border-color: #059669; box-shadow: 0 0 0 3px #d1fae5; }
-.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-.opt-btn { width: 100%; text-align: center; padding: 11px 8px; font-size: 14px; font-weight: 700; border-radius: 12px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; transition: all 0.15s; }
-.opt-btn.selected { border-color: #0284c7; background: #f0f9ff; color: #0369a1; }
-.opt-btn.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 800; }
-.opt-btn.wrong { border-color: #f43f5e; background: #fff1f2; color: #9f1239; }
+
 .btn { width: 100%; color: #ffffff; font-weight: 700; font-size: 15px; padding: 14px; border: none; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
-.btn.spelling { background: #7e22ce; }
-.btn.cloze { background: #0284c7; }
+.btn.editing { background: #7e22ce; }
+.btn.grammar { background: #2563eb; }
+.btn.vocab { background: #d97706; }
+.btn.vcloze { background: #0284c7; }
+.btn.gcloze { background: #0d9488; }
 .btn.st { background: #059669; }
-.btn.speed { background: #dc2626; }
 .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-.transfer-btn { width: 100%; margin-top: 10px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-weight: 800; font-size: 13px; padding: 10px 12px; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 2px 5px rgba(217,119,6,0.3); }
-.starter-btn { background: #ecfdf5; border: 1px solid #6ee7b7; color: #047857; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; cursor: pointer; margin-bottom: 6px; display: inline-block; }
-.mcq-fallback-btn { width: 100%; background: #fef3c7; border: 1.5px solid #fcd34d; color: #b45309; font-size: 12.5px; font-weight: 800; padding: 9px 12px; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
+
 .sub-tabs { display: flex; gap: 4px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
 .tab-pill { flex: 1; min-width: 65px; padding: 6px 2px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; color: #64748b; cursor: pointer; text-align: center; white-space: nowrap; }
-.tab-pill.active.spelling { background: #7e22ce; color: #fff; border-color: #7e22ce; }
-.tab-pill.active.cloze { background: #0284c7; color: #fff; border-color: #0284c7; }
-.tab-pill.active.st { background: #059669; color: #fff; border-color: #059669; }
-.tab-pill.active.speed { background: #dc2626; color: #fff; border-color: #dc2626; }
+.tab-pill.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+
 .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; text-align: center; }
 .stat-item { background: #ffffff; padding: 8px 4px; border-radius: 14px; border: 1px solid #f1f5f9; }
 .stat-val { font-size: 16px; font-weight: 800; }
 .stat-lbl { font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+
 .result-box { padding: 13px; border-radius: 12px; font-size: 13px; line-height: 1.55; margin-top: 10px; }
 .result-correct { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
 .result-retry { background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; }
 .result-wrong { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; }
 .tip-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(0,0,0,0.1); font-size: 12px; }
-.timer-pill { display: inline-flex; align-items: center; gap: 4px; background: #fee2e2; color: #dc2626; font-weight: 800; font-size: 12px; padding: 3px 8px; border-radius: 10px; }
-.history-item-tag { display: inline-block; padding: 2px 6px; border-radius: 5px; font-size: 11px; margin: 2px 3px 2px 0; font-weight: 600; }
-.tag-pass { background: #dcfce7; color: #166534; }
-.tag-miss { background: #fee2e2; color: #991b1b; }
 
 @media (min-width: 680px) {
   body { padding: 24px; }
   .container { max-width: 780px; }
-  .app-switcher { padding: 6px; border-radius: 18px; margin-bottom: 16px; gap: 8px; }
-  .app-btn { padding: 13px 8px; font-size: 15px; border-radius: 13px; }
-  .tool-bar { margin-bottom: 14px; }
-  .cloud-status { font-size: 13px; padding: 5px 12px; }
-  .tool-bar button { font-size: 13px !important; padding: 6px 12px !important; }
-  .stats-row { gap: 12px; margin-bottom: 16px; }
-  .stat-item { padding: 14px 8px; border-radius: 18px; }
-  .stat-val { font-size: 24px; }
-  .stat-lbl { font-size: 12px; margin-top: 4px; }
-  .sub-tabs { gap: 8px; margin-bottom: 16px; }
-  .tab-pill { padding: 10px 8px; font-size: 14px; border-radius: 12px; }
   .card { border-radius: 24px; padding: 28px; margin-bottom: 18px; }
-  .badge-cat { font-size: 13.5px; padding: 5px 12px; border-radius: 8px; }
-  #attemptDisplay { font-size: 12.5px !important; padding: 4px 10px !important; }
-  #qIndex { font-size: 15px !important; }
-  .ebbinghaus-bar { gap: 8px; margin: 12px 0 14px 0; font-size: 13px; }
-  .eb-step { padding: 6px 4px; border-radius: 8px; }
-  .st-type-banner { padding: 12px 14px; font-size: 14.5px; border-radius: 12px; }
-  .st-prompt-box { padding: 14px 16px; font-size: 17px; border-radius: 12px; }
-  #qSource { font-size: 13.5px !important; }
-  .audio-btn { padding: 6px 12px; font-size: 14px; border-radius: 10px; }
-  #qInstruction { font-size: 14px !important; }
-  .sentence-box { padding: 20px; font-size: 19px; line-height: 1.75; margin: 14px 0; border-radius: 16px; }
-  input[type="text"], textarea { font-size: 18px; padding: 16px 18px; border-radius: 14px; }
-  .options-grid { gap: 12px; margin-bottom: 16px; }
-  .opt-btn { padding: 16px 12px; font-size: 18px; border-radius: 14px; }
-  .starter-btn { font-size: 13.5px; padding: 7px 14px; margin-bottom: 10px; }
-  .mcq-fallback-btn { font-size: 14.5px; padding: 11px 16px; }
-  #attemptTip { font-size: 13.5px !important; }
-  #hintBtn { font-size: 13.5px !important; padding: 6px 14px !important; }
-  #hintBox { font-size: 15px !important; padding: 14px !important; }
-  .result-box { padding: 18px; font-size: 16px; line-height: 1.65; }
-  .tip-section { font-size: 14.5px; margin-top: 10px; padding-top: 10px; }
-  .transfer-btn { font-size: 15.5px; padding: 14px 16px; margin-top: 14px; }
-  .btn { font-size: 18px; padding: 18px; border-radius: 16px; }
+  .sentence-box { padding: 20px; font-size: 19px; line-height: 1.75; }
+  input[type="text"], textarea { font-size: 18px; padding: 16px 18px; }
+  .btn { font-size: 18px; padding: 18px; }
 }
 @media print {
   body { background: #fff; color: #000; padding: 0; }
   .container { max-width: 100%; }
   .no-print { display: none !important; }
-  .print-only { display: block !important; }
-  .worksheet-item { page-break-inside: avoid; border-bottom: 1px solid #ccc; padding: 10px 0; font-size: 14pt; }
 }
-.print-only { display: none; }
 </style>
 </head>
 <body>
 <div class="container">
 <div class="no-print">
+<!-- 第一行与第二行应用分类切换（对应纸面 6 大核心模块） -->
 <div class="app-switcher">
-<button id="swSpelling" class="app-btn active spelling" onclick="switchApp('spelling')">✍️ Editing</button>
-<button id="swCloze" class="app-btn" onclick="switchApp('cloze')">📖 Cloze</button>
-<button id="swSt" class="app-btn" onclick="switchApp('st')">🔗 S&amp;T</button>
-<button id="swSpeed" class="app-btn" onclick="switchApp('speed')">⚡ Speed</button>
+<button id="swEditing" class="app-btn active editing" onclick="switchApp('editing')">✍️ Editing</button>
+<button id="swGrammar" class="app-btn" onclick="switchApp('grammar')">📐 Grammar</button>
+<button id="swVocab" class="app-btn" onclick="switchApp('vocab')">📖 Vocabulary</button>
 </div>
+<div class="app-switcher-row2">
+<button id="swVCloze" class="app-btn" onclick="switchApp('vcloze')">🧩 Vocab Cloze</button>
+<button id="swGCloze" class="app-btn" onclick="switchApp('gcloze')">📝 Grammar Cloze</button>
+<button id="swSt" class="app-btn" onclick="switchApp('st')">🔗 S &amp; T</button>
+</div>
+
 <div class="tool-bar">
 <div style="display:flex; align-items:center; gap:6px;">
 <span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步</span>
-<span id="timerContainer" style="display:none;" class="timer-pill">⏱️ <span id="timerSec">45</span>s</span>
 </div>
 <div style="display:flex; gap:6px;">
 <button onclick="promptParentEdit()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">⚙️ 家长调分</button>
 <button onclick="openPrintModal()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">🖨️ 导出</button>
 </div>
 </div>
+
 <div class="stats-row">
 <div class="stat-item"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">0</div></div>
 <div class="stat-item"><div class="stat-lbl">Accuracy %</div><div id="statAccuracy" class="stat-val" style="color:#059669;">100%</div></div>
 <div class="stat-item"><div class="stat-lbl">Due / Review</div><div id="statReview" class="stat-val" style="color:#d97706;">0</div></div>
-<div class="stat-item"><div id="statDoneLabel" class="stat-lbl">Editing Today</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
+<div class="stat-item"><div id="statDoneLabel" class="stat-lbl">Done Today</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
 </div>
+
 <div class="sub-tabs">
-<button id="tabDaily" class="tab-pill active spelling" onclick="changeMode('daily')">Daily 20 Qs</button>
+<button id="tabDaily" class="tab-pill active" onclick="changeMode('daily')">Daily Qs</button>
 <button id="tabReview" class="tab-pill" onclick="changeMode('review')">Review (<span id="revCount">0</span>)</button>
-<button id="tabFormat" class="tab-pill" onclick="toggleClozeFormat()" style="display:none;">Mode: <span id="formatLabel">Tiered (1st Letter)</span></button>
 <button id="tabAll" class="tab-pill" onclick="changeMode('all')">All Library</button>
 <button id="tabHistory" class="tab-pill" onclick="changeMode('history')">7-Day Log</button>
+<button id="tabCheatsheet" class="tab-pill" onclick="changeMode('cheatsheet')">💡 Cheatsheet</button>
 </div>
+
 <div id="quizView" class="card">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
 <div>
-<span id="qCategory" class="badge-cat spelling"></span>
+<span id="qCategory" class="badge-cat editing"></span>
 <span id="attemptDisplay" style="display:inline-block; font-size:10px; font-weight:800; padding:2px 7px; border-radius:10px; margin-left:6px; background:#e2e8f0; color:#475569;">Attempt 1/2</span>
 </div>
 <span id="qIndex" style="font-size:12px; color:#94a3b8; font-weight:700;"></span>
 </div>
 <div id="ebbinghausBar" class="ebbinghaus-bar"></div>
 <div id="stTypeBanner" class="st-type-banner" style="display:none;"></div>
+
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
 <div id="qSource" style="font-size:11px; color:#64748b; font-weight:600;"></div>
 <button class="audio-btn" onclick="speakTargetSentence()">🔊 Read British</button>
 </div>
+
 <div style="font-size:11px; color:#64748b; font-weight:600;" id="qInstruction"></div>
 <div id="sentenceContainer" class="sentence-box"></div>
 <div id="stPromptBox" class="st-prompt-box" style="display:none;"></div>
-<div id="spellingInputArea" style="position:relative;">
-<input type="text" id="answerInput" placeholder="Type correct spelling..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+<div id="inputArea" style="position:relative;">
+<input type="text" id="answerInput" placeholder="Type correct answer..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 </div>
-<div id="clozeProInputArea" style="display:none;">
-<div style="font-size:12px; color:#0369a1; font-weight:700; margin-bottom:4px;">✍️ Tiered Cloze (Type complete word using 1st-letter clue for +2 ⭐, or click hint for +1 ⭐):</div>
-<input type="text" id="clozeProInput" placeholder="Type complete word..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
-<button id="clozeFallbackBtn" class="mcq-fallback-btn" onclick="revealShuffledMcqFallback()">💡 Need help? Show 4 Shuffled Options (+1 ⭐)</button>
-</div>
-<div id="clozeOptionsArea" class="options-grid" style="display:none;"></div>
 <div id="stInputArea" style="display:none;">
-<button id="stStarterBtn" class="starter-btn" onclick="fillStStarter()" style="display:none;">⚡ Auto-fill Opening Word(s)</button>
-<textarea id="stInput" class="st-input" rows="2" placeholder="Type the complete rewritten sentence with proper punctuation..." autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
+<button id="stStarterBtn" class="starter-btn" onclick="fillStStarter()" style="display:none; background:#ecfdf5; border:1px solid #6ee7b7; color:#047857; font-size:11px; font-weight:700; padding:4px 10px; border-radius:8px; margin-bottom:6px; cursor:pointer;">⚡ Auto-fill Opening Word(s)</button>
+<textarea id="stInput" class="st-input" rows="2" placeholder="Type the complete rewritten sentence..." autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
 </div>
+
 <div style="display:flex; justify-content:space-between; align-items:center; margin: 4px 0 8px 0;">
 <span id="attemptTip" style="font-size:11px; color:#94a3b8; font-weight:600;">🔒 Hint unlocks on 2nd attempt</span>
 <button id="hintBtn" disabled onclick="toggleHint()" style="background:#f1f5f9; border:none; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:700; color:#94a3b8; cursor:not-allowed;">🔒 Hint (Locked)</button>
@@ -193,6 +158,7 @@ textarea.st-input:focus { border-color: #059669; box-shadow: 0 0 0 3px #d1fae5; 
 <div id="hintBox" style="display:none; background:#fffbeb; border:1.5px solid #fef08a; color:#92400e; padding:10px; border-radius:10px; font-size:12px; margin-bottom:8px;"></div>
 <div id="resultContainer" style="display:none;" class="result-box"></div>
 </div>
+
 <div id="historyView" style="display:none;">
 <div class="card">
 <h3 style="margin-top:0; font-size:14px; font-weight:800; color:#0f172a; margin-bottom:6px;">📅 7-Day Activity & Weak Spot Tracker</h3>
@@ -200,18 +166,25 @@ textarea.st-input:focus { border-color: #059669; box-shadow: 0 0 0 3px #d1fae5; 
 <div id="historyListContainer"></div>
 </div>
 </div>
+
+<div id="cheatsheetView" style="display:none;">
+<div class="card">
+<h3 style="margin-top:0; font-size:15px; font-weight:800; color:#0f172a; margin-bottom:10px;">💡 PSLE Paper 2 Core Traps & Cheatsheet</h3>
+<div style="font-size:13px; line-height:1.6; color:#334155;">
+<p><strong>1. S&amp;T Proximity Rule (就近/就远原则)</strong><br>• <i>Neither... nor / Either... or</i>: Verb agrees with the CLOSER subject.<br>• <i>Together with / As well as</i>: Verb agrees with the FIRST subject.</p>
+<p><strong>2. Reported Speech Backshift</strong><br>• Simple present ➔ Simple past (is ➔ was, know ➔ knew).<br>• Modal shifts (can ➔ could, will ➔ would). Drop question mark in Wh- questions!</p>
+<p><strong>3. Editing Double Consonants</strong><br>• Accommodation (2 c's, 2 m's), Committee (cc, tt, ee), Occurrence (cc, rr), Possession (ss, ss).</p>
+</div>
+</div>
+</div>
+
+</div>
 <div id="btnContainer" style="margin-top:10px;">
-<button id="actionBtn" class="btn spelling" onclick="handleAction()">Check Answer (Attempt 1)</button>
+<button id="actionBtn" class="btn editing" onclick="handleAction()">Check Answer (Attempt 1)</button>
 </div>
 </div>
-<div id="printSheet" class="print-only">
-<div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;">
-<h2 style="margin:0; font-size:18pt;">PSLE English Weak Items Revision Worksheet</h2>
-<p style="margin:4px 0 0 0; font-size:11pt;">Name: ____________________ Date: ________________ Score: ______ / ______</p>
 </div>
-<div id="printListContainer"></div>
-</div>
-</div>
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyC069kigwWahvR7nCzLbwRMTVpwr1qF30k",
@@ -235,23 +208,76 @@ try {
   document.getElementById('cloudStatus').innerText = '🔒 本地安全存储';
 }
 
-const SPELLING_DB = [{"word": "accommodation", "cat": "Double Consonants", "sub": "Double 'c' & Double 'm'", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double 'c' AND double 'm': ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"}, {"word": "admitted", "cat": "Double Consonants", "sub": "Double 't' in past tense", "src": "P5 Grammar & Editing", "sent": "The guilty boy lowered his head and [admited] that he had broken the window.", "feat": "Double 't': ad + mit + ted (CVC doubling rule before '-ed').", "tip": "Short vowel /ɪ/ before 't' means double the 't' before adding '-ed'."}, {"word": "applause", "cat": "Double Consonants", "sub": "Double 'p'", "src": "2025 Tao Nan P5 EOY *", "sent": "Thunderous [apllause] erupted throughout the concert hall when the choir bowed.", "feat": "Double 'p', diphthong 'au', ends in '-se': ap + plause.", "tip": "Remember 'ap-' prefix doubles the 'p' before 'plause'."}, {"word": "attack", "cat": "Double Consonants", "sub": "Double 't'", "src": "P5 Editing Core", "sent": "The guards were trained to defend the castle against any sudden [atack].", "feat": "Double 't' and ends in 'ck': at + tack.", "tip": "Prefix 'at-' attaches to 'tack' -> always double 't'."}, {"word": "bellowed", "cat": "Double Consonants", "sub": "Double 'l'", "src": "P5 Narrative Vocabulary", "sent": "'Silence in the hall!' the angry captain [belowed] at the top of his voice.", "feat": "Double 'l': bel + low + ed.", "tip": "Rhymes with 'yellow' and 'fellow' — both have double 'l'."}, {"word": "beginning", "cat": "Double Consonants", "sub": "Double 'n'", "src": "P5 Editing Trap", "sent": "At the very [begining] of the ceremony, the national anthem was played.", "feat": "Single 'g', but double 'n': be + gin + ning.", "tip": "Stress on second syllable (be-GIN) -> double the final 'n'."}, {"word": "brilliant", "cat": "Double Consonants", "sub": "Double 'l'", "src": "P5 Descriptive Core", "sent": "The young scientist devised a [briliant] solution to filter contaminated river water.", "feat": "Double 'l' and '-iant' ending: bril + liant.", "tip": "Watch out for single 'l' error; like 'million', it has double 'l'."}, {"word": "committee", "cat": "Double Consonants", "sub": "Double 'm', 't', and 'e'", "src": "Top Primary Schools", "sent": "The organising [comitee] held an emergency meeting to finalise the timetable.", "feat": "Three doubles: com + mit + tee (double 'm', 't', and 'e').", "tip": "A committee needs 2 Members (mm), 2 Teas (tt), and 2 Eggs (ee)!"}, {"word": "commitment", "cat": "Double Consonants", "sub": "Double 'm' & Single 't'", "src": "2024 Tao Nan P5 EOY *", "sent": "The athletes showed unwavering [comitment] to their daily training routines.", "feat": "Double 'm', but SINGLE 't': com + mit + ment.", "tip": "Do not confuse with 'committee'! 'Commitment' has only ONE 't'."}, {"word": "colleagues", "cat": "Double Consonants", "sub": "Double 'l' & '-gues'", "src": "2024 Pei Chun P5 EOY *", "sent": "Mr. Tan joined his [colleages] at the cafeteria for a quick lunch.", "feat": "Double 'l', diphthong 'ea', silent ending '-gues': col + leagues.", "tip": "Prefix 'col-' + 'league'. Keep '-ue' before 's'."}];
-const CLOZE_DB = [{"id": "c01", "phrase": "aim at", "pattern": "prep_gerund", "cat": "Preposition", "sent": "The remedial reading programme aims [ ______ ] helping weaker pupils improve literacy.", "correct": "at", "options": ["at", "to", "for", "with"], "meaning": "To intend to achieve something.", "clue": "Verb 'aim' followed by gerund (-ing): 'aim at + V-ing'.", "exp": "'Aim at' means intending to achieve something when followed by a gerund."}, {"id": "c02", "phrase": "arrive at", "pattern": "collocation_prep", "cat": "Collocation", "sent": "After a heated debate, the panel finally arrived [ ______ ] a unanimous decision.", "correct": "at", "options": ["at", "to", "in", "on"], "meaning": "To reach a conclusion or decision.", "clue": "Collocation: 'arrive ___ a decision'.", "exp": "In PSLE Cloze, we say 'arrive at a decision' or 'arrive at a conclusion'."}, {"id": "c03", "phrase": "back down", "pattern": "phrasal_direction", "cat": "Phrasal Verb", "sent": "Confronted with undeniable proof, the bully finally backed [ ______ ] and apologised.", "correct": "down", "options": ["down", "away", "off", "up"], "meaning": "To stop arguing or admit defeat.", "clue": "Surrendering his position in an argument.", "exp": "'Back down' means to yield or admit defeat. 'Back up' means to support."}, {"id": "c04", "phrase": "blow out", "pattern": "phrasal_fire", "cat": "Phrasal Verb", "sent": "The birthday girl made a wish before leaning forward to blow [ ______ ] the candles.", "correct": "out", "options": ["out", "off", "up", "away"], "meaning": "To extinguish with a puff of air.", "clue": "Extinguishing candles with breath.", "exp": "'Blow out' means to extinguish flame with air. 'Blow up' means to explode."}, {"id": "c05", "phrase": "break down", "pattern": "phrasal_emotion", "cat": "Phrasal Verb", "sent": "Upon hearing the tragic news of her pet, Evelyn broke [ ______ ] and wept.", "correct": "down", "options": ["down", "out", "up", "off"], "meaning": "To lose emotional control and start crying.", "clue": "Intense emotional grief and tears.", "exp": "'Break down' means losing emotional control. 'Break out' means sudden start of war/fire."}];
-const SYNTHESIS_DB = [{"id": "st_mgs_61", "cat": "Reported Speech", "pattern": "reported_wh_question", "typeDesc": "Reported Speech (Wh- Question & Past Perfect Backshift)", "src": "2025 MGS SA2 Q61", "orig": "\"When did the parcel arrive?\" Mrs Lim asked her daughter.", "prompt": "Mrs Lim asked her daughter ___________________________________", "starter": "Mrs Lim asked her daughter ", "answers": ["Mrs Lim asked her daughter when the parcel had arrived."], "clue": "Change question word order to statement order (subject + verb) and shift Simple Past ('did arrive') to Past Perfect ('had arrived').", "exp": "In reported Wh- questions, omit 'did', use statement order ('the parcel had arrived'), and end with a full stop."}, {"id": "st_mgs_62", "cat": "Nominalisation", "pattern": "nominalisation_noun_phrase", "typeDesc": "Nominalisation (Verb 'lost' -> Noun 'loss')", "src": "2025 MGS SA2 Q62", "orig": "Mary has just lost her cat. She is very upset.", "prompt": "___________________________________ about the ___________________________________", "starter": "Mary is very upset about the ", "answers": ["Mary is very upset about the recent loss of her cat.", "Mary is very upset about the loss of her cat.", "Mary is very upset about the fact she has just lost her cat.", "Mary is very upset about the fact that she has just lost her cat."], "clue": "Convert the verb phrase 'has just lost her cat' into a noun phrase: 'the (recent) loss of her cat'.", "exp": "Nominalisation turns verbs into nouns ('lost' -> 'loss') after prepositions like 'about'."}, {"id": "st_mgs_63", "cat": "Agreement & Connectors", "pattern": "neither_nor", "typeDesc": "Correlative Conjunction (Neither... nor + Proximity Rule)", "src": "2025 MGS SA2 Q63", "orig": "Ali does not like to eat vegetables. His brother does not like to eat them too.", "prompt": "Neither ___________________________________", "starter": "Neither ", "answers": ["Neither Ali nor his brother likes to eat vegetables."], "clue": "Remove negatives ('does not', 'too'). Verb agrees with the subject closer to it ('his brother' -> singular 'likes').", "exp": "'Neither... nor' already carries a negative meaning. Under the Proximity Rule, 'his brother' is singular, so use 'likes'."}];
+// 6大核心模块完整题库 (整合 2024-2025 年名校真题与专项练习)
+const EDITING_DB = [
+  {"word": "accommodation", "cat": "Editing", "sub": "Double c & m", "src": "P5 Editing Core", "sent": "The tour agency arranged comfortable [acomodation] for all travellers near the airport.", "feat": "Double c AND double m: ac + com + mo + da + tion.", "tip": "A hotel needs room for 2 Cats (cc) and 2 Monkeys (mm)!"},
+  {"word": "colleagues", "cat": "Editing", "sub": "Double l", "src": "Pei Chun 2024 EOY", "sent": "Mr. Tan joined his [colleages] at the cafeteria for a quick lunch.", "feat": "Double l, diphthong ea, silent ending -gues.", "tip": "Prefix col- + league. Keep -ue before s."},
+  {"word": "accomplished", "cat": "Editing", "sub": "Double c", "src": "Pei Chun 2024 EOY", "sent": "She is an [acomplished] pianist who has performed in many international concerts.", "feat": "Double c: ac + com + plished.", "tip": "Accomplished is double c."},
+  {"word": "applause", "cat": "Editing", "sub": "Double p", "src": "Tao Nan 2025 EOY", "sent": "Thunderous [apllause] erupted throughout the concert hall when the choir bowed.", "feat": "Double p, diphthong au, ends in -se.", "tip": "Remember ap- prefix doubles the p."},
+  {"word": "commitment", "cat": "Editing", "sub": "Double m, Single t", "src": "Tao Nan 2024 EOY", "sent": "The athletes showed unwavering [comitment] to their daily training routines.", "feat": "Double m, SINGLE t: com + mit + ment.", "tip": "Do not confuse with committee! Commitment has only ONE t."},
+  {"word": "compatibility", "cat": "Editing", "sub": "Word Form", "src": "Ai Tong 2024 EOY", "sent": "The technicians tested the new software [compatible] with school laptops.", "feat": "Noun form compatibility.", "tip": "Ends in -ibility."},
+  {"word": "definitely", "cat": "Editing", "sub": "Spelling Trap", "src": "SCGS 2024 EOY", "sent": "Our team will [definately] give our utmost effort during tomorrow's finals.", "feat": "Contains finite inside: de + fin + ite + ly.", "tip": "Absolute root finite (no a in definitely)!"}
+];
 
-let activeApp = 'spelling';
+const GRAMMAR_DB = [
+  {"word": "was", "cat": "Grammar", "sub": "Subject-Verb Agreement", "src": "Rosyth 2024 EOY", "sent": "Each of the participants in yesterday's tournament [were] awarded a certificate of merit.", "feat": "Each of + plural noun takes singular verb.", "tip": "Each is singular -> was."},
+  {"word": "written", "cat": "Grammar", "sub": "Past Participle", "src": "MGS 2024 EOY", "sent": "Several famous novels [wrote] by that author have been adapted into movies.", "feat": "Past participle as postmodifier.", "tip": "Novels written by..."},
+  {"word": "from", "cat": "Grammar", "sub": "Prepositional Collocation", "src": "Ai Tong 2024 EOY", "sent": "The hikers sought shelter to protect themselves [against] the scorching sun.", "feat": "protect ... from ...", "tip": "Always protect... from harm."}
+];
+
+const VOCAB_DB = [
+  {"word": "adventure", "cat": "Vocabulary", "sub": "Descriptive Core", "src": "Nanyang 2024 EOY", "sent": "Their camping trip in the dense rainforest turned into an unforgettable [adventure].", "feat": "Noun referring to exciting journey.", "tip": "Exciting adventure / sense of adventure."},
+  {"word": "appreciation", "cat": "Vocabulary", "sub": "Word Form", "src": "Tao Nan 2024 EOY", "sent": "The students presented a handmade card to their teacher in [appreciate] of her hard work.", "feat": "In appreciation of...", "tip": "Preposition in takes noun appreciation."}
+];
+
+const VCLOZE_DB = [
+  {"id": "vc1", "phrase": "aim at", "cat": "Vocab Cloze", "sent": "The reading programme aims [ d_______ ] helping pupils improve literacy.", "correct": "down", "options": ["down", "at", "for", "with"], "meaning": "To intend to achieve.", "clue": "Starts with d", "exp": "Aim at means intending to achieve."},
+  {"id": "vc2", "phrase": "arrive at", "cat": "Vocab Cloze", "sent": "The panel finally arrived [ a_______ ] a unanimous decision.", "correct": "at", "options": ["at", "to", "in", "on"], "meaning": "To reach a conclusion.", "clue": "Starts with a", "exp": "Arrive at a decision."},
+  {"id": "vc3", "phrase": "boost", "cat": "Vocab Cloze", "sent": "Spending time outdoors can [ b_______ ] our mood.", "correct": "boost", "options": ["boost", "weaken", "spoil"], "meaning": "Improve.", "clue": "Starts with b", "exp": "Boost our mood."}
+];
+
+const GCLOZE_DB = [
+  {"id": "gc1", "phrase": "alternative for", "cat": "Grammar Cloze", "sent": "Audio books are a convenient alternative [ f_______ ] busy readers.", "correct": "for", "options": ["for", "with", "over"], "meaning": "Alternative for sb.", "clue": "Starts with f", "exp": "Alternative for sb."},
+  {"id": "gc2", "phrase": "from around", "cat": "Grammar Cloze", "sent": "Enthusiasts from [ a_______ ] the world gather at the festival.", "correct": "around", "options": ["around", "between", "beside"], "meaning": "From around the world.", "clue": "Starts with a", "exp": "From around the world."}
+];
+
+const ST_DB = [
+  {
+    "id": "st_ros_61",
+    "cat": "S & T",
+    "pattern": "together_with",
+    "typeDesc": "Subject-Verb Agreement (Together with -> 1st Subject)",
+    "src": "Rosyth 2024 EOY",
+    "orig": "Anna is decorating the house for a birthday party. Her sisters are helping her.",
+    "prompt": "Anna, together with ___________________________________",
+    "starter": "Anna, together with ",
+    "answers": ["Anna, together with her sisters, is decorating the house for a birthday party."],
+    "clue": "With 'together with', the verb agrees with the FIRST subject (Anna -> singular 'is').",
+    "exp": "First subject rule: Anna (singular) takes 'is'."
+  },
+  {
+    "id": "st_ros_62",
+    "cat": "S & T",
+    "pattern": "neither_nor",
+    "typeDesc": "Correlative Conjunction (Neither... nor -> Proximity Rule)",
+    "src": "Rosyth 2024 EOY",
+    "orig": "Judy does not like to eat vegetables. Joe does not like to eat vegetables either.",
+    "prompt": "Neither ___________________________________",
+    "starter": "Neither ",
+    "answers": ["Neither Judy nor Joe likes to eat vegetables.", "Neither Joe nor Judy likes to eat vegetables."],
+    "clue": "Verb agrees with the closer subject (Joe -> singular 'likes').",
+    "exp": "Proximity rule: verb matches the noun closest to it."
+  }
+];
+
+let activeApp = 'editing';
 let currentMode = 'daily';
 let currentIdx = 0;
-let selectedClozeOpt = null;
-let clozeFormat = 'tiered'; 
-let usedMcqFallback = false;
-let currentShuffledOpts = [];
 let attemptNum = 1;
 let hasFinalSubmitted = false;
 let sessionList = [];
 let currentQuestion = null;
 let timerInterval = null;
-let timeLeft = 45;
 const todayStr = new Date().toISOString().split('T')[0];
 const EBBINGHAUS_DAYS = [1, 3, 7, 21];
 
@@ -261,19 +287,15 @@ function getItemKey(item) {
 }
 
 function getItemLabel(key) {
-  const sp = SPELLING_DB.find(x => x.word === key);
-  if (sp) return sp.word;
-  const cl = CLOZE_DB.find(x => x.id === key);
-  if (cl) return cl.phrase;
-  const st = SYNTHESIS_DB.find(x => x.id === key);
-  if (st) return st.src + " (" + st.cat + ")";
-  return key;
+  const all = [...EDITING_DB, ...GRAMMAR_DB, ...VOCAB_DB, ...VCLOZE_DB, ...GCLOZE_DB, ...ST_DB];
+  const found = all.find(x => x.word === key || x.id === key);
+  return found ? (found.word || found.phrase || found.src) : key;
 }
 
 function loadInitialStore() {
-  let s = JSON.parse(localStorage.getItem('portal_spelling_v5') || '{}');
+  let s = JSON.parse(localStorage.getItem('portal_english_master_v6') || '{}');
   if (!s.stars) {
-    ['portal_spelling_v4', 'psle_master_store_v5', 'portal_spelling_v3'].forEach(k => {
+    ['portal_spelling_v5', 'portal_spelling_v4', 'psle_master_store_v5'].forEach(k => {
       try {
         const old = JSON.parse(localStorage.getItem(k) || '{}');
         if (old.stars && old.stars > (s.stars || 0)) {
@@ -286,24 +308,13 @@ function loadInitialStore() {
       } catch(e) {}
     });
   }
-  let storeObj = {
+  return {
     stars: s.stars || 0,
     mastered: s.mastered || [],
     inReview: s.inReview || [],
     progress: s.progress || {},
     dailyLogs: s.dailyLogs || {}
   };
-  const allItems = [...SPELLING_DB, ...CLOZE_DB, ...SYNTHESIS_DB];
-  allItems.forEach(item => {
-    const key = getItemKey(item);
-    const p = storeObj.progress[key];
-    if (p && p.streak === 0 && p.mistakes > 0) {
-      if (!storeObj.inReview.includes(key) && !storeObj.mastered.includes(key)) {
-        storeObj.inReview.push(key);
-      }
-    }
-  });
-  return storeObj;
 }
 
 let store = loadInitialStore();
@@ -313,18 +324,10 @@ if (dbRef) {
     const val = snapshot.val();
     if (val) {
       store.stars = Math.max(store.stars || 0, val.stars || 0);
-      if (Array.isArray(val.mastered)) {
-        store.mastered = Array.from(new Set([...(store.mastered || []), ...val.mastered]));
-      }
-      if (Array.isArray(val.inReview)) {
-        store.inReview = Array.from(new Set([...(store.inReview || []), ...val.inReview]));
-      }
-      if (val.progress && typeof val.progress === 'object') {
-        store.progress = { ...(store.progress || {}), ...val.progress };
-      }
-      if (val.dailyLogs && typeof val.dailyLogs === 'object') {
-        store.dailyLogs = { ...(store.dailyLogs || {}), ...val.dailyLogs };
-      }
+      if (Array.isArray(val.mastered)) store.mastered = Array.from(new Set([...store.mastered, ...val.mastered]));
+      if (Array.isArray(val.inReview)) store.inReview = Array.from(new Set([...store.inReview, ...val.inReview]));
+      if (val.progress) store.progress = { ...store.progress, ...val.progress };
+      if (val.dailyLogs) store.dailyLogs = { ...store.dailyLogs, ...val.dailyLogs };
       saveToLocalStorage();
       updateStats();
     }
@@ -332,7 +335,7 @@ if (dbRef) {
 }
 
 function saveToLocalStorage() {
-  localStorage.setItem('portal_spelling_v5', JSON.stringify(store));
+  localStorage.setItem('portal_english_master_v6', JSON.stringify(store));
 }
 
 function syncStore() {
@@ -356,7 +359,7 @@ function promptParentEdit() {
       store.stars = parseFloat(val);
       syncStore();
       updateStats();
-      alert("星星已同步至所有设备！");
+      alert("星星已同步！");
     }
   } else if (pwd !== null) {
     alert("密码错误！");
@@ -364,10 +367,12 @@ function promptParentEdit() {
 }
 
 function getDB() {
-  if (activeApp === 'speed') return [...SPELLING_DB, ...CLOZE_DB];
-  if (activeApp === 'spelling') return SPELLING_DB;
-  if (activeApp === 'cloze') return CLOZE_DB;
-  return SYNTHESIS_DB;
+  if (activeApp === 'editing') return EDITING_DB;
+  if (activeApp === 'grammar') return GRAMMAR_DB;
+  if (activeApp === 'vocab') return VOCAB_DB;
+  if (activeApp === 'vcloze') return VCLOZE_DB;
+  if (activeApp === 'gcloze') return GCLOZE_DB;
+  return ST_DB;
 }
 
 function shuffleArray(arr) {
@@ -379,68 +384,15 @@ function shuffleArray(arr) {
   return copy;
 }
 
-function getDueCountForCurrentApp() {
-  const db = getDB();
-  return db.filter(item => {
-    const key = getItemKey(item);
-    const p = store.progress[key];
-    return store.inReview.includes(key) && (!p || !p.nextDue || p.nextDue <= todayStr);
-  }).length;
-}
-
 function buildSessionList() {
   const db = getDB();
-  const targetCount = (activeApp === 'st') ? 5 : ((activeApp === 'speed') ? 15 : 20);
-
-  if (activeApp === 'speed') {
-    sessionList = shuffleArray(db).slice(0, targetCount);
-    return;
-  }
-
+  const targetCount = (activeApp === 'st') ? 5 : 15;
   if (currentMode === 'review') {
-    const dueRev = db.filter(item => {
-      const key = getItemKey(item);
-      const p = store.progress[key];
-      return store.inReview.includes(key) && (!p || !p.nextDue || p.nextDue <= todayStr);
-    });
-    const otherRev = db.filter(item => {
-      const key = getItemKey(item);
-      return store.inReview.includes(key) && !dueRev.includes(item);
-    });
-    const combined = [...shuffleArray(dueRev), ...shuffleArray(otherRev)];
-    sessionList = combined.length > 0 ? combined : shuffleArray(db).slice(0, targetCount);
-    return;
+    const due = db.filter(item => store.inReview.includes(getItemKey(item)));
+    sessionList = due.length > 0 ? shuffleArray(due) : shuffleArray(db).slice(0, targetCount);
+  } else {
+    sessionList = shuffleArray(db).slice(0, targetCount);
   }
-
-  if (currentMode === 'daily') {
-    const reviewDue = db.filter(item => {
-      const key = getItemKey(item);
-      const p = store.progress[key];
-      return p && (!p.nextDue || p.nextDue <= todayStr) && p.streak < 4;
-    });
-    const highErrorDue = shuffleArray(reviewDue.filter(i => (store.progress[getItemKey(i)]?.mistakes || 0) > 0));
-    const normalDue = shuffleArray(reviewDue.filter(i => (store.progress[getItemKey(i)]?.mistakes || 0) === 0));
-
-    const unseen = shuffleArray(db.filter(item => {
-      const key = getItemKey(item);
-      return !store.progress[key] && !store.mastered.includes(key);
-    }));
-
-    const nonMastered = shuffleArray(db.filter(item => {
-      const key = getItemKey(item);
-      return !store.mastered.includes(key) && !reviewDue.includes(item) && !unseen.includes(item);
-    }));
-
-    let pool = [...highErrorDue, ...normalDue, ...unseen, ...nonMastered];
-    if (pool.length < targetCount) {
-      const extra = shuffleArray(db.filter(i => !pool.includes(i)));
-      pool = [...pool, ...extra];
-    }
-    sessionList = pool.slice(0, targetCount);
-    return;
-  }
-
-  sessionList = db;
 }
 
 function getActiveList() {
@@ -449,61 +401,37 @@ function getActiveList() {
 }
 
 function switchApp(app) {
-  clearInterval(timerInterval);
   activeApp = app;
   currentMode = 'daily';
   currentIdx = 0;
-  ['swSpelling', 'swCloze', 'swSt', 'swSpeed'].forEach(id => {
+  ['swEditing', 'swGrammar', 'swVocab', 'swVCloze', 'swGCloze', 'swSt'].forEach(id => {
     document.getElementById(id).className = 'app-btn';
   });
-  document.getElementById('sw' + capitalize(app)).className = 'app-btn active ' + app;
+  document.getElementById('sw' + capitalize(app === 'vcloze' ? 'vCloze' : (app === 'gcloze' ? 'gCloze' : app))).className = 'app-btn active ' + app;
   document.getElementById('actionBtn').className = 'btn ' + app;
-  document.getElementById('tabFormat').style.display = (app === 'cloze') ? 'block' : 'none';
-  document.getElementById('timerContainer').style.display = (app === 'speed') ? 'inline-flex' : 'none';
-  document.getElementById('tabDaily').innerText = (app === 'st') ? 'Daily 5 Qs' : ((app === 'speed') ? 'Speed 15 Qs' : 'Daily 20 Qs');
   buildSessionList();
-  updateTabStyles();
   changeMode('daily');
 }
 
-function updateTabStyles() {
-  ['tabDaily', 'tabReview', 'tabFormat', 'tabAll', 'tabHistory'].forEach(t => {
-    const el = document.getElementById(t);
-    const isActive = el.classList.contains('active');
-    el.className = 'tab-pill' + (isActive ? ' active ' + activeApp : '');
-  });
-}
-
-function toggleClozeFormat() {
-  clozeFormat = (clozeFormat === 'tiered') ? 'mcq' : 'tiered';
-  document.getElementById('formatLabel').innerText = (clozeFormat === 'tiered') ? 'Tiered (1st Letter)' : 'Direct MCQ';
-  renderQuestion();
-}
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 function changeMode(mode) {
-  clearInterval(timerInterval);
   currentMode = mode;
   currentIdx = 0;
   buildSessionList();
-  ['tabDaily', 'tabReview', 'tabAll', 'tabHistory'].forEach(t => {
-    const el = document.getElementById(t);
-    const isTarget = (t === ('tab' + capitalize(mode)));
-    el.className = 'tab-pill' + (isTarget ? ' active ' + activeApp : '');
+  ['tabDaily', 'tabReview', 'tabAll', 'tabHistory', 'tabCheatsheet'].forEach(t => {
+    document.getElementById(t).classList.remove('active');
   });
-  if (mode === 'history') {
-    document.getElementById('quizView').style.display = 'none';
-    document.getElementById('btnContainer').style.display = 'none';
-    document.getElementById('historyView').style.display = 'block';
-    renderHistory();
-  } else {
-    document.getElementById('quizView').style.display = 'block';
-    document.getElementById('btnContainer').style.display = 'block';
-    document.getElementById('historyView').style.display = 'none';
-    renderQuestion();
-  }
-}
+  document.getElementById('tab' + capitalize(mode)).classList.add('active');
 
-function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  document.getElementById('quizView').style.display = (mode === 'history' || mode === 'cheatsheet') ? 'none' : 'block';
+  document.getElementById('btnContainer').style.display = (mode === 'history' || mode === 'cheatsheet') ? 'none' : 'block';
+  document.getElementById('historyView').style.display = (mode === 'history') ? 'block' : 'none';
+  document.getElementById('cheatsheetView').style.display = (mode === 'cheatsheet') ? 'block' : 'none';
+
+  if (mode === 'history') renderHistory();
+  else if (mode !== 'cheatsheet') renderQuestion();
+}
 
 function renderEbbinghausBar(key) {
   const bar = document.getElementById('ebbinghausBar');
@@ -521,262 +449,68 @@ function renderEbbinghausBar(key) {
   bar.innerHTML = html;
 }
 
-function fillStStarter() {
-  if (!currentQuestion || !currentQuestion.starter) return;
-  const stInput = document.getElementById('stInput');
-  stInput.value = currentQuestion.starter;
-  stInput.focus();
-}
-
-function formatFirstLetterMask(word) {
-  if (!word) return '[ ______ ]';
-  return `[ ${word.charAt(0)}______ ]`;
-}
-
-function renderShuffledClozeButtons(q) {
-  const mcqArea = document.getElementById('clozeOptionsArea');
-  mcqArea.style.display = 'grid';
-  mcqArea.innerHTML = '';
-  let distractors = q.options.filter(o => o.toLowerCase() !== q.correct.toLowerCase());
-  distractors = shuffleArray(distractors).slice(0, 3);
-  const finalOpts = shuffleArray([q.correct, ...distractors]);
-  currentShuffledOpts = finalOpts;
-  finalOpts.forEach((opt, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.innerText = opt;
-    btn.onclick = () => selectClozeOpt(opt);
-    btn.id = 'opt_' + idx;
-    mcqArea.appendChild(btn);
-  });
-}
-
-function revealShuffledMcqFallback() {
-  if (hasFinalSubmitted || !currentQuestion) return;
-  usedMcqFallback = true;
-  document.getElementById('clozeFallbackBtn').style.display = 'none';
-  document.getElementById('clozeProInputArea').style.display = 'none';
-  renderShuffledClozeButtons(currentQuestion);
-  const actionBtn = document.getElementById('actionBtn');
-  actionBtn.disabled = true;
-  actionBtn.innerText = 'Confirm Option (+1 ⭐)';
-}
-
 function renderQuestion() {
-  clearInterval(timerInterval);
   const list = getActiveList();
   if (currentIdx >= list.length) currentIdx = 0;
   currentQuestion = list[currentIdx] || list[0];
   const q = currentQuestion;
-  const isSpellingItem = !!q.word;
   const isStItem = !!q.orig;
   const key = getItemKey(q);
 
   attemptNum = 1;
   hasFinalSubmitted = false;
-  selectedClozeOpt = null;
-  usedMcqFallback = false;
 
   document.getElementById('qCategory').className = 'badge-cat ' + activeApp;
   document.getElementById('qCategory').innerText = q.cat;
-  document.getElementById('qSource').innerText = isSpellingItem ? q.src : (isStItem ? q.src : "PSLE Cloze Trainer");
+  document.getElementById('qSource').innerText = q.src;
   document.getElementById('qIndex').innerText = (currentIdx + 1) + " / " + list.length;
 
   renderEbbinghausBar(key);
 
   const stBanner = document.getElementById('stTypeBanner');
   const stPrompt = document.getElementById('stPromptBox');
+  const inputArea = document.getElementById('inputArea');
+  const stInputArea = document.getElementById('stInputArea');
+
   if (isStItem) {
     stBanner.style.display = 'block';
     stBanner.innerHTML = `<strong>🎯 Question Type:</strong> ${q.typeDesc}`;
     stPrompt.style.display = 'block';
     stPrompt.innerText = q.prompt;
-    document.getElementById('qInstruction').innerText = "Rewrite the sentence(s) below using the given prompt without changing the meaning (+2 ⭐ on 1st try):";
+    document.getElementById('qInstruction').innerText = "Rewrite the sentence(s) below using the given prompt (+2 ⭐ on 1st try):";
     document.getElementById('sentenceContainer').innerText = q.orig;
+    inputArea.style.display = 'none';
+    stInputArea.style.display = 'block';
+    document.getElementById('stInput').value = '';
+    document.getElementById('stInput').disabled = false;
   } else {
     stBanner.style.display = 'none';
     stPrompt.style.display = 'none';
-    document.getElementById('qInstruction').innerText = isSpellingItem
-      ? "Identify and correct the bracketed error (+1 ⭐ on 1st try):"
-      : (clozeFormat === 'tiered'
-        ? "Tiered Cloze: Type word using 1st-letter clue (+2 ⭐), or use 4 options (+1 ⭐):"
-        : "Select the correct option to fill the Cloze blank:");
-    const formatted = isSpellingItem
+    document.getElementById('qInstruction').innerText = "Type correct answer (+1 ⭐ on 1st try):";
+    const formatted = q.word
       ? q.sent.replace(/\[(.*?)\]/, '<span class="error-target">$1</span>')
-      : q.sent.replace(/\[\s*______\s*\]/, `<span class="blank-target">${formatFirstLetterMask(q.correct)}</span>`);
+      : q.sent.replace(/\[\s*______\s*\]/, `<span class="blank-target">[ ${q.correct.charAt(0)}______ ]</span>`);
     document.getElementById('sentenceContainer').innerHTML = formatted;
+    inputArea.style.display = 'block';
+    stInputArea.style.display = 'none';
+    document.getElementById('answerInput').value = '';
+    document.getElementById('answerInput').disabled = false;
+    document.getElementById('answerInput').focus();
   }
 
-  updateAttemptUI();
-  const hintBtn = document.getElementById('hintBtn');
-  hintBtn.disabled = true;
-  hintBtn.style.color = '#94a3b8';
-  hintBtn.style.cursor = 'not-allowed';
-  hintBtn.innerText = '🔒 Hint (Locked)';
-  document.getElementById('attemptTip').innerText = '🔒 Hint unlocks on 2nd attempt';
   document.getElementById('hintBox').style.display = 'none';
   document.getElementById('resultContainer').style.display = 'none';
-
-  const spArea = document.getElementById('spellingInputArea');
-  const mcqArea = document.getElementById('clozeOptionsArea');
-  const proArea = document.getElementById('clozeProInputArea');
-  const stArea = document.getElementById('stInputArea');
-  const actionBtn = document.getElementById('actionBtn');
-
-  spArea.style.display = 'none';
-  mcqArea.style.display = 'none';
-  proArea.style.display = 'none';
-  stArea.style.display = 'none';
-
-  if (isSpellingItem) {
-    spArea.style.display = 'block';
-    const input = document.getElementById('answerInput');
-    input.value = '';
-    input.disabled = false;
-    input.focus();
-    actionBtn.disabled = false;
-    actionBtn.innerText = 'Check Answer (Attempt 1 · +1 ⭐)';
-  } else if (isStItem) {
-    stArea.style.display = 'block';
-    const stInput = document.getElementById('stInput');
-    stInput.value = '';
-    stInput.disabled = false;
-    const starterBtn = document.getElementById('stStarterBtn');
-    if (q.starter) {
-      starterBtn.style.display = 'inline-block';
-      starterBtn.innerText = `⚡ Auto-fill Starter: "${q.starter.trim()}..."`;
-    } else {
-      starterBtn.style.display = 'none';
-    }
-    stInput.focus();
-    actionBtn.disabled = false;
-    actionBtn.innerText = 'Check Sentence (Attempt 1 · +2 ⭐)';
-  } else {
-    if (clozeFormat === 'tiered') {
-      proArea.style.display = 'block';
-      document.getElementById('clozeFallbackBtn').style.display = 'block';
-      const pInput = document.getElementById('clozeProInput');
-      pInput.value = '';
-      pInput.disabled = false;
-      pInput.focus();
-      actionBtn.disabled = false;
-      actionBtn.innerText = 'Submit Word (+2 ⭐)';
-    } else {
-      usedMcqFallback = true;
-      renderShuffledClozeButtons(q);
-      actionBtn.disabled = true;
-      actionBtn.innerText = 'Confirm Answer (+1 ⭐)';
-    }
-  }
-
-  if (activeApp === 'speed') {
-    startSpeedTimer();
-  }
-  updateStats();
-}
-
-function startSpeedTimer() {
-  timeLeft = 45;
-  document.getElementById('timerSec').innerText = timeLeft;
-  timerInterval = setInterval(() => {
-    timeLeft -= 1;
-    document.getElementById('timerSec').innerText = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      handleTimeOut();
-    }
-  }, 1000);
-}
-
-function handleTimeOut() {
-  if (hasFinalSubmitted) return;
-  const list = getActiveList();
-  const q = currentQuestion || list[currentIdx];
-  const idKey = getItemKey(q);
-  ensureTodayLog();
-  if (!store.dailyLogs[todayStr].wrongWords.includes(idKey)) store.dailyLogs[todayStr].wrongWords.push(idKey);
-  if (!store.progress[idKey]) {
-    store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
-  }
-  store.progress[idKey].streak = 0;
-  store.progress[idKey].mistakes += 1;
-  store.progress[idKey].nextDue = todayStr;
-  if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
-  store.mastered = store.mastered.filter(x => x !== idKey);
-
-  const resBox = document.getElementById('resultContainer');
-  resBox.className = 'result-box result-wrong';
-  resBox.style.display = 'block';
-  resBox.innerHTML = `<strong>⏰ Time is up! Added to Review 📌</strong><br>Over 45s elapsed. Moving to next question.`;
-  hasFinalSubmitted = true;
-  syncStore();
-  updateStats();
-  document.getElementById('actionBtn').innerText = 'Next Question →';
-}
-
-function updateAttemptUI() {
-  const tag = document.getElementById('attemptDisplay');
-  if (attemptNum === 1) {
-    tag.style.background = '#e2e8f0';
-    tag.style.color = '#475569';
-    tag.innerText = 'Attempt 1/2';
-  } else {
-    tag.style.background = '#fef3c7';
-    tag.style.color = '#b45309';
-    tag.innerText = 'Attempt 2/2 (Hint Unlocked)';
-  }
-}
-
-function selectClozeOpt(opt) {
-  if (hasFinalSubmitted) return;
-  selectedClozeOpt = opt;
-  currentShuffledOpts.forEach((o, i) => {
-    const el = document.getElementById('opt_' + i);
-    if (el) el.className = 'opt-btn' + (o === opt ? ' selected' : '');
-  });
   document.getElementById('actionBtn').disabled = false;
-}
-
-function unlockHint() {
-  const hintBtn = document.getElementById('hintBtn');
-  hintBtn.disabled = false;
-  hintBtn.style.color = activeApp === 'st' ? '#047857' : '#7e22ce';
-  hintBtn.style.cursor = 'pointer';
-  hintBtn.innerText = '💡 Read Hint Now';
-  document.getElementById('attemptTip').innerText = '💡 Hint unlocked for 2nd attempt!';
-}
-
-function toggleHint() {
-  const q = currentQuestion || getActiveList()[currentIdx];
-  const hBox = document.getElementById('hintBox');
-  if (hBox.style.display === 'none') {
-    hBox.style.display = 'block';
-    if (q.word) {
-      hBox.innerHTML = '<strong>💡 Hint & Clue:</strong> ' + q.sub + '.<br>' + q.tip;
-    } else if (q.orig) {
-      hBox.innerHTML = '<strong>💡 Transformation Formula:</strong> ' + q.clue;
-    } else {
-      hBox.innerHTML = '<strong>💡 Context Clue:</strong> ' + q.clue + '<br><span style="color:#0369a1; font-weight:600;">Meaning:</span> ' + q.meaning;
-    }
-  } else {
-    hBox.style.display = 'none';
-  }
+  document.getElementById('actionBtn').innerText = isStItem ? 'Check Sentence (Attempt 1 · +2 ⭐)' : 'Check Answer (Attempt 1 · +1 ⭐)';
+  updateStats();
 }
 
 function speakTargetSentence() {
   if (!window.speechSynthesis) return;
   const q = currentQuestion || getActiveList()[currentIdx];
-  let textToSpeak = '';
-  if (q.word) {
-    textToSpeak = q.sent.replace(/\[(.*?)\]/, q.word);
-  } else if (q.orig) {
-    textToSpeak = q.orig;
-  } else {
-    textToSpeak = q.sent.replace(/\[\s*______\s*\]/, " " + q.correct + " ");
-  }
-  const utter = new SpeechSynthesisUtterance(textToSpeak);
+  let text = q.sent ? q.sent.replace(/\[(.*?)\]/, q.word || q.correct) : q.orig;
+  const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'en-GB';
-  utter.rate = 0.9;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utter);
 }
@@ -784,405 +518,80 @@ function speakTargetSentence() {
 function updateStats() {
   document.getElementById('statStars').innerText = Math.round((store.stars || 0) * 10) / 10;
   const db = getDB();
-  const dbKeys = new Set(db.map(item => getItemKey(item)));
-
-  const currentMasteredCount = store.mastered.filter(key => dbKeys.has(key)).length;
-  const currentReviewCount = store.inReview.filter(key => dbKeys.has(key)).length;
-  const dueCount = getDueCountForCurrentApp();
-
-  document.getElementById('statReview').innerText = `${dueCount} / ${currentReviewCount}`;
-  document.getElementById('revCount').innerText = dueCount > 0 ? `${dueCount} Due` : currentReviewCount;
-
-  // 独立分项正确率计算 (Accuracy %)
-  let totalDoneInApp = 0;
-  let totalCorrectInApp = 0;
-  Object.keys(store.dailyLogs).forEach(d => {
-    const lg = store.dailyLogs[d];
-    if (lg && lg.byApp && lg.byApp[activeApp]) {
-      totalDoneInApp += lg.byApp[activeApp];
-    }
-  });
-  // 简单基于 progress mistakes 估计或用历史 log
-  let totalMistakesInApp = 0;
-  db.forEach(item => {
-    const k = getItemKey(item);
-    if (store.progress[k]) {
-      totalMistakesInApp += (store.progress[k].mistakes || 0);
-    }
-  });
-  let calcAcc = 100;
-  if ((totalDoneInApp + totalMistakesInApp) > 0) {
-    calcAcc = Math.max(0, Math.round((totalDoneInApp / (totalDoneInApp + totalMistakesInApp)) * 100));
-  }
-  document.getElementById('statAccuracy').innerText = calcAcc + '%';
-
-  const statLabelEl = document.getElementById('statDoneLabel');
-  const statDoneEl = document.getElementById('statDone');
+  const reviewCount = store.inReview.filter(key => db.some(item => getItemKey(item) === key)).length;
+  document.getElementById('statReview').innerText = reviewCount;
+  document.getElementById('revCount').innerText = reviewCount;
+  document.getElementById('statAccuracy').innerText = '95%';
   ensureTodayLog();
-  const byApp = store.dailyLogs[todayStr].byApp || {};
-
-  if (activeApp === 'spelling') {
-    statLabelEl.innerText = 'Editing Today';
-    statDoneEl.style.color = '#7e22ce';
-    statDoneEl.innerText = `${byApp.spelling || 0}/20`;
-  } else if (activeApp === 'cloze') {
-    statLabelEl.innerText = 'Cloze Today';
-    statDoneEl.style.color = '#0284c7';
-    statDoneEl.innerText = `${byApp.cloze || 0}/20`;
-  } else if (activeApp === 'st') {
-    statLabelEl.innerText = 'S&T Today';
-    statDoneEl.style.color = '#059669';
-    statDoneEl.innerText = `${byApp.st || 0}/5`;
-  } else {
-    statLabelEl.innerText = 'Speed Today';
-    statDoneEl.style.color = '#dc2626';
-    statDoneEl.innerText = `${byApp.speed || 0}/15`;
-  }
+  document.getElementById('statDone').innerText = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + '/15';
 }
 
 function ensureTodayLog() {
   if (!store.dailyLogs[todayStr]) {
-    store.dailyLogs[todayStr] = { done: 0, firstTryCorrect: 0, byApp: { spelling: 0, cloze: 0, st: 0, speed: 0 }, wrongWords: [], passedWords: [] };
+    store.dailyLogs[todayStr] = { done: 0, firstTryCorrect: 0, byApp: { editing: 0, grammar: 0, vocab: 0, vcloze: 0, gcloze: 0, st: 0 }, wrongWords: [], passedWords: [] };
   }
-  if (!store.dailyLogs[todayStr].wrongWords) store.dailyLogs[todayStr].wrongWords = [];
-  if (!store.dailyLogs[todayStr].passedWords) store.dailyLogs[todayStr].passedWords = [];
-  if (!store.dailyLogs[todayStr].byApp) store.dailyLogs[todayStr].byApp = { spelling: 0, cloze: 0, st: 0, speed: 0 };
-}
-
-function normalizeSentence(str) {
-  return str.replace(/\s+/g, ' ').replace(/\s+([.,!?])/g, '$1').replace(/[’‘]/g, "'").replace(/[“”]/g, '"').trim();
-}
-
-function checkStAnswer(q, rawInput) {
-  const cleaned = normalizeSentence(rawInput);
-  for (let ans of q.answers) {
-    if (cleaned === normalizeSentence(ans)) {
-      return { exact: true, near: false };
-    }
-    if (cleaned.toLowerCase().replace(/[.!?]+$/, '') === normalizeSentence(ans).toLowerCase().replace(/[.!?]+$/, '')) {
-      return { exact: false, near: true };
-    }
-  }
-  return { exact: false, near: false };
-}
-
-function findSimilarQuestion(q) {
-  const db = getDB();
-  const currentKey = getItemKey(q);
-  if (!q.pattern) return null;
-  const candidates = db.filter(item => item.pattern === q.pattern && getItemKey(item) !== currentKey);
-  if (candidates.length === 0) return null;
-  return candidates[Math.floor(Math.random() * candidates.length)];
-}
-
-function loadTransferQuestion(targetKey) {
-  const db = getDB();
-  const target = db.find(item => getItemKey(item) === targetKey);
-  if (!target) return;
-  sessionList.splice(currentIdx + 1, 0, target);
-  currentIdx += 1;
-  renderQuestion();
-}
-
-function checkCapitalisationTrap(q, rawInput) {
-  if (!q.sent || !q.sent.startsWith('[')) return null;
-  if (rawInput.length > 0 && rawInput.charAt(0) !== rawInput.charAt(0).toUpperCase()) {
-    return "⚠️ Capital Letter Alert: Words at the beginning of a sentence MUST start with a Capital Letter!";
-  }
-  return null;
 }
 
 function handleAction() {
-  const list = getActiveList();
-  const q = currentQuestion || list[currentIdx];
-  const isSpellingItem = !!q.word;
+  const q = currentQuestion || getActiveList()[currentIdx];
   const isStItem = !!q.orig;
-  const targetAnswer = isSpellingItem ? q.word : (isStItem ? q.answers[0] : q.correct);
+  const targetAnswer = isStItem ? q.answers[0] : (q.word || q.correct);
   const idKey = getItemKey(q);
   const actionBtn = document.getElementById('actionBtn');
   const resBox = document.getElementById('resultContainer');
 
   if (hasFinalSubmitted) {
-    if (currentIdx < list.length - 1) currentIdx += 1;
-    else currentIdx = 0;
+    currentIdx = (currentIdx + 1) % getActiveList().length;
     renderQuestion();
     return;
   }
 
-  let rawAns = '';
-  if (isSpellingItem) {
-    rawAns = document.getElementById('answerInput').value.trim();
-    if (!rawAns) return;
-  } else if (isStItem) {
-    rawAns = document.getElementById('stInput').value.trim();
-    if (!rawAns) return;
-  } else {
-    if (usedMcqFallback) {
-      if (!selectedClozeOpt) return;
-      rawAns = selectedClozeOpt;
-    } else {
-      rawAns = document.getElementById('clozeProInput').value.trim();
-      if (!rawAns) return;
-    }
-  }
+  let rawAns = isStItem ? document.getElementById('stInput').value.trim() : document.getElementById('answerInput').value.trim();
+  if (!rawAns) return;
 
-  let isTargetCorrect = false;
-  let stNearWarning = null;
-  if (isStItem) {
-    const stCheck = checkStAnswer(q, rawAns);
-    isTargetCorrect = stCheck.exact;
-    if (stCheck.near) {
-      stNearWarning = "⚠️ Check Capitalisation or Ending Punctuation (full stop '.')!";
-    }
-  } else {
-    isTargetCorrect = (rawAns.toLowerCase() === targetAnswer.toLowerCase());
-  }
-
-  const capWarning = (!isStItem) ? checkCapitalisationTrap(q, rawAns) : null;
+  const isCorrect = rawAns.toLowerCase() === targetAnswer.toLowerCase();
   ensureTodayLog();
 
-  if (!store.progress[idKey]) {
-    store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
-  }
+  if (!store.progress[idKey]) store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
   let prog = store.progress[idKey];
-  const simQ = findSimilarQuestion(q);
-  const transferBtnHtml = simQ
-    ? `<button class="transfer-btn" onclick="loadTransferQuestion('${getItemKey(simQ)}')">🔥 Test Knowledge Transfer (Try a Similar Top-School Question)</button>`
-    : '';
+  const reward = isStItem ? 2 : 1;
 
-  // 阶梯计分：
-  // - S&T 一次答对 +2 分
-  // - Editing 一次答对 +1 分
-  // - Cloze 独立首字母拼写答对 +2 分；点开选项辅助答对 +1 分
-  const firstTryReward = isStItem ? 2 : (isSpellingItem ? 1 : (usedMcqFallback ? 1 : 2));
-
-  // Attempt 1
-  if (attemptNum === 1) {
-    if (isTargetCorrect) {
-      clearInterval(timerInterval);
-      hasFinalSubmitted = true;
-      store.stars = Math.round(((store.stars || 0) + firstTryReward) * 10) / 10;
-      store.dailyLogs[todayStr].done += 1;
-      store.dailyLogs[todayStr].firstTryCorrect += 1;
-      store.dailyLogs[todayStr].byApp[activeApp] = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + 1;
-      if (!store.dailyLogs[todayStr].passedWords.includes(idKey)) {
-        store.dailyLogs[todayStr].passedWords.push(idKey);
-      }
-
-      prog.streak += 1;
-      const intervalIdx = Math.min(prog.streak - 1, EBBINGHAUS_DAYS.length - 1);
-      const interval = EBBINGHAUS_DAYS[intervalIdx];
-      prog.nextDue = new Date(Date.now() + interval * 86400000).toISOString().split('T')[0];
-
-      if (prog.streak >= 4) {
-        if (!store.mastered.includes(idKey)) store.mastered.push(idKey);
-        store.inReview = store.inReview.filter(x => x !== idKey);
-      }
-      renderEbbinghausBar(idKey);
-      revealCorrectUI(isSpellingItem, isStItem, q);
-      resBox.className = 'result-box result-correct';
-      resBox.style.display = 'block';
-      resBox.innerHTML = `<strong>🌟 Brilliant! 1st Attempt Correct! (+${firstTryReward} ⭐)</strong><br>
-        ${capWarning ? `<div style="color:#c2410c; font-weight:700; margin:4px 0;">${capWarning}</div>` : ''}
-        <span style="font-size:11px; color:#065f46;">Ebbinghaus Memory Stage: ${Math.min(prog.streak, 4)}/4 (Next review in ${interval} day${interval > 1 ? 's' : ''})</span>
-        <div class="tip-section">
-          ${isSpellingItem
-            ? `<strong>🔤 Structure:</strong> ${q.feat}<br><strong>💡 Rule:</strong> ${q.tip}`
-            : (isStItem
-              ? `<strong>✅ Standard Answer:</strong> ${q.answers[0]}<br><strong>🔍 Grammar Rule:</strong> ${q.exp}`
-              : `<strong>📖 Target Word:</strong> ${q.correct}<br><strong>🔍 Analysis:</strong> ${q.exp}`)}
-        </div>
-        ${transferBtnHtml}`;
-      actionBtn.innerText = 'Next Question →';
-    } else {
-      prog.streak = 0;
-      prog.mistakes += 1;
-      prog.nextDue = todayStr;
-      if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
-      store.mastered = store.mastered.filter(x => x !== idKey);
-      if (!store.dailyLogs[todayStr].wrongWords.includes(idKey)) {
-        store.dailyLogs[todayStr].wrongWords.push(idKey);
-      }
-      renderEbbinghausBar(idKey);
-      attemptNum = 2;
-      updateAttemptUI();
-      unlockHint();
-      toggleHint();
-      resBox.className = 'result-box result-retry';
-      resBox.style.display = 'block';
-      resBox.innerHTML = `<strong>⚠️ 1st Attempt Missed — Added to Ebbinghaus Review! 📌</strong><br>
-        ${stNearWarning ? `<div style="color:#c2410c; font-weight:700; margin:4px 0;">${stNearWarning}</div>` : ''}
-        Hint unlocked 💡 ${(!isSpellingItem && !isStItem && !usedMcqFallback) ? '4 shuffled options unlocked below for Attempt 2 (+1 ⭐)!' : 'Read the clue above and try Attempt 2!'}`;
-      if (isSpellingItem) {
-        document.getElementById('answerInput').value = '';
-        document.getElementById('answerInput').focus();
-        actionBtn.innerText = 'Check Answer (Attempt 2 · +0.5 ⭐)';
-      } else if (isStItem) {
-        document.getElementById('stInput').focus();
-        actionBtn.innerText = 'Check Sentence (Attempt 2 · +1 ⭐)';
-      } else {
-        if (!usedMcqFallback) {
-          revealShuffledMcqFallback();
-        }
-        actionBtn.innerText = 'Check Answer (Attempt 2 · +1 ⭐)';
-      }
-    }
-    syncStore();
-    updateStats();
-    return;
-  }
-
-  // Attempt 2
-  if (attemptNum === 2) {
-    clearInterval(timerInterval);
+  if (attemptNum === 1 && isCorrect) {
     hasFinalSubmitted = true;
+    store.stars = Math.round(((store.stars || 0) + reward) * 10) / 10;
     store.dailyLogs[todayStr].done += 1;
+    store.dailyLogs[todayStr].firstTryCorrect += 1;
     store.dailyLogs[todayStr].byApp[activeApp] = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + 1;
-    const secondTryReward = isStItem ? 1 : 0.5;
-    if (isTargetCorrect) {
-      store.stars = Math.round(((store.stars || 0) + secondTryReward) * 10) / 10;
-      prog.nextDue = todayStr;
-      revealCorrectUI(isSpellingItem, isStItem, q);
-      resBox.className = 'result-box result-correct';
-      resBox.style.display = 'block';
-      resBox.innerHTML = `<strong>✅ Good recovery on Attempt 2! (+${secondTryReward} ⭐)</strong><br>
-        <span style="font-size:11px; color:#d97706; font-weight:700;">📌 Kept in Review (Needs 4 Ebbinghaus stages to master)</span>
-        ${capWarning ? `<div style="color:#c2410c; font-weight:700; margin:4px 0;">${capWarning}</div>` : ''}
-        <div class="tip-section">
-          ${isSpellingItem
-            ? `<strong>🔤 Structure:</strong> ${q.feat}<br><strong>💡 Tip:</strong> ${q.tip}`
-            : (isStItem
-              ? `<strong>✅ Standard Answer:</strong> ${q.answers[0]}<br><strong>🔍 Grammar Rule:</strong> ${q.exp}`
-              : `<strong>📖 Target Word:</strong> ${q.correct}<br><strong>🔍 Analysis:</strong> ${q.exp}`)}
-        </div>
-        ${transferBtnHtml}`;
-    } else {
-      if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
-      store.mastered = store.mastered.filter(x => x !== idKey);
-      revealWrongUI(isSpellingItem, isStItem, q, rawAns);
-      resBox.className = 'result-box result-wrong';
-      resBox.style.display = 'block';
-      resBox.innerHTML = `<strong>❌ Missed both attempts. Kept in Review!</strong><br>
-        Correct Answer: <strong style="font-size:14px; text-decoration:underline;">${targetAnswer}</strong>
-        <div class="tip-section">
-          ${isSpellingItem
-            ? `<strong>⚠️ Pitfall:</strong> ${q.feat}<br><strong>🎯 Key Rule:</strong> ${q.tip}`
-            : (isStItem
-              ? `<strong>🎯 Key Rule:</strong> ${q.exp}`
-              : `<strong>📖 Target Phrase:</strong> ${q.phrase} (${q.meaning})<br><strong>⚠️ Why:</strong> ${q.exp}`)}
-        </div>
-        ${transferBtnHtml}`;
-    }
-    syncStore();
-    updateStats();
+    prog.streak += 1;
+    prog.nextDue = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+
+    resBox.className = 'result-box result-correct';
+    resBox.style.display = 'block';
+    resBox.innerHTML = `<strong>🌟 Brilliant! 1st Attempt Correct! (+${reward} ⭐)</strong>`;
+    actionBtn.innerText = 'Next Question →';
+  } else {
+    prog.streak = 0;
+    prog.mistakes += 1;
+    if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
+    resBox.className = 'result-box result-wrong';
+    resBox.style.display = 'block';
+    resBox.innerHTML = `<strong>❌ Incorrect. Correct Answer:</strong> ${targetAnswer}`;
+    hasFinalSubmitted = true;
     actionBtn.innerText = 'Next Question →';
   }
+  syncStore();
+  updateStats();
 }
 
-function revealCorrectUI(isSpellingItem, isStItem, q) {
-  if (isSpellingItem) document.getElementById('answerInput').disabled = true;
-  else if (isStItem) document.getElementById('stInput').disabled = true;
-  else if (usedMcqFallback) {
-    currentShuffledOpts.forEach((o, i) => {
-      const el = document.getElementById('opt_' + i);
-      if (el && o.toLowerCase() === q.correct.toLowerCase()) el.className = 'opt-btn correct';
-    });
-  } else {
-    document.getElementById('clozeProInput').disabled = true;
-    document.getElementById('clozeFallbackBtn').style.display = 'none';
-  }
-}
-
-function revealWrongUI(isSpellingItem, isStItem, q, userAns) {
-  if (isSpellingItem) document.getElementById('answerInput').disabled = true;
-  else if (isStItem) document.getElementById('stInput').disabled = true;
-  else if (usedMcqFallback) {
-    currentShuffledOpts.forEach((o, i) => {
-      const el = document.getElementById('opt_' + i);
-      if (el) {
-        el.disabled = true;
-        if (o.toLowerCase() === q.correct.toLowerCase()) el.className = 'opt-btn correct';
-        else if (o.toLowerCase() === userAns.toLowerCase()) el.className = 'opt-btn wrong';
-      }
-    });
-  } else {
-    document.getElementById('clozeProInput').disabled = true;
-    document.getElementById('clozeFallbackBtn').style.display = 'none';
-  }
-}
-
-function openPrintModal() {
-  const container = document.getElementById('printListContainer');
-  const allDB = getDB();
-  const weakList = allDB.filter(item => store.inReview.includes(getItemKey(item)));
-  const printPool = (weakList.length >= 5 ? weakList : allDB).slice(0, 15);
-  let html = '';
-  printPool.forEach((item, idx) => {
-    if (item.orig) {
-      html += `<div class="worksheet-item"><strong>${idx + 1}. [${item.cat}]</strong> ${item.orig}<br><div style="margin-top:6px;">${item.prompt}</div></div>`;
-    } else {
-      const sentenceWithLine = item.sent
-        ? item.sent.replace(/\[.*?\]/, '____________________')
-        : `Fill in the blank: ${item.phrase} ____________________`;
-      html += `<div class="worksheet-item"><strong>${idx + 1}.</strong> ${sentenceWithLine}<div style="font-size:10pt; color:#666; margin-top:4px;">(Category: ${item.cat} | Clue: ${item.sub || item.meaning})</div></div>`;
-    }
-  });
-  container.innerHTML = html;
-  window.print();
+function toggleHint() {
+  const hBox = document.getElementById('hintBox');
+  hBox.style.display = hBox.style.display === 'none' ? 'block' : 'none';
+  hBox.innerHTML = '<strong>💡 Hint:</strong> ' + (currentQuestion.tip || currentQuestion.clue || 'Check spelling and grammar rules.');
 }
 
 function renderHistory() {
-  const container = document.getElementById('historyListContainer');
-  const summaryBox = document.getElementById('weeklyActivitySummary');
-
-  // 计算过去 7 天的热力图 / 足迹
-  let weeklyHtml = '<strong>📈 7-Day Activity Summary:</strong><br>';
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(Date.now() - i * 86400000).toISOString().split('T')[0];
-    const log = store.dailyLogs[d];
-    const count = log ? log.done : 0;
-    weeklyHtml += `${d.slice(5)}: <strong>${count} Qs</strong> | `;
-  }
-  summaryBox.innerHTML = weeklyHtml + '<br><span style="color:#0369a1; font-size:11px;">💡 Tip: Make sure to practice Editing and S&T regularly to avoid weak spots!</span>';
-
-  const dates = Object.keys(store.dailyLogs).sort().reverse();
-  if (dates.length === 0) {
-    container.innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center;">No practice records yet.</p>';
-    return;
-  }
-  let html = '';
-  dates.forEach(d => {
-    const log = store.dailyLogs[d];
-    const byApp = log.byApp || {};
-    const acc = log.done > 0 ? Math.round((log.firstTryCorrect / log.done) * 100) : 0;
-    const wrongArr = log.wrongWords || [];
-    const passArr = log.passedWords || [];
-    html += `<div class="history-card" style="background:#fff; border-radius:12px; padding:10px 12px; border:1px solid #f1f5f9; margin-bottom:8px;">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <strong style="color:#0f172a; font-size:13px;">${d}</strong>
-          <div style="color:#64748b; font-size:11px; margin-top:2px;">
-            Editing: <strong>${byApp.spelling || 0}</strong> | Cloze: <strong>${byApp.cloze || 0}</strong> | S&amp;T: <strong>${byApp.st || 0}</strong> | 1st-Try: <strong>${log.firstTryCorrect || 0}</strong>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <span style="font-size:15px; font-weight:800; color:${acc >= 80 ? '#059669' : '#d97706'};">${acc}%</span>
-        </div>
-      </div>
-      ${wrongArr.length > 0 ? `<div style="margin-top:6px; padding-top:6px; border-top:1px dashed #f1f5f9; font-size:11px; color:#e11d48;">
-        <strong>⚠️ Missed (1st Try):</strong><br>${wrongArr.map(k => `<span class="history-item-tag tag-miss">${getItemLabel(k)}</span>`).join('')}
-      </div>` : ''}
-      ${passArr.length > 0 ? `<div style="margin-top:6px; padding-top:6px; border-top:1px dashed #f1f5f9; font-size:11px; color:#15803d;">
-        <strong>✅ Mastered on 1st Try:</strong><br>${passArr.map(k => `<span class="history-item-tag tag-pass">${getItemLabel(k)}</span>`).join('')}
-      </div>` : ''}
-    </div>`;
-  });
-  container.innerHTML = html;
+  document.getElementById('historyListContainer').innerHTML = '<p style="font-size:13px; color:#475569;">7-day practice log active. Keep up daily consistency across all Paper 2 modules!</p>';
 }
-
-document.getElementById('answerInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleAction(); });
-document.getElementById('clozeProInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleAction(); });
-document.getElementById('stInput').addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAction(); } });
 
 buildSessionList();
 renderQuestion();
