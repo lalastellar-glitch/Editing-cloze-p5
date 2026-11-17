@@ -597,14 +597,12 @@ function switchApp(app) {
   currentMode = 'daily';
   currentIdx = 0;
   enterFocusMode();
-  ['swEditing', 'swGrammar', 'swVocab', 'swPassage', 'swVCloze', 'swGCloze', 'swSt'].forEach(id => {
-    document.getElementById(id).className = 'app-btn';
-  });
   const btnId = 'sw' + (app === 'vcloze' ? 'VCloze' : (app === 'gcloze' ? 'GCloze' : app.charAt(0).toUpperCase() + app.slice(1)));
-  document.getElementById(btnId).className = 'app-btn active ' + app;
-  document.getElementById('actionBtn').className = 'btn ' + app;
+  const actBtn = document.getElementById('actionBtn');
+  if (actBtn) actBtn.className = 'btn ' + app;
   const qCount = getDailyQuota();
-  document.getElementById('tabDaily').innerText = `Daily ${qCount} Qs`;
+  const tabDaily = document.getElementById('tabDaily');
+  if (tabDaily) tabDaily.innerText = `Daily ${qCount} Qs`;
   buildSessionList();
   changeMode('daily');
 }
