@@ -95,75 +95,17 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 <body>
 <div class="container">
 <div class="no-print">
-
-<div id="sectionDirectory" style="margin-bottom:14px;">
-  <div style="font-size:16px; font-weight:900; color:#0f172a; margin-bottom:10px;">Pick a section</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-    <div onclick="switchApp('editing')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #e9d5ff; background:linear-gradient(135deg, #faf5ff 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#7e22ce;">Editing</strong>
-        <span style="font-size:10px; font-weight:800; background:#f3e8ff; color:#7e22ce; padding:2px 6px; border-radius:6px;">10 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Type the correction</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_editing">0/230 mastered</div>
-    </div>
-
-    <div onclick="switchApp('grammar')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #bfdbfe; background:linear-gradient(135deg, #eff6ff 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#2563eb;">Grammar</strong>
-        <span style="font-size:10px; font-weight:800; background:#dbeafe; color:#1d4ed8; padding:2px 6px; border-radius:6px;">10 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">One rule, one trigger</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_grammar">0/155 mastered</div>
-    </div>
-
-    <div onclick="switchApp('vocab')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #fde68a; background:linear-gradient(135deg, #fffbeb 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#d97706;">Vocabulary</strong>
-        <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:6px;">5 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Meaning & collocation</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_vocab">0/155 mastered</div>
-    </div>
-
-    <div onclick="switchApp('passage')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #c7d2fe; background:linear-gradient(135deg, #eef2ff 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#4f46e5;">Passage Cloze</strong>
-        <span style="font-size:10px; font-weight:800; background:#e0e7ff; color:#4338ca; padding:2px 6px; border-radius:6px;">15 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Contextual blanks</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_passage">0/10 mastered</div>
-    </div>
-
-    <div onclick="switchApp('vcloze')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #bae6fd; background:linear-gradient(135deg, #f0f9ff 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#0284c7;">Vocabulary Cloze</strong>
-        <span style="font-size:10px; font-weight:800; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:6px;">5 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Phrasal verbs & verbs</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_vcloze">0/60 mastered</div>
-    </div>
-
-    <div onclick="switchApp('gcloze')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #99f6e4; background:linear-gradient(135deg, #f0fdf4 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#0d9488;">Grammar Cloze</strong>
-        <span style="font-size:10px; font-weight:800; background:#ccfbf1; color:#0f766e; padding:2px 6px; border-radius:6px;">10 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Prepositions & pronouns</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_gcloze">0/155 mastered</div>
-    </div>
-
-    <div onclick="switchApp('st')" class="card" style="margin:0; padding:14px; cursor:pointer; grid-column: span 2; border:1.5px solid #a7f3d0; background:linear-gradient(135deg, #ecfdf5 0%, #fff 100%);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:14px; color:#059669;">Synthesis & Transformation</strong>
-        <span style="font-size:10px; font-weight:800; background:#d1fae5; color:#047857; padding:2px 6px; border-radius:6px;">10 MARKS</span>
-      </div>
-      <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Sentence rewriting & connectives</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_st">0/155 mastered</div>
-    </div>
-  </div>
+<div class="app-switcher">
+<button id="swEditing" class="app-btn active editing" onclick="switchApp('editing')">✍️ 拼写改错</button>
+<button id="swGrammar" class="app-btn" onclick="switchApp('grammar')">📐 语法单选</button>
+<button id="swVocab" class="app-btn" onclick="switchApp('vocab')">📖 词汇单选</button>
+<button id="swPassage" class="app-btn" onclick="switchApp('passage')">📜 短文完形</button>
 </div>
-
+<div class="app-switcher-row2">
+<button id="swVCloze" class="app-btn" onclick="switchApp('vcloze')">🧩 词汇完形</button>
+<button id="swGCloze" class="app-btn" onclick="switchApp('gcloze')">📝 语法完形</button>
+<button id="swSt" class="app-btn" onclick="switchApp('st')">🔗 句型转换</button>
+</div>
 <div class="tool-bar">
 <div style="display:flex; align-items:center; gap:5px;">
 <span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步</span>
@@ -400,18 +342,6 @@ const EBBINGHAUS_DAYS = [1, 3, 7, 21];
 
 function getItemKey(item) { return item.word ? item.word : (item.id || item.sent); }
 
-function updateCardProgress() {
-  const mods = ['editing', 'grammar', 'vocab', 'passage', 'vcloze', 'gcloze', 'st'];
-  const dbs = { editing: EDITING_DB, grammar: GRAMMAR_DB, vocab: VOCAB_DB, passage: PASSAGE_CLOZE_DB, vcloze: VCLOZE_DB, gcloze: GCLOZE_DB, st: ST_DB };
-  mods.forEach(m => {
-    const db = dbs[m];
-    const met = db.filter(item => store.mastered.includes(getItemKey(item))).length;
-    const el = document.getElementById('cardProg_' + m);
-    if (el) el.innerText = `${met}/${db.length} mastered`;
-  });
-}
-
-
 const DEFAULT_REWARDS = [
   { id: 'r1', title: '🎮 额外 20 分钟游戏 / 自由时间', cost: 50 },
   { id: 'r2', title: '🍦 周末自选冰淇淋 / 甜品一次', cost: 80 },
@@ -609,12 +539,14 @@ function switchApp(app) {
   currentMode = 'daily';
   currentIdx = 0;
   enterFocusMode();
+  ['swEditing', 'swGrammar', 'swVocab', 'swPassage', 'swVCloze', 'swGCloze', 'swSt'].forEach(id => {
+    document.getElementById(id).className = 'app-btn';
+  });
   const btnId = 'sw' + (app === 'vcloze' ? 'VCloze' : (app === 'gcloze' ? 'GCloze' : app.charAt(0).toUpperCase() + app.slice(1)));
-  const actBtn = document.getElementById('actionBtn');
-  if (actBtn) actBtn.className = 'btn ' + app;
+  document.getElementById(btnId).className = 'app-btn active ' + app;
+  document.getElementById('actionBtn').className = 'btn ' + app;
   const qCount = getDailyQuota();
-  const tabDaily = document.getElementById('tabDaily');
-  if (tabDaily) tabDaily.innerText = `Daily ${qCount} Qs`;
+  document.getElementById('tabDaily').innerText = `Daily ${qCount} Qs`;
   buildSessionList();
   changeMode('daily');
 }
@@ -1280,18 +1212,15 @@ document.getElementById('stInput').addEventListener('keydown', function(e) { if 
 
 let isFocusMode = false;
 
-
-
 function enterFocusMode() {
   isFocusMode = true;
-  const dir = document.getElementById('sectionDirectory');
-  if (dir) dir.style.display = 'none';
-  document.getElementById('quizView').style.display = 'block';
-  document.getElementById('btnContainer').style.display = 'block';
-  document.querySelector('.tool-bar').style.display = 'flex';
-  document.querySelector('.stats-row').style.display = 'grid';
-  document.querySelector('.sub-tabs').style.display = 'flex';
+  document.querySelector('.app-switcher').style.display = 'none';
+  document.querySelector('.app-switcher-row2').style.display = 'none';
+  document.querySelector('.tool-bar').style.display = 'none';
+  document.querySelector('.stats-row').style.display = 'none';
+  document.querySelector('.sub-tabs').style.display = 'none';
   
+  // Add a clean return bar if not exists
   let bar = document.getElementById('focusReturnBar');
   if (!bar) {
     bar = document.createElement('div');
@@ -1302,34 +1231,22 @@ function enterFocusMode() {
   } else {
     bar.style.display = 'flex';
   }
-  buildSessionList();
-  renderQuestion();
 }
 
 function exitFocusMode() {
   isFocusMode = false;
-  const dir = document.getElementById('sectionDirectory');
-  if (dir) dir.style.display = 'block';
-  document.getElementById('quizView').style.display = 'none';
-  document.getElementById('btnContainer').style.display = 'none';
-  document.getElementById('progressView').style.display = 'none';
-  document.getElementById('cheatsheetView').style.display = 'none';
-  document.getElementById('rewardsView').style.display = 'none';
+  document.querySelector('.app-switcher').style.display = 'grid';
+  document.querySelector('.app-switcher-row2').style.display = 'grid';
+  document.querySelector('.tool-bar').style.display = 'flex';
+  document.querySelector('.stats-row').style.display = 'grid';
+  document.querySelector('.sub-tabs').style.display = 'flex';
   const bar = document.getElementById('focusReturnBar');
   if (bar) bar.style.display = 'none';
-  updateCardProgress();
+  changeMode('daily');
 }
 
-
-
-// Start in directory mode on initial load
-let isFocusMode = false;
-document.getElementById('quizView').style.display = 'none';
-document.getElementById('btnContainer').style.display = 'none';
-updateCardProgress();
-
-
-
+buildSessionList();
+renderQuestion();
 </script>
 </body>
 </html>
