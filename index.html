@@ -400,6 +400,18 @@ const EBBINGHAUS_DAYS = [1, 3, 7, 21];
 
 function getItemKey(item) { return item.word ? item.word : (item.id || item.sent); }
 
+function updateCardProgress() {
+  const mods = ['editing', 'grammar', 'vocab', 'passage', 'vcloze', 'gcloze', 'st'];
+  const dbs = { editing: EDITING_DB, grammar: GRAMMAR_DB, vocab: VOCAB_DB, passage: PASSAGE_CLOZE_DB, vcloze: VCLOZE_DB, gcloze: GCLOZE_DB, st: ST_DB };
+  mods.forEach(m => {
+    const db = dbs[m];
+    const met = db.filter(item => store.mastered.includes(getItemKey(item))).length;
+    const el = document.getElementById('cardProg_' + m);
+    if (el) el.innerText = `${met}/${db.length} mastered`;
+  });
+}
+
+
 const DEFAULT_REWARDS = [
   { id: 'r1', title: '🎮 额外 20 分钟游戏 / 自由时间', cost: 50 },
   { id: 'r2', title: '🍦 周末自选冰淇淋 / 甜品一次', cost: 80 },
@@ -1316,16 +1328,7 @@ document.getElementById('quizView').style.display = 'none';
 document.getElementById('btnContainer').style.display = 'none';
 updateCardProgress();
 
-function updateCardProgress() {
-  const mods = ['editing', 'grammar', 'vocab', 'passage', 'vcloze', 'gcloze', 'st'];
-  const dbs = { editing: EDITING_DB, grammar: GRAMMAR_DB, vocab: VOCAB_DB, passage: PASSAGE_CLOZE_DB, vcloze: VCLOZE_DB, gcloze: GCLOZE_DB, st: ST_DB };
-  mods.forEach(m => {
-    const db = dbs[m];
-    const met = db.filter(item => store.mastered.includes(getItemKey(item))).length;
-    const el = document.getElementById('cardProg_' + m);
-    if (el) el.innerText = `${met}/${db.length} mastered`;
-  });
-}
+
 
 </script>
 </body>
