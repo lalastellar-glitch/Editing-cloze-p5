@@ -96,20 +96,20 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 <div class="container">
 <div class="no-print">
 <div class="app-switcher">
-<button id="swEditing" class="app-btn active editing" onclick="switchApp('editing')">✍️ 拼写改错</button>
-<button id="swGrammar" class="app-btn" onclick="switchApp('grammar')">📐 语法单选</button>
-<button id="swVocab" class="app-btn" onclick="switchApp('vocab')">📖 词汇单选</button>
-<button id="swPassage" class="app-btn" onclick="switchApp('passage')">📜 短文完形</button>
+<button id="swEditing" class="app-btn active editing" onclick="switchApp('editing')">✍️ Editing<br>(230)</button>
+<button id="swGrammar" class="app-btn" onclick="switchApp('grammar')">📐 Grammar<br>(155)</button>
+<button id="swVocab" class="app-btn" onclick="switchApp('vocab')">📖 Vocab<br>(155)</button>
+<button id="swPassage" class="app-btn" onclick="switchApp('passage')">📜 Passage<br>(10)</button>
 </div>
 <div class="app-switcher-row2">
-<button id="swVCloze" class="app-btn" onclick="switchApp('vcloze')">🧩 词汇完形</button>
-<button id="swGCloze" class="app-btn" onclick="switchApp('gcloze')">📝 语法完形</button>
-<button id="swSt" class="app-btn" onclick="switchApp('st')">🔗 句型转换</button>
+<button id="swVCloze" class="app-btn" onclick="switchApp('vcloze')">🧩 Vocab Cloze (60)</button>
+<button id="swGCloze" class="app-btn" onclick="switchApp('gcloze')">📝 Grammar Cloze (155)</button>
+<button id="swSt" class="app-btn" onclick="switchApp('st')">🔗 S &amp; T (155)</button>
 </div>
 <div class="tool-bar">
 <div style="display:flex; align-items:center; gap:5px;">
 <span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步</span>
-
+<span id="focusTimerBadge" class="timer-pill" title="专注计时器：单题超过90秒会温柔提醒哦">⏱️ 00:00</span>
 </div>
 <div style="display:flex; gap:5px;">
 <button onclick="changeMode('rewards')" style="font-size:11px; font-weight:800; background:#fef3c7; color:#b45309; border:1px solid #fcd34d; border-radius:8px; padding:3px 8px; cursor:pointer;">🎁 星星兑换</button>
@@ -180,7 +180,15 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
     <button onclick="changeMode('daily')" style="background:#0f172a; color:#fff; border:none; border-radius:10px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer;">← Return</button>
   </div>
 
-
+  <div class="card" style="margin-bottom:14px; background:linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border:1px solid #c7d2fe;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-size:14px; font-weight:800; color:#1e1b4b;">📋 今日学习战报（一键复制发群）</div>
+        <div style="font-size:11px; color:#4338ca; margin-top:2px;">生成今日练习汇总与表扬文案，方便发微信/家庭群</div>
+      </div>
+      <button onclick="copyDailyReport()" style="background:#4f46e5; color:#fff; border:none; border-radius:10px; padding:8px 12px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap;">📋 复制战报</button>
+    </div>
+  </div>
 
   <div class="card" style="margin-bottom:14px;">
     <h3 style="margin-top:0; font-size:15px; font-weight:800; color:#0f172a; margin-bottom:6px;">❌ 详细错题记录与家长讲解面板</h3>
@@ -284,15 +292,49 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 </div>
 </div>
 
-<div id="exportModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; justify-content:center; align-items:center; padding:16px;">
-  <div style="background:#fff; border-radius:20px; padding:20px; width:100%; max-width:600px; max-height:90vh; overflow-y:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #e2e8f0; padding-bottom:10px; margin-bottom:14px;">
-      <h3 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">🖨️ PSLE English Weak Items Revision Worksheet</h3>
-      <button onclick="closeExportModal()" style="background:#f1f5f9; border:none; border-radius:8px; padding:6px 10px; font-weight:700; cursor:pointer;">✕ Close</button>
+<div id="exportModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55); z-index:999; justify-content:center; align-items:center; padding:12px;">
+  <div style="background:#fff; border-radius:20px; padding:18px; width:100%; max-width:620px; max-height:92vh; overflow-y:auto; box-shadow:0 10px 25px rgba(0,0,0,0.25);">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #e2e8f0; padding-bottom:10px; margin-bottom:12px;">
+      <h3 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">🖨️ 周末错题练习单生成器</h3>
+      <button onclick="closeExportModal()" style="background:#f1f5f9; border:none; border-radius:8px; padding:6px 10px; font-weight:700; cursor:pointer;">✕ 关闭</button>
     </div>
-    <div id="exportPreviewContent" style="font-size:13px; line-height:1.6; color:#334155; margin-bottom:16px; background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"></div>
-    <div style="display:flex; gap:8px;">
-      <button onclick="window.print()" style="flex:1; background:#0f172a; color:#fff; border:none; padding:12px; border-radius:12px; font-weight:800; cursor:pointer;">🖨️ Print / Save as PDF</button>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+      <div>
+        <label style="display:block; font-size:11px; font-weight:800; color:#475569; margin-bottom:4px;">1. 选择导出项目：</label>
+        <select id="exportModuleSelect" onchange="renderExportPreview()" style="width:100%; padding:8px; border-radius:10px; border:1.5px solid #cbd5e1; font-size:12px; font-weight:700; color:#0f172a;">
+          <option value="ALL">🌟 全部项目汇总 (All Modules)</option>
+          <option value="editing">✍️ Editing (拼写改错)</option>
+          <option value="grammar">📐 Grammar MCQ (语法单选)</option>
+          <option value="vocab">📖 Vocabulary MCQ (词汇单选)</option>
+          <option value="vcloze">🧩 Vocab Cloze (词汇完形)</option>
+          <option value="gcloze">📝 Grammar Cloze (语法完形)</option>
+          <option value="passage">📜 Passage Cloze (短文完形)</option>
+          <option value="st">🔗 S &amp; T (句型转换)</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; font-weight:800; color:#475569; margin-bottom:4px;">2. 选择时间与范围：</label>
+        <select id="exportScopeSelect" onchange="renderExportPreview()" style="width:100%; padding:8px; border-radius:10px; border:1.5px solid #cbd5e1; font-size:12px; font-weight:700; color:#0f172a;">
+          <option value="WEEK">📅 本周错题 (过去 7 天)</option>
+          <option value="REVIEW">📌 全部未通关复习题 (All Review)</option>
+          <option value="SAMPLE">🎯 精选巩固练习 (若无错题则自动抽题)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#f1f5f9; padding:8px 12px; border-radius:10px;">
+      <label style="font-size:12px; font-weight:700; color:#334155; display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="exportIncludeAns" checked onchange="renderExportPreview()"> 末尾附带《家长核对答案与解析》
+      </label>
+      <span id="exportCountBadge" style="font-size:11px; font-weight:800; color:#4f46e5;">共 0 题</span>
+    </div>
+
+    <div id="exportPreviewContent" style="font-size:13px; line-height:1.65; color:#1e293b; margin-bottom:14px; background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0; max-height:46vh; overflow-y:auto;"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+      <button onclick="downloadWorksheetDoc()" style="background:#059669; color:#fff; border:none; padding:12px 8px; border-radius:12px; font-size:13px; font-weight:800; cursor:pointer;">📥 下载 Word 练习单 (.doc)</button>
+      <button onclick="openCleanPrintWindow()" style="background:#0f172a; color:#fff; border:none; padding:12px 8px; border-radius:12px; font-size:13px; font-weight:800; cursor:pointer;">🖨️ 纯净打印 / 存 PDF</button>
     </div>
   </div>
 </div>
@@ -335,7 +377,24 @@ let yearFilter = 'All';
 let dictationBlindMode = false;
 
 // Focus Timer variables
-
+let questionStartTime = Date.now();
+let sessionSeconds = 0;
+setInterval(() => {
+  if (currentMode === 'daily' || currentMode === 'review' || currentMode === 'all') {
+    sessionSeconds++;
+    const mins = String(Math.floor(sessionSeconds / 60)).padStart(2, '0');
+    const secs = String(sessionSeconds % 60).padStart(2, '0');
+    const badge = document.getElementById('focusTimerBadge');
+    const elapsedOnQ = (Date.now() - questionStartTime) / 1000;
+    if (elapsedOnQ > 90 && !hasFinalSubmitted) {
+      badge.className = 'timer-pill nudge';
+      badge.innerText = `⏱️ ${mins}:${secs} (专注哦!)`;
+    } else {
+      badge.className = 'timer-pill';
+      badge.innerText = `⏱️ ${mins}:${secs}`;
+    }
+  }
+}, 1000);
 
 const todayStr = new Date().toISOString().split('T')[0];
 const EBBINGHAUS_DAYS = [1, 3, 7, 21];
@@ -538,7 +597,6 @@ function switchApp(app) {
   activeApp = app;
   currentMode = 'daily';
   currentIdx = 0;
-  enterFocusMode();
   ['swEditing', 'swGrammar', 'swVocab', 'swPassage', 'swVCloze', 'swGCloze', 'swSt'].forEach(id => {
     document.getElementById(id).className = 'app-btn';
   });
@@ -1186,20 +1244,229 @@ function toggleHint() {
 }
 
 function openExportModal() {
-  const container = document.getElementById('exportPreviewContent');
-  const allDB = getDB();
-  const weakList = allDB.filter(item => store.inReview.includes(getItemKey(item)));
-  const printPool = (weakList.length >= 5 ? weakList : allDB).slice(0, 15);
-  let html = '<div style="text-align:center; font-weight:800; font-size:15px; margin-bottom:10px;">PSLE English Weak Items Revision Worksheet</div>';
-  printPool.forEach((item, idx) => {
-    if (item.orig) {
-      html += `<div style="margin-bottom:10px; border-bottom:1px solid #cbd5e1; padding-bottom:6px;"><strong>Q${idx + 1}. [${item.cat}]</strong> ${item.orig}<br><i>Prompt:</i> ${item.prompt}</div>`;
-    } else if (item.sent) {
-      html += `<div style="margin-bottom:10px; border-bottom:1px solid #cbd5e1; padding-bottom:6px;"><strong>Q${idx + 1}.</strong> ${item.sent.replace(/\[.*?\]/, '____________________')}</div>`;
-    }
-  });
-  container.innerHTML = html;
+  // Default select current activeApp or ALL
+  const modSel = document.getElementById('exportModuleSelect');
+  if (modSel) modSel.value = activeApp || 'ALL';
+  renderExportPreview();
   document.getElementById('exportModal').style.display = 'flex';
+}
+
+function getExportQuestions() {
+  const mod = document.getElementById('exportModuleSelect').value;
+  const scope = document.getElementById('exportScopeSelect').value;
+  const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0];
+
+  const allModules = [
+    { key: 'editing', label: 'Editing', db: EDITING_DB },
+    { key: 'grammar', label: 'Grammar MCQ', db: GRAMMAR_DB },
+    { key: 'vocab', label: 'Vocabulary MCQ', db: VOCAB_DB },
+    { key: 'vcloze', label: 'Vocab Cloze', db: VCLOZE_DB },
+    { key: 'gcloze', label: 'Grammar Cloze', db: GCLOZE_DB },
+    { key: 'passage', label: 'Passage Cloze', db: PASSAGE_CLOZE_DB },
+    { key: 'st', label: 'Synthesis & Transformation', db: ST_DB }
+  ];
+
+  const targetMods = mod === 'ALL' ? allModules : allModules.filter(m => m.key === mod);
+  let results = [];
+
+  if (scope === 'WEEK') {
+    // Filter from mistakeHistory within past 7 days
+    const weekMistakes = (store.mistakeHistory || []).filter(m => {
+      const inTime = m.date >= sevenDaysAgo;
+      const inMod = (mod === 'ALL') || (m.module === mod);
+      return inTime && inMod;
+    });
+    // Deduplicate by questionText
+    const seen = new Set();
+    weekMistakes.forEach(m => {
+      if (!seen.has(m.questionText)) {
+        seen.add(m.questionText);
+        results.push({
+          modLabel: m.module.toUpperCase(),
+          type: 'mistake_log',
+          qText: m.questionText,
+          ans: m.correctAns,
+          wrong: m.userWrong,
+          exp: m.explanation,
+          date: m.date
+        });
+      }
+    });
+  } else if (scope === 'REVIEW') {
+    targetMods.forEach(m => {
+      m.db.forEach(item => {
+        const k = getItemKey(item);
+        if (store.inReview.includes(k)) {
+          results.push(formatItemForExport(item, m.label));
+        }
+      });
+    });
+  }
+
+  // Fallback or SAMPLE mode
+  if (scope === 'SAMPLE' || (results.length === 0 && scope !== 'WEEK')) {
+    targetMods.forEach(m => {
+      m.db.slice(0, mod === 'ALL' ? 3 : 15).forEach(item => {
+        results.push(formatItemForExport(item, m.label));
+      });
+    });
+  }
+
+  return results;
+}
+
+function formatItemForExport(item, modLabel) {
+  if (item.blanks) {
+    let pText = item.text;
+    item.blanks.forEach(b => {
+      pText = pText.replace(`[${b.num}]`, ` (${b.num}) [ ${b.correct.charAt(0)}________ ] `);
+    });
+    return {
+      modLabel,
+      type: 'passage',
+      title: item.title,
+      qText: pText,
+      ans: item.blanks.map(b => `(${b.num}) ${b.correct}`).join(', '),
+      exp: item.blanks.map(b => `(${b.num}) ${b.clue}`).join(' | ')
+    };
+  }
+  if (item.orig) {
+    return {
+      modLabel,
+      type: 'st',
+      qText: `${item.orig}<br><i>Rewrite:</i> ${item.prompt}`,
+      ans: item.answers[0],
+      exp: item.exp || item.clue || ''
+    };
+  }
+  if (item.options && item.options.length > 0) {
+    const cleanSent = item.sent.replace(/\[.*?\]/, ' ( ____________ ) ');
+    const optsStr = item.options.map((o, idx) => `(${idx + 1}) ${o}`).join('   ');
+    return {
+      modLabel,
+      type: 'mcq',
+      qText: `${cleanSent}<br><span style="color:#475569; font-size:12px;">${optsStr}</span>`,
+      ans: item.word,
+      exp: item.tip || ''
+    };
+  }
+  // Editing or Cloze
+  if (item.word) {
+    // Editing: show the bracketed misspelled word just like real PSLE Editing!
+    return {
+      modLabel,
+      type: 'editing',
+      qText: item.sent.replace(/\[(.*?)\]/, ' <b>[ $1 ]</b> ➔ ( ______________ ) '),
+      ans: item.word,
+      exp: (item.feat ? item.feat + ' · ' : '') + (item.tip || '')
+    };
+  }
+  // Vocab / Grammar Cloze
+  const firstChar = item.correct ? item.correct.charAt(0) : '';
+  return {
+    modLabel,
+    type: 'cloze',
+    qText: item.sent.replace(/\[.*?\]/, ` [ ${firstChar}__________ ] `),
+    ans: item.correct,
+    exp: item.exp || item.clue || ''
+  };
+}
+
+function buildWorksheetHTML() {
+  const items = getExportQuestions();
+  const includeAns = document.getElementById('exportIncludeAns').checked;
+  const modText = document.getElementById('exportModuleSelect').options[document.getElementById('exportModuleSelect').selectedIndex].text;
+  const scopeText = document.getElementById('exportScopeSelect').options[document.getElementById('exportScopeSelect').selectedIndex].text;
+
+  document.getElementById('exportCountBadge').innerText = `共 ${items.length} 题`;
+
+  if (items.length === 0) {
+    return `<div style="text-align:center; padding:20px; color:#64748b;">
+      <strong>🎉 本周该模块暂无错题记录！</strong><br><br>
+      您可以切换上方“选择时间与范围”为 <b>📌 全部未通关复习题</b> 或 <b>🎯 精选巩固练习</b> 来生成周末纸质练习卷。
+    </div>`;
+  }
+
+  let html = `
+    <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:14px;">
+      <div style="font-size:16px; font-weight:900; color:#0f172a;">PSLE English Weekend Revision Worksheet</div>
+      <div style="font-size:11px; color:#475569; margin-top:4px;">项目: ${modText} | 范围: ${scopeText} | 日期: ${todayStr}</div>
+      <div style="font-size:12px; margin-top:6px;">Name: ______________________ &nbsp;&nbsp;&nbsp; Score: ______ / ${items.length}</div>
+    </div>
+  `;
+
+  items.forEach((it, idx) => {
+    let displayQ = it.qText;
+    // If it came from mistake_log, format brackets nicely for handwriting
+    if (it.type === 'mistake_log') {
+      if (it.modLabel === 'EDITING') {
+        displayQ = displayQ.replace(/\[(.*?)\]/, ' <b>[ $1 ]</b> ➔ ( ______________ ) ');
+      } else {
+        displayQ = displayQ.replace(/\[.*?\]/, ' ( ______________ ) ');
+      }
+    }
+    html += `
+      <div style="margin-bottom:12px; padding-bottom:10px; border-bottom:1px dashed #cbd5e1;">
+        <div style="font-size:11px; font-weight:800; color:#64748b; margin-bottom:2px;">Q${idx + 1}. [${it.modLabel}] ${it.title ? '— ' + it.title : ''}</div>
+        <div style="font-size:13.5px; color:#0f172a; line-height:1.6;">${displayQ}</div>
+      </div>
+    `;
+  });
+
+  if (includeAns) {
+    html += `
+      <div style="margin-top:20px; padding-top:12px; border-top:2px solid #0f172a; page-break-before: always;">
+        <div style="font-size:14px; font-weight:900; color:#0f172a; margin-bottom:8px;">🔑 Answer Key &amp; Parent Explanations (家长参考答案与解析)</div>
+    `;
+    items.forEach((it, idx) => {
+      const cleanExp = (it.exp || '').replace(/<[^>]*>/g, ' ');
+      html += `
+        <div style="font-size:12px; margin-bottom:6px; line-height:1.5;">
+          <strong>Q${idx + 1}:</strong> <span style="color:#059669; font-weight:800;">${it.ans}</span>
+          ${it.wrong ? `<span style="color:#e11d48;"> (此前错填: ${it.wrong})</span>` : ''}
+          ${cleanExp.trim() ? `<br><span style="color:#475569;">💡 解析: ${cleanExp}</span>` : ''}
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+
+  return html;
+}
+
+function renderExportPreview() {
+  document.getElementById('exportPreviewContent').innerHTML = buildWorksheetHTML();
+}
+
+function downloadWorksheetDoc() {
+  const content = buildWorksheetHTML();
+  const fullDoc = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset='utf-8'><title>PSLE Revision Worksheet</title></head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px;">${content}</body>
+    </html>
+  `;
+  const blob = new Blob(['﻿', fullDoc], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const mod = document.getElementById('exportModuleSelect').value;
+  a.href = url;
+  a.download = `PSLE_Revision_${mod}_${todayStr}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function openCleanPrintWindow() {
+  const content = buildWorksheetHTML();
+  const win = window.open('', '_blank');
+  if (win) {
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>PSLE Worksheet</title><style>body{font-family:-apple-system,Arial,sans-serif;padding:24px;color:#000;max-width:750px;margin:0 auto;}</style></head><body>${content}<script>window.onload=function(){window.print();}<\/script></body></html>`);
+    win.document.close();
+  } else {
+    window.print();
+  }
 }
 
 function closeExportModal() {
@@ -1208,42 +1475,6 @@ function closeExportModal() {
 
 document.getElementById('answerInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleAction(); });
 document.getElementById('stInput').addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAction(); } });
-
-
-let isFocusMode = false;
-
-function enterFocusMode() {
-  isFocusMode = true;
-  document.querySelector('.app-switcher').style.display = 'none';
-  document.querySelector('.app-switcher-row2').style.display = 'none';
-  document.querySelector('.tool-bar').style.display = 'none';
-  document.querySelector('.stats-row').style.display = 'none';
-  document.querySelector('.sub-tabs').style.display = 'none';
-  
-  // Add a clean return bar if not exists
-  let bar = document.getElementById('focusReturnBar');
-  if (!bar) {
-    bar = document.createElement('div');
-    bar.id = 'focusReturnBar';
-    bar.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#0f172a; padding:10px 14px; border-radius:14px; color:#fff; font-weight:800; font-size:13px;';
-    bar.innerHTML = '<span>📖 专注答题模式</span><button onclick="exitFocusMode()" style="background:#334155; color:#fff; border:none; padding:4px 10px; border-radius:8px; font-weight:700; cursor:pointer;">← 返回目录</button>';
-    document.getElementById('quizView').parentNode.insertBefore(bar, document.getElementById('quizView'));
-  } else {
-    bar.style.display = 'flex';
-  }
-}
-
-function exitFocusMode() {
-  isFocusMode = false;
-  document.querySelector('.app-switcher').style.display = 'grid';
-  document.querySelector('.app-switcher-row2').style.display = 'grid';
-  document.querySelector('.tool-bar').style.display = 'flex';
-  document.querySelector('.stats-row').style.display = 'grid';
-  document.querySelector('.sub-tabs').style.display = 'flex';
-  const bar = document.getElementById('focusReturnBar');
-  if (bar) bar.style.display = 'none';
-  changeMode('daily');
-}
 
 buildSessionList();
 renderQuestion();
