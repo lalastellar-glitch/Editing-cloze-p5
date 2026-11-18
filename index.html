@@ -393,7 +393,7 @@ const firebaseConfig = {
 let dbRef = null;
 try {
   firebase.initializeApp(firebaseConfig);
-  dbRef = firebase.database().ref('shared_student_data');
+  dbRef = firebase.database().ref('stella_psle_2026_secret');
   document.getElementById('cloudStatus').className = 'cloud-status cloud-live';
   document.getElementById('cloudStatus').innerText = '☁️ 云端已同步';
 } catch(e) {
