@@ -130,6 +130,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 <button id="tabHome" class="tab-pill active" onclick="exitFocusMode()">🏠 主页</button>
 <button id="tabDaily" class="tab-pill" onclick="changeMode('daily')">Daily Qs</button>
 <button id="tabReview" class="tab-pill" onclick="changeMode('review')">Review (<span id="revCount">0</span>)</button>
+<button id="tabMastered" class="tab-pill" onclick="changeMode('mastered')">🏆 Mastered (<span id="masteredCount">0</span>)</button>
 <button id="tabAll" class="tab-pill" onclick="changeMode('all')">Library</button>
 <button id="tabProgress" class="tab-pill" onclick="changeMode('progress')">📊 History</button>
 <button id="tabCheatsheet" class="tab-pill" onclick="changeMode('cheatsheet')">🔥 Top 5</button>
@@ -144,7 +145,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#f3e8ff; color:#7e22ce; padding:2px 6px; border-radius:6px;">10 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Type the correction</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_editing">0/337 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_editing" onclick="event.stopPropagation(); openMasteredForModule('editing');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/337 mastered</div>
     </div>
 
     <div onclick="switchApp('grammar')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #bfdbfe; background:linear-gradient(135deg, #eff6ff 0%, #fff 100%);">
@@ -153,7 +154,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#dbeafe; color:#1d4ed8; padding:2px 6px; border-radius:6px;">10 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">One rule, one trigger</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_grammar">0/177 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_grammar" onclick="event.stopPropagation(); openMasteredForModule('grammar');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/177 mastered</div>
     </div>
 
     <div onclick="switchApp('vocab')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #fde68a; background:linear-gradient(135deg, #fffbeb 0%, #fff 100%);">
@@ -162,7 +163,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:6px;">5 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Meaning & collocation</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_vocab">0/175 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_vocab" onclick="event.stopPropagation(); openMasteredForModule('vocab');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/175 mastered</div>
     </div>
 
     <div onclick="switchApp('passage')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #c7d2fe; background:linear-gradient(135deg, #eef2ff 0%, #fff 100%);">
@@ -171,7 +172,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#e0e7ff; color:#4338ca; padding:2px 6px; border-radius:6px;">15 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Contextual blanks</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_passage">0/35 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_passage" onclick="event.stopPropagation(); openMasteredForModule('passage');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/35 mastered</div>
     </div>
 
     <div onclick="switchApp('vcloze')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #bae6fd; background:linear-gradient(135deg, #f0f9ff 0%, #fff 100%);">
@@ -180,7 +181,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:6px;">5 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Phrasal verbs & verbs</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_vcloze">0/76 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_vcloze" onclick="event.stopPropagation(); openMasteredForModule('vcloze');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/76 mastered</div>
     </div>
 
     <div onclick="switchApp('gcloze')" class="card" style="margin:0; padding:14px; cursor:pointer; border:1.5px solid #99f6e4; background:linear-gradient(135deg, #f0fdf4 0%, #fff 100%);">
@@ -189,7 +190,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#ccfbf1; color:#0f766e; padding:2px 6px; border-radius:6px;">10 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Prepositions & pronouns</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_gcloze">0/171 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_gcloze" onclick="event.stopPropagation(); openMasteredForModule('gcloze');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/171 mastered</div>
     </div>
 
     <div onclick="switchApp('st')" class="card" style="margin:0; padding:14px; cursor:pointer; grid-column: span 2; border:1.5px solid #a7f3d0; background:linear-gradient(135deg, #ecfdf5 0%, #fff 100%);">
@@ -198,7 +199,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
         <span style="font-size:10px; font-weight:800; background:#d1fae5; color:#047857; padding:2px 6px; border-radius:6px;">10 MARKS</span>
       </div>
       <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Sentence rewriting & connectives</div>
-      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_st">0/172 mastered</div>
+      <div style="font-size:11px; font-weight:800; color:#059669;" id="cardProg_st" onclick="event.stopPropagation(); openMasteredForModule('st');" style="text-decoration:underline; cursor:pointer;" title="点击查看已掌握明细">0/172 mastered</div>
     </div>
   </div>
 </div>
@@ -281,9 +282,9 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
       <span style="color:#64748b;">Days practised</span>
       <span id="progDays" style="color:#059669;">1</span>
     </div>
-    <div style="display:flex; justify-content:space-between; padding:8px 0; font-size:14px; font-weight:700;">
+    <div onclick="changeMode('mastered')" style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; font-size:14px; font-weight:700; cursor:pointer;">
       <span style="color:#64748b;">Mistakes turned around (4-Stage Mastered)</span>
-      <span id="progMistakesFixed" style="color:#d97706;">0</span>
+      <span style="color:#059669; text-decoration:underline;"><span id="progMistakesFixed">0</span> 项 (点击查看明细 →)</span>
     </div>
   </div>
 
@@ -377,6 +378,20 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
   </div>
   <p style="font-size:12px; color:#64748b; margin-top:0; margin-bottom:12px;">系统根据孩子在各个板块的实际出错次数，实时抓取最易失分的前 5 道高频错题并生成针对性讲解：</p>
   <div id="dynamicTop5Cheatsheet"></div>
+</div>
+
+<div id="masteredView" style="display:none;" class="card">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <h3 style="margin:0; font-size:17px; font-weight:800; color:#0f172a;">🏆 已掌握词库与题库明细 (Mastered)</h3>
+    <button onclick="exitFocusMode()" style="background:#0f172a; color:#fff; border:none; border-radius:10px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer;">← 返回主页</button>
+  </div>
+  <p style="font-size:12px; color:#64748b; margin-top:0; margin-bottom:10px;">展示所有已通过 4 关艾宾浩斯复习（Day 1 → Day 3 → Day 7 → Day 21）并正式毕业的词语、选项与句式：</p>
+  <div id="masteredFilterBar" style="display:flex; gap:4px; overflow-x:auto; padding-bottom:6px; margin-bottom:10px;"></div>
+  <div style="margin-bottom:10px;">
+    <input type="text" id="masteredSearchInput" oninput="renderMasteredPanel()" placeholder="🔍 搜索已掌握的词语、选项或句子..." style="margin:0; padding:9px 12px; font-size:13px;">
+  </div>
+  <div id="masteredSummaryBanner" style="background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:8px 12px; border-radius:10px; font-size:12px; font-weight:700; margin-bottom:10px;"></div>
+  <div id="masteredListContainer"></div>
 </div>
 </div>
 
@@ -514,6 +529,7 @@ if (dbRef) {
       if (currentMode === 'progress') renderProgressPanel();
       if (currentMode === 'cheatsheet') renderCheatsheetPanel();
       if (currentMode === 'rewards') renderRewardsPanel();
+      if (currentMode === 'mastered') renderMasteredPanel();
       if (currentMode === 'review') { buildSessionList(); renderQuestion(); }
     }
   });
@@ -674,11 +690,11 @@ function changeMode(mode) {
   currentMode = mode;
   currentIdx = 0;
   buildSessionList();
-  ['tabHome', 'tabDaily', 'tabReview', 'tabAll', 'tabProgress', 'tabCheatsheet'].forEach(t => {
+  ['tabHome', 'tabDaily', 'tabReview', 'tabMastered', 'tabAll', 'tabProgress', 'tabCheatsheet'].forEach(t => {
     const el = document.getElementById(t);
     if (el) el.classList.remove('active');
   });
-  const tabMap = { daily: 'tabDaily', review: 'tabReview', all: 'tabAll', progress: 'tabProgress', cheatsheet: 'tabCheatsheet' };
+  const tabMap = { daily: 'tabDaily', review: 'tabReview', mastered: 'tabMastered', all: 'tabAll', progress: 'tabProgress', cheatsheet: 'tabCheatsheet' };
   if (tabMap[mode] && document.getElementById(tabMap[mode])) {
     document.getElementById(tabMap[mode]).classList.add('active');
   }
@@ -686,10 +702,11 @@ function changeMode(mode) {
   const isProg = mode === 'progress';
   const isCheat = mode === 'cheatsheet';
   const isRewards = mode === 'rewards';
+  const isMastered = mode === 'mastered';
   const dir = document.getElementById('sectionDirectory');
   const bar = document.getElementById('focusReturnBar');
 
-  if (isProg || isCheat || isRewards) {
+  if (isProg || isCheat || isRewards || isMastered) {
     if (dir) dir.style.display = 'none';
     if (bar) bar.style.display = 'none';
     document.getElementById('quizView').style.display = 'none';
@@ -697,13 +714,16 @@ function changeMode(mode) {
     document.getElementById('progressView').style.display = isProg ? 'block' : 'none';
     document.getElementById('cheatsheetView').style.display = isCheat ? 'block' : 'none';
     document.getElementById('rewardsView').style.display = isRewards ? 'block' : 'none';
+    document.getElementById('masteredView').style.display = isMastered ? 'block' : 'none';
     if (isProg) renderProgressPanel();
     else if (isCheat) renderCheatsheetPanel();
     else if (isRewards) renderRewardsPanel();
+    else if (isMastered) renderMasteredPanel();
   } else {
     document.getElementById('progressView').style.display = 'none';
     document.getElementById('cheatsheetView').style.display = 'none';
     document.getElementById('rewardsView').style.display = 'none';
+    document.getElementById('masteredView').style.display = 'none';
     // Whenever user clicks Daily Qs, Review, or Library, enter focus mode and show the questions!
     enterFocusMode();
     renderQuestion();
@@ -929,6 +949,161 @@ function renderProgressPanel() {
   document.getElementById('progTotalStars').innerText = Math.round((store.stars || 0) * 10) / 10;
   document.getElementById('progDays').innerText = Object.keys(store.dailyLogs || {}).length || 1;
   document.getElementById('progMistakesFixed').innerText = store.mastered.length;
+}
+
+
+let masteredFilterMod = 'all';
+
+function openMasteredForModule(mod) {
+  masteredFilterMod = mod;
+  changeMode('mastered');
+}
+
+function setMasteredFilter(mod) {
+  masteredFilterMod = mod;
+  renderMasteredPanel();
+}
+
+function speakMasteredWord(txt) {
+  if (!window.speechSynthesis || !txt) return;
+  const utter = new SpeechSynthesisUtterance(txt);
+  utter.lang = 'en-GB';
+  utter.rate = 0.88;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+}
+
+function resetMasteredItem(idKey) {
+  if (!confirm('确定要将此项移回【Review 复习库】重新巩固吗？')) return;
+  store.mastered = (store.mastered || []).filter(x => x !== idKey);
+  if (!store.inReview) store.inReview = [];
+  if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
+  if (store.progress && store.progress[idKey]) {
+    store.progress[idKey].streak = 0;
+    store.progress[idKey].nextDue = todayStr;
+  }
+  syncStore();
+  updateCardProgress();
+  updateStats();
+  renderMasteredPanel();
+}
+
+function renderMasteredPanel() {
+  const mods = [
+    { key: 'all', label: 'All', db: null },
+    { key: 'editing', label: 'Editing', db: EDITING_DB },
+    { key: 'grammar', label: 'Grammar', db: GRAMMAR_DB },
+    { key: 'vocab', label: 'Vocabulary', db: VOCAB_DB },
+    { key: 'vcloze', label: 'Vocab Cloze', db: VCLOZE_DB },
+    { key: 'gcloze', label: 'Grammar Cloze', db: GCLOZE_DB },
+    { key: 'passage', label: 'Passage Cloze', db: PASSAGE_CLOZE_DB },
+    { key: 'st', label: 'S&T', db: ST_DB }
+  ];
+
+  // Collect all mastered items mapped to their modules (deduplicated per module by key)
+  const masteredSet = new Set(store.mastered || []);
+  let allRecords = [];
+  mods.slice(1).forEach(m => {
+    const seenInMod = new Set();
+    m.db.forEach(item => {
+      const k = getItemKey(item);
+      if (masteredSet.has(k) && !seenInMod.has(k)) {
+        seenInMod.add(k);
+        allRecords.push({ modKey: m.key, modLabel: m.label, key: k, item });
+      }
+    });
+  });
+
+  // Render filter pills with counts
+  const filterBar = document.getElementById('masteredFilterBar');
+  filterBar.innerHTML = mods.map(m => {
+    const cnt = m.key === 'all' ? allRecords.length : allRecords.filter(r => r.modKey === m.key).length;
+    const isAct = masteredFilterMod === m.key;
+    return `<button onclick="setMasteredFilter('${m.key}')" style="padding:5px 10px; font-size:11px; font-weight:800; border-radius:8px; border:1px solid ${isAct ? '#059669' : '#cbd5e1'}; background:${isAct ? '#059669' : '#fff'}; color:${isAct ? '#fff' : '#334155'}; cursor:pointer; white-space:nowrap;">${m.label} (${cnt})</button>`;
+  }).join('');
+
+  const searchInp = document.getElementById('masteredSearchInput');
+  const qStr = searchInp ? searchInp.value.trim().toLowerCase() : '';
+
+  let filtered = allRecords.filter(r => masteredFilterMod === 'all' || r.modKey === masteredFilterMod);
+  if (qStr) {
+    filtered = filtered.filter(r => {
+      const it = r.item;
+      const blob = [it.word, it.correct, it.phrase, it.title, it.sent, it.orig, ...(it.answers || []), ...(it.options || [])].filter(Boolean).join(' ').toLowerCase();
+      return blob.includes(qStr);
+    });
+  }
+
+  const banner = document.getElementById('masteredSummaryBanner');
+  banner.innerText = `✅ 当前筛选下共掌握 ${filtered.length} 项（全库累计已毕业 ${allRecords.length} 项）`;
+
+  const listEl = document.getElementById('masteredListContainer');
+  if (filtered.length === 0) {
+    listEl.innerHTML = `<div style="text-align:center; padding:24px 12px; color:#94a3b8; font-size:13px;">
+      ${allRecords.length === 0 ? '还没有通过 4 关毕业的题目哦！每道题在 Day 1 → Day 3 → Day 7 → Day 21 全部答对后就会自动收录到这里 🏆' : '当前筛选或搜索条件下没有找到已掌握的条目。'}
+    </div>`;
+    return;
+  }
+
+  listEl.innerHTML = filtered.map((rec, idx) => {
+    const it = rec.item;
+    let mainTarget = '';
+    let contextHtml = '';
+    let expText = '';
+    let speakText = '';
+
+    if (rec.modKey === 'editing') {
+      mainTarget = it.word;
+      speakText = it.word;
+      contextHtml = it.sent.replace(/\[(.*?)\]/, `<span style="color:#059669; font-weight:800; background:#dcfce7; padding:1px 5px; border-radius:4px;">${it.word}</span> <span style="font-size:11px; color:#94a3b8; text-decoration:line-through;">($1)</span>`);
+      expText = `${it.feat || ''} ${it.tip ? '— ' + it.tip : ''}`;
+    } else if (rec.modKey === 'grammar' || rec.modKey === 'vocab') {
+      mainTarget = it.word;
+      speakText = it.word;
+      const optsHtml = (it.options || []).map(o => o.toLowerCase() === it.word.toLowerCase()
+        ? `<span style="background:#dcfce7; color:#15803d; border:1px solid #86efac; padding:2px 7px; border-radius:6px; font-weight:800;">✅ ${o}</span>`
+        : `<span style="background:#f1f5f9; color:#64748b; padding:2px 7px; border-radius:6px;">${o}</span>`
+      ).join(' ');
+      contextHtml = `${it.sent.replace(/\[(.*?)\]/, `<strong style="color:#059669; text-decoration:underline;">${it.word}</strong>`)}<div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:4px; font-size:11.5px;">${optsHtml}</div>`;
+      expText = it.tip || '';
+    } else if (rec.modKey === 'vcloze' || rec.modKey === 'gcloze') {
+      mainTarget = `${it.phrase || it.correct} → [${it.correct}]`;
+      speakText = it.phrase || it.correct;
+      contextHtml = it.sent.replace(/\[\s*[a-zA-Z]?_+\s*\]/, `<strong style="color:#059669; background:#dcfce7; padding:1px 6px; border-radius:4px;">${it.correct}</strong>`);
+      expText = it.exp || it.clue || '';
+    } else if (rec.modKey === 'passage') {
+      mainTarget = `${it.title} (${it.blanks.length} blanks)`;
+      speakText = it.title;
+      const ansList = it.blanks.map(b => `(${b.num}) <b>${b.correct}</b>`).join(' · ');
+      contextHtml = `<div style="font-size:12px; color:#334155; line-height:1.6;">${ansList}</div>`;
+      expText = it.src || '';
+    } else if (rec.modKey === 'st') {
+      mainTarget = it.typeDesc || it.cat;
+      speakText = it.answers[0];
+      contextHtml = `<div style="color:#475569; font-size:12px;">Original: ${it.orig}</div><div style="color:#059669; font-weight:700; margin-top:4px;">✅ ${it.answers[0]}</div>`;
+      expText = it.exp || it.clue || '';
+    }
+
+    const safeSpeak = speakText.replace(/'/g, "\'");
+    const safeKey = rec.key.replace(/'/g, "\'");
+
+    return `
+      <div class="mistake-card" style="border-left:4px solid #10b981; background:#ffffff;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; gap:6px;">
+          <div>
+            <span style="font-size:10px; font-weight:800; background:#dcfce7; color:#15803d; padding:2px 7px; border-radius:6px;">${rec.modLabel}</span>
+            <strong style="font-size:15px; color:#0f172a; margin-left:6px;">${mainTarget}</strong>
+          </div>
+          <div style="display:flex; gap:4px; align-items:center;">
+            <button onclick="speakMasteredWord('${safeSpeak}')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:700; cursor:pointer;" title="听发音">🔊</button>
+            <button onclick="resetMasteredItem('${safeKey}')" style="background:#fffbeb; border:1px solid #fcd34d; color:#b45309; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:700; cursor:pointer;" title="移回复习库">🔄 重练</button>
+          </div>
+        </div>
+        <div style="font-size:13px; color:#1e293b; line-height:1.55;">${contextHtml}</div>
+        ${expText ? `<div style="margin-top:6px; font-size:11.5px; color:#475569; background:#f8fafc; padding:5px 8px; border-radius:6px;">💡 ${expText}</div>` : ''}
+      </div>
+    `;
+  }).join('');
 }
 
 function renderCheatsheetPanel() {
@@ -1215,6 +1390,8 @@ function updateStats() {
   const reviewCount = store.inReview.filter(key => db.some(item => getItemKey(item) === key)).length;
   document.getElementById('statReview').innerText = reviewCount;
   document.getElementById('revCount').innerText = reviewCount;
+  const mCountEl = document.getElementById('masteredCount');
+  if (mCountEl) mCountEl.innerText = (store.mastered || []).length;
 
   ensureTodayLog();
   const doneInApp = store.dailyLogs[todayStr].byApp[activeApp] || 0;
@@ -1507,7 +1684,7 @@ function enterFocusMode() {
 
 function exitFocusMode() {
   isFocusMode = false;
-  ['tabHome', 'tabDaily', 'tabReview', 'tabAll', 'tabProgress', 'tabCheatsheet'].forEach(t => {
+  ['tabHome', 'tabDaily', 'tabReview', 'tabMastered', 'tabAll', 'tabProgress', 'tabCheatsheet'].forEach(t => {
     const el = document.getElementById(t);
     if (el) el.classList.remove('active');
   });
@@ -1521,6 +1698,7 @@ function exitFocusMode() {
   document.getElementById('progressView').style.display = 'none';
   document.getElementById('cheatsheetView').style.display = 'none';
   document.getElementById('rewardsView').style.display = 'none';
+  document.getElementById('masteredView').style.display = 'none';
   const bar = document.getElementById('focusReturnBar');
   if (bar) bar.style.display = 'none';
   updateCardProgress();
