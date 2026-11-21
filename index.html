@@ -460,12 +460,74 @@ const EBBINGHAUS_DAYS = [1, 3, 7, 21];
 
 function getItemKey(item) { return item.word ? item.word : (item.id || item.sent); }
 
+function getScopedItemKey(mod, item) {
+  const base = getItemKey(item);
+  return mod ? `${mod}::${base}` : base;
+}
+
+function isItemMasteredInMod(mod, item) {
+  const scoped = getScopedItemKey(mod, item);
+  const raw = getItemKey(item);
+  const mArr = store.mastered || [];
+  if (mArr.includes(scoped)) return true;
+  if (mArr.includes(raw)) {
+    const pScoped = store.progress && store.progress[scoped];
+    const pRaw = store.progress && store.progress[raw];
+    // If scoped progress exists for this module and explicitly says not mastered, respect scoped state
+    if (pScoped && (pScoped.streak || 0) < 4) return false;
+    // Otherwise, if raw key was mastered in this module (or module not recorded), match it
+    if (!pRaw || !pRaw.mod || pRaw.mod === mod) return true;
+  }
+  return false;
+}
+
+function getAllMasteredRecords() {
+  const mods = [
+    { key: 'editing', label: 'Editing', db: EDITING_DB },
+    { key: 'grammar', label: 'Grammar', db: GRAMMAR_DB },
+    { key: 'vocab', label: 'Vocabulary', db: VOCAB_DB },
+    { key: 'vcloze', label: 'Vocab Cloze', db: VCLOZE_DB },
+    { key: 'gcloze', label: 'Grammar Cloze', db: GCLOZE_DB },
+    { key: 'passage', label: 'Passage Cloze', db: PASSAGE_CLOZE_DB },
+    { key: 'st', label: 'S&T', db: ST_DB }
+  ];
+  const records = [];
+  const matchedRawKeys = new Set();
+  mods.forEach(m => {
+    const seenInMod = new Set();
+    m.db.forEach(item => {
+      const rawK = getItemKey(item);
+      const scopedK = getScopedItemKey(m.key, item);
+      if (isItemMasteredInMod(m.key, item) && !seenInMod.has(rawK)) {
+        seenInMod.add(rawK);
+        matchedRawKeys.add(rawK);
+        records.push({ modKey: m.key, modLabel: m.label, rawKey: rawK, scopedKey: scopedK, item });
+      }
+    });
+  });
+  // Also include any legacy/orphan mastered keys that do not match a current DB entry
+  (store.mastered || []).forEach(k => {
+    if (!k.includes('::') && !matchedRawKeys.has(k)) {
+      records.push({ modKey: 'other', modLabel: 'Other', rawKey: k, scopedKey: k, item: { word: k, sent: '' } });
+    }
+  });
+  return records;
+}
+
 function updateCardProgress() {
   const mods = ['editing', 'grammar', 'vocab', 'passage', 'vcloze', 'gcloze', 'st'];
   const dbs = { editing: EDITING_DB, grammar: GRAMMAR_DB, vocab: VOCAB_DB, passage: PASSAGE_CLOZE_DB, vcloze: VCLOZE_DB, gcloze: GCLOZE_DB, st: ST_DB };
   mods.forEach(m => {
     const db = dbs[m];
-    const met = db.filter(item => store.mastered.includes(getItemKey(item))).length;
+    const seen = new Set();
+    let met = 0;
+    db.forEach(item => {
+      const rk = getItemKey(item);
+      if (!seen.has(rk) && isItemMasteredInMod(m, item)) {
+        seen.add(rk);
+        met++;
+      }
+    });
     const el = document.getElementById('cardProg_' + m);
     if (el) el.innerText = `${met}/${db.length} mastered`;
   });
@@ -931,8 +993,9 @@ function renderProgressPanel() {
   let totalAns = 0;
   Object.values(store.dailyLogs || {}).forEach(lg => { totalAns += (lg.done || 0); });
 
+  const allMasteredRecs = getAllMasteredRecords();
   modules.forEach(m => {
-    const metCount = m.db.filter(item => store.mastered.includes(getItemKey(item))).length;
+    const metCount = allMasteredRecs.filter(r => r.modKey === m.key).length;
     html += `
       <div class="card" style="margin-bottom:10px; padding:14px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
@@ -948,7 +1011,7 @@ function renderProgressPanel() {
   document.getElementById('progTotalAns').innerText = totalAns;
   document.getElementById('progTotalStars').innerText = Math.round((store.stars || 0) * 10) / 10;
   document.getElementById('progDays').innerText = Object.keys(store.dailyLogs || {}).length || 1;
-  document.getElementById('progMistakesFixed').innerText = store.mastered.length;
+  document.getElementById('progMistakesFixed').innerText = getAllMasteredRecords().length;
 }
 
 
@@ -973,15 +1036,18 @@ function speakMasteredWord(txt) {
   window.speechSynthesis.speak(utter);
 }
 
-function resetMasteredItem(idKey) {
+function resetMasteredItem(idKey, scopedKey) {
   if (!confirm('确定要将此项移回【Review 复习库】重新巩固吗？')) return;
-  store.mastered = (store.mastered || []).filter(x => x !== idKey);
+  store.mastered = (store.mastered || []).filter(x => x !== idKey && x !== scopedKey);
   if (!store.inReview) store.inReview = [];
   if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
-  if (store.progress && store.progress[idKey]) {
-    store.progress[idKey].streak = 0;
-    store.progress[idKey].nextDue = todayStr;
-  }
+      if (!store.inReview.includes(scopedKey)) store.inReview.push(scopedKey);
+  [idKey, scopedKey].forEach(k => {
+    if (k && store.progress && store.progress[k]) {
+      store.progress[k].streak = 0;
+      store.progress[k].nextDue = todayStr;
+    }
+  });
   syncStore();
   updateCardProgress();
   updateStats();
@@ -1000,19 +1066,7 @@ function renderMasteredPanel() {
     { key: 'st', label: 'S&T', db: ST_DB }
   ];
 
-  // Collect all mastered items mapped to their modules (deduplicated per module by key)
-  const masteredSet = new Set(store.mastered || []);
-  let allRecords = [];
-  mods.slice(1).forEach(m => {
-    const seenInMod = new Set();
-    m.db.forEach(item => {
-      const k = getItemKey(item);
-      if (masteredSet.has(k) && !seenInMod.has(k)) {
-        seenInMod.add(k);
-        allRecords.push({ modKey: m.key, modLabel: m.label, key: k, item });
-      }
-    });
-  });
+  let allRecords = getAllMasteredRecords();
 
   // Render filter pills with counts
   const filterBar = document.getElementById('masteredFilterBar');
@@ -1096,7 +1150,7 @@ function renderMasteredPanel() {
           </div>
           <div style="display:flex; gap:4px; align-items:center;">
             <button onclick="speakMasteredWord('${safeSpeak}')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:700; cursor:pointer;" title="听发音">🔊</button>
-            <button onclick="resetMasteredItem('${safeKey}')" style="background:#fffbeb; border:1px solid #fcd34d; color:#b45309; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:700; cursor:pointer;" title="移回复习库">🔄 重练</button>
+            <button onclick="resetMasteredItem('${safeKey}', '${safeScoped}')" style="background:#fffbeb; border:1px solid #fcd34d; color:#b45309; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:700; cursor:pointer;" title="移回复习库">🔄 重练</button>
           </div>
         </div>
         <div style="font-size:13px; color:#1e293b; line-height:1.55;">${contextHtml}</div>
@@ -1391,7 +1445,7 @@ function updateStats() {
   document.getElementById('statReview').innerText = reviewCount;
   document.getElementById('revCount').innerText = reviewCount;
   const mCountEl = document.getElementById('masteredCount');
-  if (mCountEl) mCountEl.innerText = (store.mastered || []).length;
+  if (mCountEl) mCountEl.innerText = getAllMasteredRecords().length;
 
   ensureTodayLog();
   const doneInApp = store.dailyLogs[todayStr].byApp[activeApp] || 0;
@@ -1509,6 +1563,7 @@ function handleAction() {
     } else {
       store.progress[idKey].mistakes += 1;
       if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
+      if (!store.inReview.includes(scopedKey)) store.inReview.push(scopedKey);
     }
 
     hasFinalSubmitted = true;
@@ -1533,8 +1588,13 @@ function handleAction() {
   }
 
   ensureTodayLog();
-  if (!store.progress[idKey]) store.progress[idKey] = { streak: 0, mistakes: 0, nextDue: todayStr };
-  let prog = store.progress[idKey];
+  const scopedKey = getScopedItemKey(activeApp, q);
+  if (!store.progress[scopedKey]) {
+    store.progress[scopedKey] = store.progress[idKey]
+      ? { ...store.progress[idKey], mod: activeApp }
+      : { streak: 0, mistakes: 0, nextDue: todayStr, mod: activeApp };
+  }
+  let prog = store.progress[scopedKey];
   const currentStage = prog.streak || 0; // 0 = Stage 1, 1 = Stage 2, 2 = Stage 3 (Strict!)
   const pts = (isSt || activeApp.includes('cloze')) ? 2 : 1;
 
@@ -1546,7 +1606,7 @@ function handleAction() {
       store.dailyLogs[todayStr].firstTryCorrect += 1;
       store.dailyLogs[todayStr].byApp[activeApp] = (store.dailyLogs[todayStr].byApp[activeApp] || 0) + 1;
       
-      const stageMsg = advanceStage(idKey, prog);
+      const stageMsg = advanceStage(scopedKey, prog);
       renderEbbinghausBar(idKey);
       res.className = 'result-box result-correct';
       res.style.display = 'block';
@@ -1557,7 +1617,8 @@ function handleAction() {
       prog.mistakes += 1;
       prog.nextDue = todayStr;
       if (!store.inReview.includes(idKey)) store.inReview.push(idKey);
-      store.mastered = store.mastered.filter(x => x !== idKey);
+      if (!store.inReview.includes(scopedKey)) store.inReview.push(scopedKey);
+      store.mastered = store.mastered.filter(x => x !== idKey && x !== scopedKey);
       
       recordMistakeDetail(q, raw, target, currentStage);
       renderEbbinghausBar(idKey);
@@ -1596,7 +1657,7 @@ function handleAction() {
       store.stars = Math.round(((store.stars || 0) + (pts / 2)) * 10) / 10;
       if (!isStrictStage3) {
         // Stages 1 & 2: Lenient! Correct on Attempt 2 advances stage!
-        const stageMsg = advanceStage(idKey, prog);
+        const stageMsg = advanceStage(scopedKey, prog);
         renderEbbinghausBar(idKey);
         res.className = 'result-box result-correct';
         res.style.display = 'block';
