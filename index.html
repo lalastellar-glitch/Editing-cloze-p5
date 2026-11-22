@@ -113,7 +113,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 <div class="tool-bar">
 <div style="display:flex; align-items:center; gap:5px;">
 <span id="cloudStatus" class="cloud-status cloud-live">☁️ 云端已同步</span>
-
+<button onclick="forcePullCloudNow()" style="font-size:11px; font-weight:800; background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; border-radius:8px; padding:3px 7px; cursor:pointer;" title="立即从云端拉取最新星星与做题记录">🔄 立即同步</button>
 </div>
 <div style="display:flex; gap:5px;">
 <button onclick="changeMode('rewards')" style="font-size:11px; font-weight:800; background:#fef3c7; color:#b45309; border:1px solid #fcd34d; border-radius:8px; padding:3px 8px; cursor:pointer;">🎁 星星兑换</button>
@@ -585,32 +585,62 @@ function loadInitialStore() {
 
 let store = loadInitialStore();
 
+function applyCloudSnapshotEN(val, allowPushLocalIfEmpty) {
+  if (val) {
+    if (typeof val.stars === 'number') {
+      store.stars = Math.round(val.stars * 10) / 10;
+    } else if (store.stars === null) {
+      store.stars = 0;
+    }
+    if (Array.isArray(val.mastered)) store.mastered = Array.from(new Set([...store.mastered, ...val.mastered]));
+    if (Array.isArray(val.inReview)) store.inReview = Array.from(new Set([...store.inReview, ...val.inReview]));
+    if (val.progress) store.progress = { ...store.progress, ...val.progress };
+    if (val.dailyLogs) store.dailyLogs = { ...store.dailyLogs, ...val.dailyLogs };
+    if (Array.isArray(val.mistakeHistory) && val.mistakeHistory.length > store.mistakeHistory.length) {
+      store.mistakeHistory = val.mistakeHistory;
+    }
+    if (Array.isArray(val.rewards)) store.rewards = val.rewards;
+    if (Array.isArray(val.redemptions)) store.redemptions = val.redemptions;
+  } else {
+    if (store.stars === null) store.stars = 0;
+    if (allowPushLocalIfEmpty) syncStore();
+  }
+  saveToLocalStorage();
+  updateCardProgress();
+  updateStats();
+  if (currentMode === 'progress') renderProgressPanel();
+  if (currentMode === 'cheatsheet') renderCheatsheetPanel();
+  if (currentMode === 'rewards') renderRewardsPanel();
+  if (currentMode === 'mastered') renderMasteredPanel();
+  if (currentMode === 'review') { buildSessionList(); renderQuestion(); }
+}
+
+function forcePullCloudNow() {
+  if (!dbRef) {
+    alert("⚠️ 云端数据库未连接，请检查网络！");
+    return;
+  }
+  const el = document.getElementById('cloudStatus');
+  if (el) el.innerText = '☁️ 正在同步...';
+  dbRef.once('value').then((snap) => {
+    applyCloudSnapshotEN(snap.val(), false);
+    if (el) {
+      el.className = 'cloud-status cloud-live';
+      el.innerText = '☁️ 云端已同步';
+    }
+    alert(`✅ 已从云端拉取最新数据！当前云端星星：${store.stars} ⭐`);
+  }).catch((err) => {
+    if (el) {
+      el.className = 'cloud-status cloud-local';
+      el.innerText = '⚠️ 同步失败';
+    }
+    alert(`❌ 读取云端失败：${err && err.message ? err.message : '网络或权限受限'}`);
+  });
+}
+
 if (dbRef) {
   dbRef.on('value', (snapshot) => {
-    const val = snapshot.val();
-    if (val) {
-      if (typeof val.stars === 'number') {
-        store.stars = Math.round(val.stars * 10) / 10;
-      } else if (store.stars === null) {
-        store.stars = 0;
-      }
-      if (Array.isArray(val.mastered)) store.mastered = Array.from(new Set([...store.mastered, ...val.mastered]));
-      if (Array.isArray(val.inReview)) store.inReview = Array.from(new Set([...store.inReview, ...val.inReview]));
-      if (val.progress) store.progress = { ...store.progress, ...val.progress };
-      if (val.dailyLogs) store.dailyLogs = { ...store.dailyLogs, ...val.dailyLogs };
-      if (Array.isArray(val.mistakeHistory) && val.mistakeHistory.length > store.mistakeHistory.length) {
-        store.mistakeHistory = val.mistakeHistory;
-      }
-      if (Array.isArray(val.rewards)) store.rewards = val.rewards;
-      if (Array.isArray(val.redemptions)) store.redemptions = val.redemptions;
-      saveToLocalStorage();
-      updateStats();
-      if (currentMode === 'progress') renderProgressPanel();
-      if (currentMode === 'cheatsheet') renderCheatsheetPanel();
-      if (currentMode === 'rewards') renderRewardsPanel();
-      if (currentMode === 'mastered') renderMasteredPanel();
-      if (currentMode === 'review') { buildSessionList(); renderQuestion(); }
-    }
+    applyCloudSnapshotEN(snapshot.val(), true);
   });
 }
 
@@ -645,6 +675,7 @@ function syncStore() {
     };
     if (typeof store.stars === 'number') {
       payload.stars = Math.round(store.stars * 10) / 10;
+      if (starsRef) starsRef.set(payload.stars);
     }
     dbRef.update(payload);
     return;
