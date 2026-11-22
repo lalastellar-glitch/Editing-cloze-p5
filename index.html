@@ -421,11 +421,24 @@ const firebaseConfig = {
   projectId: "psle-tracker-51fac"
 };
 let dbRef = null;
+let starsRef = null;
 try {
   firebase.initializeApp(firebaseConfig);
   dbRef = firebase.database().ref('shared_student_data');
+  starsRef = firebase.database().ref('shared_student_data/stars');
   document.getElementById('cloudStatus').className = 'cloud-status cloud-live';
-  document.getElementById('cloudStatus').innerText = '☁️ 云端已同步';
+  document.getElementById('cloudStatus').innerText = '☁️ 云端连接中...';
+  firebase.database().ref('.info/connected').on('value', (snap) => {
+    const el = document.getElementById('cloudStatus');
+    if (!el) return;
+    if (snap.val() === true) {
+      el.className = 'cloud-status cloud-live';
+      el.innerText = '☁️ 云端已同步';
+    } else {
+      el.className = 'cloud-status cloud-local';
+      el.innerText = '☁️ 云端重连中...';
+    }
+  });
 } catch(e) {
   document.getElementById('cloudStatus').className = 'cloud-status cloud-local';
   document.getElementById('cloudStatus').innerText = '🔒 本地安全存储';
@@ -597,6 +610,19 @@ if (dbRef) {
       if (currentMode === 'rewards') renderRewardsPanel();
       if (currentMode === 'mastered') renderMasteredPanel();
       if (currentMode === 'review') { buildSessionList(); renderQuestion(); }
+    }
+  });
+}
+
+if (starsRef) {
+  starsRef.on('value', (snapshot) => {
+    const sVal = snapshot.val();
+    if (typeof sVal === 'number') {
+      store.stars = Math.round(sVal * 10) / 10;
+      saveToLocalStorage();
+      updateStats();
+      if (currentMode === 'rewards') renderRewardsPanel();
+      if (currentMode === 'progress') renderProgressPanel();
     }
   });
 }
@@ -864,10 +890,18 @@ function setDirectStarBalance() {
     return;
   }
   store.stars = Math.round(val * 10) / 10;
-  syncStore();
+  saveToLocalStorage();
   updateStats();
   renderRewardsPanel();
-  alert(`✅ 星星总余额已更新为 ${store.stars} ⭐！`);
+  if (starsRef) {
+    starsRef.set(store.stars).then(() => {
+      alert(`✅ 星星总余额已更新为 ${store.stars} ⭐ 并已写入云端！`);
+    }).catch((err) => {
+      alert(`❌ 本地已修改，但写入云端失败：${err && err.message ? err.message : '权限或网络异常'}`);
+    });
+  } else {
+    alert(`✅ 星星总余额已更新为 ${store.stars} ⭐！`);
+  }
 }
 
 function redeemCustomInput() {
