@@ -121,7 +121,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 </div>
 </div>
 <div class="stats-row">
-<div class="stat-item" onclick="changeMode('rewards')"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">801</div></div>
+<div class="stat-item" onclick="changeMode('rewards')"><div class="stat-lbl">Stars ⭐</div><div id="statStars" class="stat-val" style="color:#eab308;">⏳</div></div>
 <div class="stat-item" onclick="changeMode('progress')"><div class="stat-lbl">Accuracy %</div><div id="statAccuracy" class="stat-val" style="color:#059669;">100%</div></div>
 <div class="stat-item" onclick="changeMode('review')"><div class="stat-lbl">Due / Review</div><div id="statReview" class="stat-val" style="color:#d97706;">0</div></div>
 <div class="stat-item" onclick="changeMode('progress')"><div id="statDoneLabel" class="stat-lbl">Done Today</div><div id="statDone" class="stat-val" style="color:#7e22ce;">0/20</div></div>
@@ -276,7 +276,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
     </div>
     <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:14px; font-weight:700;">
       <span style="color:#64748b;">Stars earned ⭐</span>
-      <span id="progTotalStars" style="color:#eab308;">801</span>
+      <span id="progTotalStars" style="color:#eab308;">⏳</span>
     </div>
     <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:14px; font-weight:700;">
       <span style="color:#64748b;">Days practised</span>
@@ -329,7 +329,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
       <div>
         <div style="font-size:12px; font-weight:700; color:#854d0e;">当前可用星星余额</div>
-        <div id="rewardStarBalance" style="font-size:28px; font-weight:900; color:#ca8a04;">801 ⭐</div>
+        <div id="rewardStarBalance" style="font-size:28px; font-weight:900; color:#ca8a04;">⏳ ⭐</div>
       </div>
       <div style="display:flex; gap:6px; align-items:center;">
         <input type="number" id="directStarInput" placeholder="修改总星星数" style="width:120px; padding:8px 10px; font-size:13px; margin:0; border-radius:8px; border:1px solid #facc15; background:#fff;">
@@ -558,7 +558,7 @@ function loadInitialStore() {
     } catch(e) {}
   });
   return {
-    stars: s.stars || 801,
+    stars: typeof s.stars === 'number' ? s.stars : null,
     mastered: s.mastered || [],
     inReview: s.inReview || [],
     progress: s.progress || {},
@@ -576,7 +576,11 @@ if (dbRef) {
   dbRef.on('value', (snapshot) => {
     const val = snapshot.val();
     if (val) {
-      store.stars = val.stars !== undefined ? val.stars : (store.stars || 801);
+      if (typeof val.stars === 'number') {
+        store.stars = Math.round(val.stars * 10) / 10;
+      } else if (store.stars === null) {
+        store.stars = 0;
+      }
       if (Array.isArray(val.mastered)) store.mastered = Array.from(new Set([...store.mastered, ...val.mastered]));
       if (Array.isArray(val.inReview)) store.inReview = Array.from(new Set([...store.inReview, ...val.inReview]));
       if (val.progress) store.progress = { ...store.progress, ...val.progress };
@@ -604,6 +608,22 @@ function saveToLocalStorage() {
 function syncStore() {
   saveToLocalStorage();
   if (dbRef) {
+    const payload = {
+      mastered: store.mastered,
+      inReview: store.inReview,
+      progress: store.progress,
+      dailyLogs: store.dailyLogs,
+      mistakeHistory: store.mistakeHistory.slice(-100),
+      rewards: store.rewards,
+      redemptions: store.redemptions
+    };
+    if (typeof store.stars === 'number') {
+      payload.stars = Math.round(store.stars * 10) / 10;
+    }
+    dbRef.update(payload);
+    return;
+  }
+  if (false) {
     dbRef.set({
       stars: Math.round((store.stars || 0) * 10) / 10,
       mastered: store.mastered,
@@ -1439,7 +1459,7 @@ function ensureTodayLog() {
 }
 
 function updateStats() {
-  document.getElementById('statStars').innerText = Math.round((store.stars || 0) * 10) / 10;
+  document.getElementById('statStars').innerText = (typeof store.stars === 'number') ? (Math.round(store.stars * 10) / 10) : '⏳';
   const db = getDB();
   const reviewCount = store.inReview.filter(key => db.some(item => getItemKey(item) === key)).length;
   document.getElementById('statReview').innerText = reviewCount;
