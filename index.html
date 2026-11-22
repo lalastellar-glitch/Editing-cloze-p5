@@ -116,6 +116,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 <button onclick="forcePullCloudNow()" style="font-size:11px; font-weight:800; background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; border-radius:8px; padding:3px 7px; cursor:pointer;" title="立即从云端拉取最新星星与做题记录">🔄 立即同步</button>
 </div>
 <div style="display:flex; gap:5px;">
+<button onclick="promptParentEdit()" style="font-size:11px; font-weight:800; background:#f1f5f9; color:#0f172a; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">⚙️ 家长调星</button>
 <button onclick="changeMode('rewards')" style="font-size:11px; font-weight:800; background:#fef3c7; color:#b45309; border:1px solid #fcd34d; border-radius:8px; padding:3px 8px; cursor:pointer;">🎁 星星兑换</button>
 <button onclick="openExportModal()" style="font-size:11px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; cursor:pointer;">🖨️ 导出</button>
 </div>
@@ -320,9 +321,12 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: #7e22ce;
 </div>
 
 <div id="rewardsView" style="display:none;">
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:6px; flex-wrap:wrap;">
     <h2 style="margin:0; font-size:18px; font-weight:800; color:#0f172a;">🎁 星星兑换商店 (父母自定义)</h2>
-    <button onclick="exitFocusMode()" style="background:#0f172a; color:#fff; border:none; border-radius:10px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer;">← 返回主页</button>
+    <div style="display:flex; gap:6px;">
+      <button onclick="promptParentEdit()" style="background:#fef3c7; color:#b45309; border:1px solid #fcd34d; border-radius:10px; padding:6px 10px; font-size:12px; font-weight:800; cursor:pointer;">⚙️ 家长调星</button>
+      <button onclick="exitFocusMode()" style="background:#0f172a; color:#fff; border:none; border-radius:10px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer;">← 返回主页</button>
+    </div>
   </div>
 
   <div class="card" style="background:linear-gradient(135deg, #fefce8 0%, #fef3c7 100%); border:1.5px solid #fde047;">
